@@ -3,7 +3,6 @@ package Modules;
 import Database.Session;
 import Helpers.Logger;
 import Users.Developer;
-import Users.Employee;
 import Users.SystemAdmin;
 import Users.SystemEngineer;
 
@@ -11,8 +10,8 @@ public final class Issue {
     public final String issueID;
     private final IssueCategory category;
     private String description;
-    private Employee assignedTo;
-    private final Employee createdBy;
+    private SystemEngineer assignedTo;
+    private final Developer createdBy;
     private IssueStatus status;
 
     private static int currentIssueID = 0;
@@ -20,7 +19,7 @@ public final class Issue {
     Issue(IssueCategory category, String description) {
         this.issueID = category.toString() + "_" + currentIssueID++;
         this.category = category;
-        this.createdBy = Session.getLoggedInUser();
+        this.createdBy = (Developer) Session.getLoggedInUser();
         this.description = description;
     }
 
@@ -40,7 +39,7 @@ public final class Issue {
         this.description = newDescription;
     }
 
-    public void assign(Employee engineer) {
+    public void assign(SystemEngineer engineer) {
         if (!(Session.getLoggedInUser() instanceof SystemAdmin)) {
             Logger.logWarning("You cannot perform this action");
             return;
@@ -49,11 +48,11 @@ public final class Issue {
     }
 
     public SystemEngineer getAssignedEngineer() {
-        return ((SystemEngineer) this.assignedTo);
+        return this.assignedTo;
     }
 
     public Developer getCreatedBy() {
-        return ((Developer) this.createdBy);
+        return this.createdBy;
     }
 
     public String getStatus() {
