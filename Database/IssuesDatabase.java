@@ -26,10 +26,11 @@ public final class IssuesDatabase implements DatabaseFunctions<Issue> {
      }
 
      @Override
-     public void add(Issue issue) throws Exception {
+     public void add(Issue issue) {
           if (this.issues.containsKey(issue.issueID)) {
-               throw new Exception("Issue with ID: " + issue.issueID
+               Logger.logWarning("Issue with ID: " + issue.issueID
                          + " already exists. If you are trying to update a issue, try using IssueDatabase.update() method");
+               return;
           }
           this.issues.put(issue.issueID, issue);
      }
@@ -45,10 +46,11 @@ public final class IssuesDatabase implements DatabaseFunctions<Issue> {
      };
 
      @Override
-     public void udpate(Issue issue) throws Exception {
+     public void udpate(Issue issue) {
           if (this.issues.containsKey(issue.issueID)) {
-               throw new Exception("Issue with ID: " + issue.issueID
+               Logger.logWarning("Issue with ID: " + issue.issueID
                          + " does not exist. If you are trying to add a issue, try using IssueDatabase.add() method");
+               return;
           }
           this.issues.put(issue.issueID, issue);
      }
