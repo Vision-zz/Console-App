@@ -5,7 +5,7 @@ import java.util.HashMap;
 import Helpers.Logger;
 import Modules.Issue;
 
-public class IssuesDatabase implements DatabaseFunctions<Issue> {
+public final class IssuesDatabase implements DatabaseFunctions<Issue> {
      private final HashMap<String, Issue> issues;
 
      private static IssuesDatabase instance = null;

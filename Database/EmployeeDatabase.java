@@ -5,7 +5,7 @@ import java.util.HashMap;
 import Helpers.Logger;
 import Users.Employee;
 
-public class EmployeeDatabase implements DatabaseFunctions<Employee> {
+public final class EmployeeDatabase implements DatabaseFunctions<Employee> {
 
     private final HashMap<String, Employee> employees;
 

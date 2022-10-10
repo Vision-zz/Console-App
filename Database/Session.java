@@ -2,7 +2,7 @@ package Database;
 
 import Users.Employee;
 
-public class Session {
+public final class Session {
     private static Employee loggedInAs = null;
 
     private Session() {
