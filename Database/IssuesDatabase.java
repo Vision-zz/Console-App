@@ -26,6 +26,11 @@ public final class IssuesDatabase implements DatabaseFunctions<Issue> {
      }
 
      @Override
+     public HashMap<String, Issue> getAll() {
+         return new HashMap<String, Issue>(issues);
+     }
+
+     @Override
      public void add(Issue issue) {
           if (this.issues.containsKey(issue.issueID)) {
                Logger.logWarning("Issue with ID: " + issue.issueID

@@ -1,8 +1,12 @@
 package Database;
 
+import java.util.HashMap;
+
 public interface DatabaseFunctions<T> {
 
     public T get(String ID);
+
+    public HashMap<String, T> getAll();
 
     public void add(T t);
 

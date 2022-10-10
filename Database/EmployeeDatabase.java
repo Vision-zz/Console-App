@@ -27,6 +27,11 @@ public final class EmployeeDatabase implements DatabaseFunctions<Employee> {
     }
 
     @Override
+    public HashMap<String, Employee> getAll() {
+        return new HashMap<String, Employee>(employees);
+    }
+
+    @Override
     public void add(Employee employee) {
         if (this.employees.containsKey(employee.getUsername())) {
             Logger.logWarning("Employee with ID: " + employee.getUsername()
