@@ -16,7 +16,7 @@ public final class Issue {
 
     private static int currentIssueID = 0;
 
-    Issue(IssueCategory category, String description) {
+    public Issue(IssueCategory category, String description) {
         this.issueID = category.toString() + "_" + currentIssueID++;
         this.category = category;
         this.createdBy = (Developer) Session.getLoggedInUser();
@@ -31,7 +31,7 @@ public final class Issue {
         return this.description;
     }
 
-    void updateDescription(String newDescription) {
+    public void updateDescription(String newDescription) {
         if (!Session.getLoggedInUser().getEmployeeID().equals(this.createdBy.getEmployeeID())) {
             Logger.logWarning("You cannot perform this action");
             return;
@@ -59,7 +59,7 @@ public final class Issue {
         return this.status.toString();
     }
 
-    void updateStatus(IssueStatus status) {
+    public void updateStatus(IssueStatus status) {
         this.status = status;
     }
 
