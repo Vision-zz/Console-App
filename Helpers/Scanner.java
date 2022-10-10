@@ -67,7 +67,7 @@ public final class Scanner {
         if (!rawPrompt.endsWith("\n") && !rawPrompt.equals(""))
             rawPrompt += "\n";
 
-        return rawPrompt + PROMPT_END;
+        return StringFormat.formatBlue(rawPrompt) + PROMPT_END;
     }
 
 }

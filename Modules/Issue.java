@@ -38,7 +38,7 @@ public final class Issue {
     }
 
     public void updateDescription(String newDescription) {
-        if (!Session.getLoggedInUser().getEmployeeID().equals(this.createdBy.getEmployeeID())) {
+        if (!Session.getLoggedInUser().getUsername().equals(this.createdBy.getUsername())) {
             Logger.logWarning("You cannot perform this action");
             return;
         }

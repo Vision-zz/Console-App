@@ -5,18 +5,15 @@ import Helpers.Scanner;
 import Helpers.StringFormat;
 
 public abstract class Employee {
-    private static int currentID = 0;
 
     private String username;
     private String password;
     private String employeeName;
-    private final String employeeID;
 
-    protected Employee(String username, String password, String employeeName, String employeeRole) {
+    protected Employee(String username, String password, String employeeName) {
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
-        this.employeeID = employeeRole + "_" + currentID;
     }
 
     // Getters
@@ -28,14 +25,14 @@ public abstract class Employee {
         return password;
     }
 
-    public final String getEmployeeID() {
-        return employeeID;
-    }
-
     public final String getEmployeeName() {
         return employeeName;
     }
 
+    public final String getEmployeeRole() {
+        return this instanceof SystemAdmin ? "System Admin"
+                : this instanceof SystemEngineer ? "System Engineer" : "Developer";
+    }
 
     // Setters
     public final void changeUsername() {
@@ -70,7 +67,7 @@ public abstract class Employee {
 
         do {
             String confirmNewPass = Scanner.getString(StringFormat.formatBlue("Confirm your new password"));
-            if(!confirmNewPass.equals(newPassword)) {
+            if (!confirmNewPass.equals(newPassword)) {
                 Logger.logError("Passwords do not match. Please retry");
                 continue;
             }
@@ -86,6 +83,6 @@ public abstract class Employee {
         Logger.logSuccess("Successfully changed your full name");
     }
 
-    abstract void start();
+    public abstract void start();
 
 }

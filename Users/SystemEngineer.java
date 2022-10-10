@@ -3,11 +3,11 @@ package Users;
 public final class SystemEngineer extends Employee {
 
     public SystemEngineer(String username, String password, String employeeName) {
-        super(username, password, employeeName, "ENGINEER");
+        super(username, password, employeeName);
     }
 
     @Override
-    void start() {
+    public void start() {
         // TODO Auto-generated method stub
 
     }
