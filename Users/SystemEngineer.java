@@ -2,8 +2,8 @@ package Users;
 
 public final class SystemEngineer extends Employee {
 
-    SystemEngineer(String username, String password, String employeeName) {
-        super(username, password, employeeName, "SE");
+    public SystemEngineer(String username, String password, String employeeName) {
+        super(username, password, employeeName, "ENGINEER");
     }
 
     @Override

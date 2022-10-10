@@ -12,7 +12,7 @@ public abstract class Employee {
     private String employeeName;
     private final String employeeID;
 
-    Employee(String username, String password, String employeeName, String employeeRole) {
+    protected Employee(String username, String password, String employeeName, String employeeRole) {
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
