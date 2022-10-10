@@ -8,6 +8,6 @@ public interface DatabaseFunctions<T> {
 
     void remove(T t);
 
-    void udpate(T t);
+    void udpate(T t) throws Exception;
 
 }
