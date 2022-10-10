@@ -1,5 +1,7 @@
 package Modules;
 
+import java.util.Date;
+
 import Database.Session;
 import Helpers.Logger;
 import Users.Developer;
@@ -13,6 +15,8 @@ public final class Issue {
     private SystemEngineer assignedTo;
     private final Developer createdBy;
     private IssueStatus status;
+    private final Date createdAt;
+    private Date resolvedAt;
 
     private static int currentIssueID = 0;
 
@@ -21,6 +25,8 @@ public final class Issue {
         this.category = category;
         this.createdBy = (Developer) Session.getLoggedInUser();
         this.description = description;
+        this.status = IssueStatus.ACTIVE;
+        this.createdAt = new Date();
     }
 
     public String getCategory() {
@@ -61,6 +67,18 @@ public final class Issue {
 
     public void updateStatus(IssueStatus status) {
         this.status = status;
+    }
+
+    public Date getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setResolvedAt(Date date) {
+        this.resolvedAt = date;
+    }
+
+    public Date getResolvedAt(Date date) {
+        return this.resolvedAt;
     }
 
 }
