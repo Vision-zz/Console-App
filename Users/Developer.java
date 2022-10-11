@@ -1,6 +1,6 @@
 package Users;
 
-import Middlewares.DevIssueManager;
+import Middlewares.Issues.DevIssueManager;
 import Modules.Issue;
 import Modules.IssueCategory;
 
