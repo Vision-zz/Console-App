@@ -44,7 +44,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 			Logger.logError("Issue with ID: " + issue.issueID + " could not be found in the database");
 			return;
 		}
-
+		
 		Issue updatedIssue = IssueUtil.cloneToIssue(dbIssue);
 		updatedIssue.updateStatus(IssueStatus.RESOLVED);
 		updatedIssue.setResolvedAt(new Date());
