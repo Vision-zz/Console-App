@@ -1,7 +1,9 @@
 package Middlewares.Issues;
 
 import Modules.Issue;
+import Users.SystemEngineer;
 
 public interface EngineerIssueManager {
-	void requestIssueResolve(Issue issue);
+	void requestResolveIssue(Issue issue);
+	Issue[] requestAssignedIssues(SystemEngineer engineer);
 }

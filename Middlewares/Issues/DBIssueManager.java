@@ -11,6 +11,7 @@ import Helpers.Logger;
 import Modules.Issue;
 import Modules.IssueStatus;
 import Users.Developer;
+import Users.SystemEngineer;
 
 public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
 
@@ -24,12 +25,21 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public Issue[] requestCreatedIssues() {
+	public Issue[] requestCreatedIssues(Developer developer) {
 
+		if(!(Session.getLoggedInUser() instanceof Developer)) {
+			Logger.logWarning("Invalid login. Login as a Developer to view issues.");
+			return null;
+		} 
 		Developer dev = (Developer) Session.getLoggedInUser();
+		if(!dev.getUsername().equals(developer.getUsername())) {
+			Logger.logWarning("Invalid request. Cannot view other employee's Issues");
+			return null;
+		}
+
 		Collection<DBIssue> dbIssue = IssuesDatabase.getInstance().getAll().values();
 
-		Predicate<DBIssue> predicate = issue -> issue.getCreatedBy().getUsername().equals(dev.getUsername());
+		Predicate<DBIssue> predicate = issue -> issue.getCreatedBy().getUsername().equals(developer.getUsername());
 		dbIssue.removeIf(predicate);
 
 		return dbIssue.toArray(new Issue[dbIssue.size()]);
@@ -38,7 +48,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 	// System Engineer Issue Management methods
 	@Override
-	public void requestIssueResolve(Issue issue) {
+	public void requestResolveIssue(Issue issue) {
 		DBIssue dbIssue = IssuesDatabase.getInstance().get(issue.issueID);
 		if(dbIssue == null) {
 			Logger.logError("Issue with ID: " + issue.issueID + " could not be found in the database");
@@ -53,4 +63,26 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Logger.logSuccess("Issue with ID: " + issue.issueID + " has been marked as Resolved");
 	}
+
+	@Override
+	public Issue[] requestAssignedIssues(SystemEngineer engineer) {
+		if(!(Session.getLoggedInUser() instanceof SystemEngineer)) {
+			Logger.logWarning("Invalid login. Login as a System Engineer to view issues.");
+			return null;
+		} 
+		SystemEngineer eng = (SystemEngineer) Session.getLoggedInUser();
+		if(!eng.getUsername().equals(engineer.getUsername())) {
+			Logger.logWarning("Invalid request. Cannot view other Engineer's Issues");
+			return null;
+		}
+
+		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
+
+		Predicate<DBIssue> predicate = issue -> issue.getAssignedTo().getUsername().equals(engineer.getUsername());
+		dbIssues.removeIf(predicate);
+
+		return dbIssues.toArray(new Issue[dbIssues.size()]);
+	}
+
+	
 }
