@@ -1,4 +1,4 @@
-package MIddlewares;
+package Middlewares;
 
 import Database.DBIssue;
 import Modules.Issue;
