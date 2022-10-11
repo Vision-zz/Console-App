@@ -93,4 +93,27 @@ public class Issue {
         return this.resolvedAt;
     }
 
+    @Override
+    public String toString() {
+        final String newLine = "\n";
+        String string = "Issue ID: " + this.issueID + newLine;
+
+        string += "Category: " + this.getCategory().toString() + newLine;
+        string += "Current Status: " + this.getStatus().toString() + newLine;
+        if (!this.getStatus().toString().equals("ACTIVE")) {
+            string += "Engineer: " + this.getAssignedEngineer().getEmployeeName() + newLine;
+        }
+
+        string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "Created At: ", this.getCreatedAt()) + newLine;
+
+        if (this.getStatus().toString().equals("RESOLVED")) {
+            string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "Resolved At: ", this.getResolvedAt())
+                    + newLine;
+        }
+
+        string += "Description: " + this.getDescription();
+
+        return string;
+    }
+
 }
