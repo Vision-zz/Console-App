@@ -57,7 +57,7 @@ public class Issue {
         this.description = newDescription;
     }
 
-    public void assign(SystemEngineer engineer) {
+    public void assignEngineer(SystemEngineer engineer) {
         if (!(Session.getLoggedInUser() instanceof SystemAdmin)) {
             Logger.logWarning("You cannot perform this action");
             return;
