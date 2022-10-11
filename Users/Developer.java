@@ -1,5 +1,7 @@
 package Users;
 
+import java.util.Collection;
+
 import Middlewares.Issues.DevIssueManager;
 import Modules.Issue;
 import Modules.IssueCategory;
@@ -16,7 +18,7 @@ public final class Developer extends Employee {
     }
 
     public Issue getIssueByID(String ID, DevIssueManager manager) {
-        Issue[] issues = manager.requestCreatedIssues(this);
+        Collection<Issue> issues = manager.requestCreatedIssues(this);
         Issue issue = null;
 
         for (Issue i : issues) {
@@ -29,7 +31,7 @@ public final class Developer extends Employee {
         return issue;
     }
 
-    public Issue[] getAllCreatedIssues(DevIssueManager manager) {
+    public Collection<Issue> getAllCreatedIssues(DevIssueManager manager) {
         return manager.requestCreatedIssues(this);
     }
 

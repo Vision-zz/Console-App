@@ -1,5 +1,7 @@
 package Users;
 
+import java.util.Collection;
+
 import Middlewares.Issues.EngineerIssueManager;
 import Modules.Issue;
 
@@ -20,7 +22,7 @@ public final class SystemEngineer extends Employee {
         manager.requestResolveIssue(issue);
     }
 
-    public Issue[] getAllAssignedIssues(EngineerIssueManager manager) {
+    public Collection<Issue> getAllAssignedIssues(EngineerIssueManager manager) {
         return manager.requestAssignedIssues(this);
     }
 

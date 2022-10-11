@@ -1,9 +1,11 @@
 package Middlewares.Issues;
 
+import java.util.Collection;
+
 import Modules.Issue;
 import Users.SystemEngineer;
 
 public interface EngineerIssueManager {
 	void requestResolveIssue(Issue issue);
-	Issue[] requestAssignedIssues(SystemEngineer engineer);
+	Collection<Issue> requestAssignedIssues(SystemEngineer engineer);
 }
