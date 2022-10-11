@@ -8,7 +8,7 @@ import Users.Developer;
 import Users.SystemAdmin;
 import Users.SystemEngineer;
 
-public final class Issue {
+public class Issue {
     public final String issueID;
     private final IssueCategory category;
     private String description;
@@ -29,8 +29,20 @@ public final class Issue {
         this.createdAt = new Date();
     }
 
-    public String getCategory() {
-        return this.category.toString();
+    public Issue(String issueID, IssueCategory category, String description, SystemEngineer assignedTo,
+            Developer createdBy, IssueStatus status, Date createdAt, Date resolvedAt) {
+        this.issueID = issueID;
+        this.category = category;
+        this.createdBy = createdBy;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.assignedTo = assignedTo;
+        this.resolvedAt = resolvedAt;
+    }
+
+    public IssueCategory getCategory() {
+        return this.category;
     }
 
     public String getDescription() {
@@ -61,8 +73,8 @@ public final class Issue {
         return this.createdBy;
     }
 
-    public String getStatus() {
-        return this.status.toString();
+    public IssueStatus getStatus() {
+        return this.status;
     }
 
     public void updateStatus(IssueStatus status) {
@@ -77,7 +89,7 @@ public final class Issue {
         this.resolvedAt = date;
     }
 
-    public Date getResolvedAt(Date date) {
+    public Date getResolvedAt() {
         return this.resolvedAt;
     }
 
