@@ -14,15 +14,15 @@ public abstract class Employee {
 
     // Getters
     public final String getUsername() {
-        return username;
+        return this.username;
     }
 
     public final String getPassword() {
-        return password;
+        return this.password;
     }
 
     public final String getEmployeeName() {
-        return employeeName;
+        return this.employeeName;
     }
 
     public final String getEmployeeRole() {
