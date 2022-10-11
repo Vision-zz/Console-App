@@ -1,9 +1,10 @@
+import Database.DBEmployee;
 import Database.EmployeeDatabase;
 import Database.Session;
 import Helpers.Logger;
 import Helpers.Scanner;
+import Middlewares.Employee.EmployeeUtil;
 import Users.Developer;
-import Users.Employee;
 import Users.SystemAdmin;
 import Users.SystemEngineer;
 
@@ -15,12 +16,15 @@ public class App {
         Developer developer = new Developer("sathya", "yetasecuredpass", "Sathya Narayanan");
 
         EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
-        employeeDB.add(admin);
-        employeeDB.add(engineer);
-        employeeDB.add(developer);
+        employeeDB.add(EmployeeUtil.cloneToDBEmployee(admin));
+        employeeDB.add(EmployeeUtil.cloneToDBEmployee(engineer));
+        employeeDB.add(EmployeeUtil.cloneToDBEmployee(developer));
+
     }
 
     public static void main(String[] args) {
+
+        // TODO Create a Middleware between UI Login flow and the Database
 
         MainLoop: while (true) {
 
@@ -42,25 +46,25 @@ public class App {
             } while (true);
 
             CredentialsLoop: do {
-                
+
                 String username = Scanner.getString("Enter your username");
                 String password = Scanner.getString("Enter your password");
 
                 EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
-                Employee employee = employeeDB.get(username);
+                DBEmployee employee = employeeDB.get(username);
 
-                if(employee == null || !employee.getPassword().equals(password)) {
+                if (employee == null || !employee.getPassword().equals(password)) {
                     Logger.logWarning("Incorrect login credentials");
                     String input = Scanner.getString("Press any key to retry or EXIT to exit");
-                    if(input.equals("EXIT")) 
+                    if (input.equals("EXIT"))
                         break MainLoop;
                     continue;
                 }
 
-                Session.login(employee);
+                Session.login(EmployeeUtil.cloneToEmployee(employee));
                 Logger.logSuccess("Logged in as " + employee.getEmployeeName());
 
-                break  CredentialsLoop;
+                break CredentialsLoop;
 
             } while (true);
 
