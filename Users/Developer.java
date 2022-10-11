@@ -16,7 +16,7 @@ public final class Developer extends Employee {
     }
 
     public Issue getIssueByID(String ID, DevIssueManager manager) {
-        Issue[] issues = manager.requestCreatedIssues();
+        Issue[] issues = manager.requestCreatedIssues(this);
         Issue issue = null;
 
         for (Issue i : issues) {
@@ -30,7 +30,7 @@ public final class Developer extends Employee {
     }
 
     public Issue[] getAllCreatedIssues(DevIssueManager manager) {
-        return manager.requestCreatedIssues();
+        return manager.requestCreatedIssues(this);
     }
 
 }
