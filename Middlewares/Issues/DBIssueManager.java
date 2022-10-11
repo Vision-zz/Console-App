@@ -126,12 +126,4 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		IssuesDatabase.getInstance().udpate(IssueUtil.cloneToDBIssue(updatedIssue));
 		
 	}
-
-	@Override
-	public Collection<SystemEngineer> getAllEngineers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 }
