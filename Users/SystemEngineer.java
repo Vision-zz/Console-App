@@ -6,10 +6,4 @@ public final class SystemEngineer extends Employee {
         super(username, password, employeeName);
     }
 
-    @Override
-    public void start() {
-        // TODO Auto-generated method stub
-
-    }
-
 }
