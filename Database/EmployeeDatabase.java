@@ -3,11 +3,10 @@ package Database;
 import java.util.HashMap;
 
 import Helpers.Logger;
-import Users.Employee;
 
-public final class EmployeeDatabase implements DatabaseFunctions<Employee> {
+public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
 
-    private final HashMap<String, Employee> employees;
+    private final HashMap<String, DBEmployee> employees;
 
     private static EmployeeDatabase instance = null;
 
@@ -18,21 +17,21 @@ public final class EmployeeDatabase implements DatabaseFunctions<Employee> {
     }
 
     private EmployeeDatabase() {
-        employees = new HashMap<String, Employee>();
+        employees = new HashMap<String, DBEmployee>();
     }
 
     @Override
-    public Employee get(String username) {
+    public DBEmployee get(String username) {
         return this.employees.get(username);
     }
 
     @Override
-    public HashMap<String, Employee> getAll() {
-        return new HashMap<String, Employee>(employees);
+    public HashMap<String, DBEmployee> getAll() {
+        return new HashMap<String, DBEmployee>(employees);
     }
 
     @Override
-    public void add(Employee employee) {
+    public void add(DBEmployee employee) {
         if (this.employees.containsKey(employee.getUsername())) {
             Logger.logWarning("Employee with ID: " + employee.getUsername()
                     + " already exist. If you are trying to update a Employee, try using EmployeeDatabase.update() method");
@@ -42,7 +41,7 @@ public final class EmployeeDatabase implements DatabaseFunctions<Employee> {
     }
 
     @Override
-    public void remove(Employee employee) {
+    public void remove(DBEmployee employee) {
         if (!this.employees.containsKey(employee.getUsername())) {
             Logger.logWarning("Employee with ID: " + employee.getUsername() + " do not exist. Operation cancelled");
             return;
@@ -51,7 +50,7 @@ public final class EmployeeDatabase implements DatabaseFunctions<Employee> {
     }
 
     @Override
-    public void udpate(Employee employee) {
+    public void udpate(DBEmployee employee) {
         if (!this.employees.containsKey(employee.getUsername())) {
             Logger.logWarning("Employee with ID: " + employee.getUsername()
                     + " do not exist. If you are trying to add a Employee, try using EmployeeDatabase.add() method");

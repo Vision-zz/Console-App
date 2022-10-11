@@ -1,8 +1,10 @@
 package Users;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.function.Predicate;
 
+import Middlewares.Employee.AdminEmployeeManager;
 import Middlewares.Issues.AdminIssueManager;
 import Modules.Issue;
 
@@ -29,9 +31,17 @@ public final class SystemAdmin extends Employee {
         manager.requestAssignIssue(issue, engineer);
     }
 
-    public Collection<SystemEngineer> viewAllEngineers() {
-        // TODO Finish this after completing DB Employee
-        return null;
+    public Collection<SystemEngineer> viewAllEngineers(AdminEmployeeManager manager) {
+        Collection<Employee> allEmployees = manager.getAllEmployees();
+        Collection<SystemEngineer> engineers = new HashSet<>();
+
+        allEmployees.forEach(employee -> {
+            if (employee instanceof SystemEngineer)
+                engineers.add(
+                        new SystemEngineer(employee.getUsername(), employee.getPassword(), employee.getEmployeeName()));
+        });
+
+        return engineers;
     }
 
 }
