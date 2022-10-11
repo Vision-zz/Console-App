@@ -17,7 +17,7 @@ public final class DBIssue {
     private final Date createdAt;
     private final Date resolvedAt;
 
-    protected DBIssue(String issueID, IssueCategory category, String description, SystemEngineer assignedTo,
+    public DBIssue(String issueID, IssueCategory category, String description, SystemEngineer assignedTo,
             Developer createdBy, IssueStatus status, Date createdAt, Date resolvedAt) {
         this.issueID = issueID;
         this.category = category;
