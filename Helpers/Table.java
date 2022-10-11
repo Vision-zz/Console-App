@@ -112,7 +112,8 @@ public class Table {
         return this;
     }
 
-    public void print() {
+    @Override
+    public String toString() {
         StringBuilder line = null;
 
         if (ucode) {
@@ -128,9 +129,7 @@ public class Table {
                 }
             }
             line.append(CORNER_TR);
-            System.out.println(line);
-
-            line = null;
+            line.append("\n");
         }
 
         // print header
@@ -155,10 +154,10 @@ public class Table {
         if (ucode) {
             line.append(gc(VERTICAL_TSEP));
         }
-        System.out.println(line);
+        line.append("\n");
+
 
         // print vertical separator
-        line = null;
         for (int i = 0; i < rows; i++) {
             if (line != null) {
                 line.append(gc(CROSSING));
@@ -175,9 +174,8 @@ public class Table {
         if (ucode) {
             line.append(CROSSING_R);
         }
-        System.out.println(line);
+        line.append("\n");
 
-        line = null;
         ArrayList<String[]> localTable = table;
 
         if (filter != null) {
@@ -249,9 +247,8 @@ public class Table {
             if (ucode) {
                 line.append(gc(VERTICAL_BSEP));
             }
-            System.out.println(line);
+            line.append("\n");
 
-            line = null;
         }
 
         if (ucode) {
@@ -267,8 +264,14 @@ public class Table {
                 }
             }
             line.append(CORNER_BR);
-            System.out.println(line);
+            line.append("\n");
+
         }
+        return line.toString();
+    }
+
+    public void print() {
+        System.out.println(toString());
 
     }
 
