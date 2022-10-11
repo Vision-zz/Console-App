@@ -1,4 +1,4 @@
-package Middlewares;
+package Middlewares.Issues;
 
 import Modules.Issue;
 
