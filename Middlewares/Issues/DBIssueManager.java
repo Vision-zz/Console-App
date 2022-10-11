@@ -2,6 +2,7 @@ package Middlewares.Issues;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.function.Predicate;
 
 import Database.DBIssue;
@@ -42,7 +43,12 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		Predicate<DBIssue> predicate = issue -> issue.getCreatedBy().getUsername().equals(developer.getUsername());
 		dbIssue.removeIf(predicate);
 
-		return dbIssue.toArray(new Issue[dbIssue.size()]);
+		Collection<Issue> issueCollection = new HashSet<Issue>();
+		dbIssue.forEach((issue) -> {
+			issueCollection.add(IssueUtil.cloneToIssue(issue));
+		});
+
+		return issueCollection.toArray(new Issue[dbIssue.size()]);
 
 	}
 
@@ -80,8 +86,13 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Predicate<DBIssue> predicate = issue -> issue.getAssignedTo().getUsername().equals(engineer.getUsername());
 		dbIssues.removeIf(predicate);
+		
+		Collection<Issue> issueCollection = new HashSet<Issue>();
+		dbIssues.forEach((issue) -> {
+			issueCollection.add(IssueUtil.cloneToIssue(issue));
+		});
 
-		return dbIssues.toArray(new Issue[dbIssues.size()]);
+		return issueCollection.toArray(new Issue[dbIssues.size()]);
 	}
 
 	
