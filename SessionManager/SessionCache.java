@@ -1,22 +1,30 @@
-package Database;
+package SessionManager;
 
 import Users.Employee;
 
-public final class Session {
+public final class SessionCache {
     private static Employee loggedInAs = null;
 
-    private Session() {
+    private static SessionCache instance = null;
+
+    private SessionCache() {
+    }
+
+    public static SessionCache getInstance() {
+        if (instance == null)
+            instance = new SessionCache();
+        return instance;
     }
 
     public static Employee getLoggedInUser() {
         return loggedInAs;
     }
 
-    public static void login(Employee emp) {
+    protected void login(Employee emp) {
         loggedInAs = emp;
     }
 
-    public static void logOut() {
+    protected void logOut() {
         loggedInAs = null;
     }
 }
