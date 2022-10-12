@@ -6,6 +6,6 @@ import Models.Issue;
 import Users.SystemEngineer;
 
 public interface AdminIssueManager {
-	Collection<Issue> requestAllIssues();
-	void requestAssignIssue(Issue issue, SystemEngineer engineer);
+	Collection<Issue> getAllIssues();
+	void assignIssue(Issue issue, SystemEngineer engineer);
 }

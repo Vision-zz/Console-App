@@ -15,11 +15,11 @@ public final class SystemAdmin extends Employee {
     }
 
     public Collection<Issue> getAllIssues(AdminIssueManager manager) {
-        return manager.requestAllIssues();
+        return manager.getAllIssues();
     }
 
     public Collection<Issue> getUnassignedIssues(AdminIssueManager manager) {
-        Collection<Issue> allIssues = manager.requestAllIssues();
+        Collection<Issue> allIssues = manager.getAllIssues();
 
         Predicate<Issue> predicate = issue -> issue.getAssignedEngineer() != null;
         allIssues.removeIf(predicate);
@@ -28,7 +28,7 @@ public final class SystemAdmin extends Employee {
     }
 
     public void assignIssueToEngineer(Issue issue, SystemEngineer engineer, AdminIssueManager manager) {
-        manager.requestAssignIssue(issue, engineer);
+        manager.assignIssue(issue, engineer);
     }
 
     public Collection<SystemEngineer> viewAllEngineers(AdminEmployeeManager manager) {

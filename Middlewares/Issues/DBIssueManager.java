@@ -15,7 +15,33 @@ import Users.Developer;
 import Users.SystemAdmin;
 import Users.SystemEngineer;
 
-public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
+public class DBIssueManager implements IssueManagerProvider, DevIssueManager, EngineerIssueManager, AdminIssueManager {
+
+	private static DBIssueManager instance = null;
+
+	public static DBIssueManager getInstance() {
+		if (instance == null)
+			instance = new DBIssueManager();
+		return instance;
+	}
+
+	private DBIssueManager() {
+	}
+
+	@Override
+	public DevIssueManager getDevIssueManager() {
+		return DBIssueManager.getInstance();
+	}
+
+	@Override
+	public EngineerIssueManager getEngineerIssueManager() {
+		return DBIssueManager.getInstance();
+	}
+
+	@Override
+	public AdminIssueManager getAdminIssueManager() {
+		return DBIssueManager.getInstance();
+	}
 
 	// Developer Issue Management methods
 	@Override
@@ -27,14 +53,14 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public Collection<Issue> requestCreatedIssues(Developer developer) {
+	public Collection<Issue> getCreatedIssues(Developer developer) {
 
-		if(!(Session.getLoggedInUser() instanceof Developer)) {
+		if (!(Session.getLoggedInUser() instanceof Developer)) {
 			Logger.logWarning("Invalid login. Login as a Developer to view issues.");
 			return null;
-		} 
+		}
 		Developer dev = (Developer) Session.getLoggedInUser();
-		if(!dev.getUsername().equals(developer.getUsername())) {
+		if (!dev.getUsername().equals(developer.getUsername())) {
 			Logger.logWarning("Invalid request. Cannot view other employee's Issues");
 			return null;
 		}
@@ -55,13 +81,13 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 	// System Engineer Issue Management methods
 	@Override
-	public void requestResolveIssue(Issue issue) {
+	public void resolveIssue(Issue issue) {
 		DBIssue dbIssue = IssuesDatabase.getInstance().get(issue.issueID);
-		if(dbIssue == null) {
+		if (dbIssue == null) {
 			Logger.logError("Issue with ID: " + issue.issueID + " could not be found in the database");
 			return;
 		}
-		
+
 		Issue updatedIssue = IssueUtil.cloneToIssue(dbIssue);
 		updatedIssue.updateStatus(IssueStatus.RESOLVED);
 		updatedIssue.setResolvedAt(new Date());
@@ -72,13 +98,13 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public Collection<Issue> requestAssignedIssues(SystemEngineer engineer) {
-		if(!(Session.getLoggedInUser() instanceof SystemEngineer)) {
+	public Collection<Issue> getAssignedIssues(SystemEngineer engineer) {
+		if (!(Session.getLoggedInUser() instanceof SystemEngineer)) {
 			Logger.logWarning("Invalid login. Login as a System Engineer to view issues.");
 			return null;
-		} 
+		}
 		SystemEngineer eng = (SystemEngineer) Session.getLoggedInUser();
-		if(!eng.getUsername().equals(engineer.getUsername())) {
+		if (!eng.getUsername().equals(engineer.getUsername())) {
 			Logger.logWarning("Invalid request. Cannot view other Engineer's Issues");
 			return null;
 		}
@@ -87,7 +113,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Predicate<DBIssue> predicate = issue -> issue.getAssignedTo().getUsername().equals(engineer.getUsername());
 		dbIssues.removeIf(predicate);
-		
+
 		Collection<Issue> issueCollection = new HashSet<Issue>();
 		dbIssues.forEach((issue) -> {
 			issueCollection.add(IssueUtil.cloneToIssue(issue));
@@ -97,12 +123,12 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public Collection<Issue> requestAllIssues() {
-		if(!(Session.getLoggedInUser() instanceof SystemAdmin)) {
+	public Collection<Issue> getAllIssues() {
+		if (!(Session.getLoggedInUser() instanceof SystemAdmin)) {
 			Logger.logWarning("You do not have access to do this operation.");
 			return null;
 		}
-		Collection<DBIssue> dbIssues =  IssuesDatabase.getInstance().getAll().values();
+		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
 
 		Collection<Issue> allIssues = new HashSet<>();
 		dbIssues.forEach(issue -> {
@@ -113,10 +139,10 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public void requestAssignIssue(Issue issue, SystemEngineer engineer) {
+	public void assignIssue(Issue issue, SystemEngineer engineer) {
 		DBIssue dbIssue = IssuesDatabase.getInstance().get(issue.issueID);
-		if(dbIssue == null) {
-			Logger.logError("Issue with ID: " + issue.issueID+ " does not exist. Cannot assign Engineer to Issue.");
+		if (dbIssue == null) {
+			Logger.logError("Issue with ID: " + issue.issueID + " does not exist. Cannot assign Engineer to Issue.");
 			return;
 		}
 
@@ -124,6 +150,6 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		updatedIssue.assignEngineer(engineer);
 
 		IssuesDatabase.getInstance().udpate(IssueUtil.cloneToDBIssue(updatedIssue));
-		
+
 	}
 }

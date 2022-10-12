@@ -19,11 +19,11 @@ public final class SystemEngineer extends Employee {
     }
 
     public void markIssueAsResolved(Issue issue, EngineerIssueManager manager) {
-        manager.requestResolveIssue(issue);
+        manager.resolveIssue(issue);
     }
 
     public Collection<Issue> getAllAssignedIssues(EngineerIssueManager manager) {
-        return manager.requestAssignedIssues(this);
+        return manager.getAssignedIssues(this);
     }
 
 

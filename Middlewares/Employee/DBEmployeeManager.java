@@ -9,6 +9,17 @@ import Users.Employee;
 
 public class DBEmployeeManager implements AdminEmployeeManager {
 
+	private static DBEmployeeManager instance = null;
+
+	public static DBEmployeeManager getInstance() {
+		if (instance == null)
+			instance = new DBEmployeeManager();
+		return instance;
+	}
+
+	private DBEmployeeManager() {
+	}
+
 	@Override
 	public Collection<Employee> getAllEmployees() {
 		Collection<DBEmployee> dbEmployees = EmployeeDatabase.getInstance().getAll().values();
@@ -18,5 +29,5 @@ public class DBEmployeeManager implements AdminEmployeeManager {
 		});
 		return allEmployees;
 	}
-	
+
 }

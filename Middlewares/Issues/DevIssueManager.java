@@ -7,5 +7,5 @@ import Users.Developer;
 
 public interface DevIssueManager {
 	public void newIssueRequest(Issue issue);
-	public Collection<Issue> requestCreatedIssues(Developer developer);
+	public Collection<Issue> getCreatedIssues(Developer developer);
 }
