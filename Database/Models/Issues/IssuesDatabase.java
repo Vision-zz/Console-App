@@ -2,7 +2,7 @@ package Database.Models.Issues;
 
 import java.util.HashMap;
 
-import Database.Middleware.DatabaseFunctions;
+import Database.Models.DatabaseFunctions;
 import Helpers.Logger;
 
 public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {

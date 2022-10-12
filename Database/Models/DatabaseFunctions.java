@@ -1,4 +1,4 @@
-package Database.Middleware;
+package Database.Models;
 
 import java.util.HashMap;
 

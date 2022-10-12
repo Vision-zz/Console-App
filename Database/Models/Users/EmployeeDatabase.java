@@ -2,7 +2,7 @@ package Database.Models.Users;
 
 import java.util.HashMap;
 
-import Database.Middleware.DatabaseFunctions;
+import Database.Models.DatabaseFunctions;
 import Helpers.Logger;
 
 public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
