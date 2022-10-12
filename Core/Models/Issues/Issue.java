@@ -3,9 +3,7 @@ package Core.Models.Issues;
 import java.util.Date;
 
 import Core.Models.Users.Developer;
-import Core.Models.Users.SystemAdmin;
 import Core.Models.Users.SystemEngineer;
-import Helpers.Logger;
 import UserInterface.SessionManager.Session;
 
 public class Issue {
@@ -50,18 +48,10 @@ public class Issue {
     }
 
     public void updateDescription(String newDescription) {
-        if (!Session.getInstance().getLoggedInAs().getUsername().equals(this.createdBy.getUsername())) {
-            Logger.logWarning("You cannot perform this action");
-            return;
-        }
         this.description = newDescription;
     }
 
     public void assignEngineer(SystemEngineer engineer) {
-        if (!(Session.getInstance().getLoggedInAs() instanceof SystemAdmin)) {
-            Logger.logWarning("You cannot perform this action");
-            return;
-        }
         this.assignedTo = engineer;
     }
 

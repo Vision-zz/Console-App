@@ -3,7 +3,6 @@ package Database.Models.Issues;
 import java.util.HashMap;
 
 import Database.Models.DatabaseFunctions;
-import Helpers.Logger;
 
 public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
      private final HashMap<String, DBIssue> issues;
@@ -27,15 +26,14 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
 
      @Override
      public HashMap<String, DBIssue> getAll() {
-         return new HashMap<String, DBIssue>(issues);
+          return new HashMap<String, DBIssue>(issues);
      }
 
      @Override
      public void add(DBIssue issue) {
           if (this.issues.containsKey(issue.issueID)) {
-               Logger.logWarning("Issue with ID: " + issue.issueID
+               throw new RuntimeException("Issue with ID: " + issue.issueID
                          + " already exists. If you are trying to update a issue, try using IssueDatabase.update() method");
-               return;
           }
           this.issues.put(issue.issueID, issue);
      }
@@ -43,8 +41,7 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
      @Override
      public void remove(DBIssue issue) {
           if (!this.issues.containsKey(issue.issueID)) {
-               Logger.logInfo("Issue with ID: " + issue.issueID + " does not exist. Operation cancelled");
-               return;
+               throw new RuntimeException("Issue with ID: " + issue.issueID + " does not exist. Operation cancelled");
           }
           this.issues.remove(issue.issueID);
 
@@ -53,9 +50,8 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
      @Override
      public void udpate(DBIssue issue) {
           if (!this.issues.containsKey(issue.issueID)) {
-               Logger.logWarning("Issue with ID: " + issue.issueID
+               throw new RuntimeException("Issue with ID: " + issue.issueID
                          + " does not exist. If you are trying to add a issue, try using IssueDatabase.add() method");
-               return;
           }
           this.issues.put(issue.issueID, issue);
      }

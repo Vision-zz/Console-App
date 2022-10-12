@@ -3,7 +3,6 @@ package Database.Models.Users;
 import java.util.HashMap;
 
 import Database.Models.DatabaseFunctions;
-import Helpers.Logger;
 
 public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
 
@@ -34,9 +33,8 @@ public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
     @Override
     public void add(DBEmployee employee) {
         if (this.employees.containsKey(employee.getUsername())) {
-            Logger.logWarning("Employee with ID: " + employee.getUsername()
+            throw new RuntimeException("Employee with ID: " + employee.getUsername()
                     + " already exist. If you are trying to update a Employee, try using EmployeeDatabase.update() method");
-            return;
         }
         this.employees.put(employee.getUsername(), employee);
     }
@@ -44,8 +42,7 @@ public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
     @Override
     public void remove(DBEmployee employee) {
         if (!this.employees.containsKey(employee.getUsername())) {
-            Logger.logWarning("Employee with ID: " + employee.getUsername() + " do not exist. Operation cancelled");
-            return;
+            throw new RuntimeException("Employee with ID: " + employee.getUsername() + " do not exist. Operation cancelled");
         }
         this.employees.remove(employee.getUsername());
     }
@@ -53,9 +50,8 @@ public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
     @Override
     public void udpate(DBEmployee employee) {
         if (!this.employees.containsKey(employee.getUsername())) {
-            Logger.logWarning("Employee with ID: " + employee.getUsername()
+            throw new RuntimeException("Employee with ID: " + employee.getUsername()
                     + " do not exist. If you are trying to add a Employee, try using EmployeeDatabase.add() method");
-            return;
         }
         this.employees.put(employee.getUsername(), employee);
 

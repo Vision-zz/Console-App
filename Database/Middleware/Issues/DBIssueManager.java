@@ -14,7 +14,6 @@ import Core.Models.Users.Developer;
 import Core.Models.Users.SystemEngineer;
 import Database.Models.Issues.DBIssue;
 import Database.Models.Issues.IssuesDatabase;
-import Helpers.Logger;
 
 public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
 
@@ -108,8 +107,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		updatedIssue.setResolvedAt(new Date());
 
 		IssuesDatabase.getInstance().udpate(IssueUtil.cloneToDBIssue(updatedIssue));
-
-		Logger.logSuccess("Issue with ID: " + issue.issueID + " has been marked as Resolved");
+		return;
 	}
 
 }
