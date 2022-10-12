@@ -11,7 +11,7 @@ import Models.Issue;
 public final class SystemAdmin extends Employee {
 
     public SystemAdmin(String username, String password, String employeeName) {
-        super(username, password, employeeName);
+        super(username, password, employeeName, EmployeeRole.SYSTEM_ADMIN);
     }
 
     public Collection<Issue> getAllIssues(AdminIssueManager manager) {

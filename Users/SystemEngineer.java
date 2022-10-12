@@ -10,7 +10,7 @@ public final class SystemEngineer extends Employee {
     private int reportsResolved;
 
     public SystemEngineer(String username, String password, String employeeName) {
-        super(username, password, employeeName);
+        super(username, password, employeeName, EmployeeRole.SYSTEM_ENGINEER);
         this.reportsResolved = 0;
     }
 
@@ -25,7 +25,5 @@ public final class SystemEngineer extends Employee {
     public Collection<Issue> getAllAssignedIssues(EngineerIssueManager manager) {
         return manager.getAssignedIssues(this);
     }
-
-
 
 }

@@ -5,11 +5,13 @@ public abstract class Employee {
     private final String username;
     private final String password;
     private final String employeeName;
+    private final EmployeeRole employeeRole;
 
-    protected Employee(String username, String password, String employeeName) {
+    protected Employee(String username, String password, String employeeName, EmployeeRole employeeRole) {
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
+        this.employeeRole = employeeRole;
     }
 
     // Getters
@@ -25,9 +27,8 @@ public abstract class Employee {
         return this.employeeName;
     }
 
-    public final String getEmployeeRole() {
-        return this instanceof SystemAdmin ? "System Admin"
-                : this instanceof SystemEngineer ? "System Engineer" : "Developer";
+    public final EmployeeRole getEmployeeRole() {
+        return this.employeeRole;
     }
 
 }

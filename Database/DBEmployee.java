@@ -1,12 +1,14 @@
 package Database;
 
+import Users.EmployeeRole;
+
 public final class DBEmployee {
 	private final String username;
     private final String password;
     private final String employeeName;
-	private final String employeeRole;
+	private final EmployeeRole employeeRole;
 
-    public DBEmployee(String username, String password, String employeeName, String employeeRole) {
+    public DBEmployee(String username, String password, String employeeName, EmployeeRole employeeRole) {
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
@@ -25,7 +27,7 @@ public final class DBEmployee {
         return this.employeeName;
     }
 
-	public final String getEmployeeRole() {
+	public final EmployeeRole getEmployeeRole() {
 		return this.employeeRole;
 	}
 

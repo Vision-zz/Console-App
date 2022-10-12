@@ -9,7 +9,7 @@ import Models.IssueCategory;
 public final class Developer extends Employee {
 
     public Developer(String username, String password, String employeeName) {
-        super(username, password, employeeName);
+        super(username, password, employeeName, EmployeeRole.DEVELOPER);
     }
 
     public void createIssue(IssueCategory category, String description, DevIssueManager manager) {
