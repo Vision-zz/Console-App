@@ -1,13 +1,11 @@
 // import Database.DBEmployee;
-import Database.EmployeeDatabase;
+import Core.Models.Users.Developer;
+import Core.Models.Users.SystemAdmin;
+import Core.Models.Users.SystemEngineer;
+import Database.Middleware.Users.EmployeeUtil;
+import Database.Models.Users.EmployeeDatabase;
 import Helpers.Logger;
 import Helpers.Scanner;
-import Middlewares.Employee.EmployeeUtil;
-// import SessionManager.Session;
-// import SessionManager.SignInStatus;
-import Users.Developer;
-import Users.SystemAdmin;
-import Users.SystemEngineer;
 
 public class App {
 
