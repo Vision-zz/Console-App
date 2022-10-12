@@ -1,4 +1,4 @@
-package Helpers;
+package UserInterface.Helpers;
 
 public final class StringFormat {
     private static final String RESET_COLOR = "\033[0m";

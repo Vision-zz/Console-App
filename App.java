@@ -4,8 +4,8 @@ import Core.Models.Users.SystemAdmin;
 import Core.Models.Users.SystemEngineer;
 import Database.Middleware.Users.EmployeeUtil;
 import Database.Models.Users.EmployeeDatabase;
-import Helpers.Logger;
-import Helpers.Scanner;
+import UserInterface.Helpers.Logger;
+import UserInterface.Helpers.Scanner;
 
 public class App {
 

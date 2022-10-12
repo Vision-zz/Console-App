@@ -1,4 +1,4 @@
-package Helpers;
+package UserInterface.Helpers;
 
 public final class Scanner {
 
