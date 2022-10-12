@@ -2,8 +2,8 @@ package Database;
 
 import java.util.Date;
 
-import Modules.IssueCategory;
-import Modules.IssueStatus;
+import Models.IssueCategory;
+import Models.IssueStatus;
 import Users.Developer;
 import Users.SystemEngineer;
 

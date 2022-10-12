@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import Middlewares.Employee.AdminEmployeeManager;
 import Middlewares.Issues.AdminIssueManager;
-import Modules.Issue;
+import Models.Issue;
 
 public final class SystemAdmin extends Employee {
 

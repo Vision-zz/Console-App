@@ -3,7 +3,7 @@ package Users;
 import java.util.Collection;
 
 import Middlewares.Issues.EngineerIssueManager;
-import Modules.Issue;
+import Models.Issue;
 
 public final class SystemEngineer extends Employee {
 

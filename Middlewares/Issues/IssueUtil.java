@@ -1,7 +1,7 @@
 package Middlewares.Issues;
 
 import Database.DBIssue;
-import Modules.Issue;
+import Models.Issue;
 
 public final class IssueUtil {
 

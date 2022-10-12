@@ -3,8 +3,8 @@ package Users;
 import java.util.Collection;
 
 import Middlewares.Issues.DevIssueManager;
-import Modules.Issue;
-import Modules.IssueCategory;
+import Models.Issue;
+import Models.IssueCategory;
 
 public final class Developer extends Employee {
 

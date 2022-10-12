@@ -2,7 +2,7 @@ package Middlewares.Issues;
 
 import java.util.Collection;
 
-import Modules.Issue;
+import Models.Issue;
 import Users.Developer;
 
 public interface DevIssueManager {
