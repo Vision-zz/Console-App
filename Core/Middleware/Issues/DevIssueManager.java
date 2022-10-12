@@ -7,5 +7,5 @@ import Core.Models.Users.Developer;
 
 public interface DevIssueManager {
 	public void newIssueRequest(Issue issue);
-	public Collection<Issue> getCreatedIssues(Developer developer);
+	public Collection<Issue> getDevCreatedIssues(Developer developer);
 }

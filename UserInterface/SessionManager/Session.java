@@ -93,9 +93,13 @@ public final class Session {
 
 	}
 
-	public void signUp(String username, String password, String employeeName, EmployeeRole employeeRole, EmployeeSignupManager manager) {
-		// TODO Complete this shit too
-
+	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole, EmployeeSignupManager manager) {
+		try {
+			manager.signUp(username, password, employeeName, employeeRole);
+			return SignUpStatus.SUCCESS;
+		} catch (RuntimeException e) {
+			return SignUpStatus.USERNAME_UNAVAILABLE;
+		}
 	}
 
 	public void logout(boolean saveLoginDetails) {

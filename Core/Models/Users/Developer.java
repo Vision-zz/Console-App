@@ -19,7 +19,7 @@ public final class Developer extends Employee {
     }
 
     public Issue getIssueByID(String ID, DevIssueManager manager) {
-        Collection<Issue> issues = manager.getCreatedIssues(this);
+        Collection<Issue> issues = manager.getDevCreatedIssues(this);
         Issue issue = null;
 
         for (Issue i : issues) {
@@ -33,7 +33,7 @@ public final class Developer extends Employee {
     }
 
     public Collection<Issue> getAllCreatedIssues(DevIssueManager manager) {
-        return manager.getCreatedIssues(this);
+        return manager.getDevCreatedIssues(this);
     }
 
 }
