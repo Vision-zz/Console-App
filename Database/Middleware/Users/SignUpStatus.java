@@ -1,4 +1,4 @@
-package UserInterface.SessionManager;
+package Database.Middleware.Users;
 
 public enum SignUpStatus {
 	SUCCESS,

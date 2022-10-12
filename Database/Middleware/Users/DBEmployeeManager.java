@@ -33,13 +33,14 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 	}
 
 	@Override
-	public void signUp(String username, String password, String employeeName, EmployeeRole employeeRole) {
+	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole) {
 		DBEmployee employee = EmployeeDatabase.getInstance().get(username);
 		if (employee != null) {
-			throw new RuntimeException("Username not available");
+			return SignUpStatus.USERNAME_UNAVAILABLE;
 		}
 		DBEmployee dbEmployee = new DBEmployee(username, password, employeeName, employeeRole);
 		EmployeeDatabase.getInstance().add(dbEmployee);
+		return SignUpStatus.SUCCESS;
 	}
 
 }

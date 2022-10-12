@@ -9,6 +9,7 @@ import Core.Models.Users.Employee;
 import Core.Models.Users.EmployeeRole;
 import Database.Middleware.Users.EmployeeSignupManager;
 import Database.Middleware.Users.EmployeeUtil;
+import Database.Middleware.Users.SignUpStatus;
 import Database.Models.Users.DBEmployee;
 import Database.Models.Users.EmployeeDatabase;
 
@@ -95,12 +96,8 @@ public final class Session {
 	}
 
 	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole, EmployeeSignupManager manager) {
-		try {
-			manager.signUp(username, password, employeeName, employeeRole);
-			return SignUpStatus.SUCCESS;
-		} catch (RuntimeException e) {
-			return SignUpStatus.USERNAME_UNAVAILABLE;
-		}
+			return manager.signUp(username, password, employeeName, employeeRole);
+		
 	}
 
 	public void logout(boolean saveLoginDetails) {
