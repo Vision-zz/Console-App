@@ -2,8 +2,8 @@ package Models;
 
 import java.util.Date;
 
-import Database.Session;
 import Helpers.Logger;
+import SessionManager.Session;
 import Users.Developer;
 import Users.SystemAdmin;
 import Users.SystemEngineer;
@@ -23,7 +23,7 @@ public class Issue {
     public Issue(IssueCategory category, String description) {
         this.issueID = category.toString() + "_" + currentIssueID++;
         this.category = category;
-        this.createdBy = (Developer) Session.getLoggedInUser();
+        this.createdBy = (Developer) Session.getInstance().getLoggedInAs();
         this.description = description;
         this.status = IssueStatus.ACTIVE;
         this.createdAt = new Date();
@@ -50,7 +50,7 @@ public class Issue {
     }
 
     public void updateDescription(String newDescription) {
-        if (!Session.getLoggedInUser().getUsername().equals(this.createdBy.getUsername())) {
+        if (!Session.getInstance().getLoggedInAs().getUsername().equals(this.createdBy.getUsername())) {
             Logger.logWarning("You cannot perform this action");
             return;
         }
@@ -58,7 +58,7 @@ public class Issue {
     }
 
     public void assignEngineer(SystemEngineer engineer) {
-        if (!(Session.getLoggedInUser() instanceof SystemAdmin)) {
+        if (!(Session.getInstance().getLoggedInAs() instanceof SystemAdmin)) {
             Logger.logWarning("You cannot perform this action");
             return;
         }

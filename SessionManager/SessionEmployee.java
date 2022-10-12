@@ -1,13 +1,14 @@
-package Users;
+package SessionManager;
 
-public abstract class Employee {
+import Users.EmployeeRole;
 
-    private final String username;
+public class SessionEmployee {
+	private final String username;
     private final String password;
     private final String employeeName;
     private final EmployeeRole employeeRole;
 
-    public Employee(String username, String password, String employeeName, EmployeeRole employeeRole) {
+    public SessionEmployee(String username, String password, String employeeName, EmployeeRole employeeRole) {
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
@@ -30,5 +31,4 @@ public abstract class Employee {
     public final EmployeeRole getEmployeeRole() {
         return this.employeeRole;
     }
-
 }

@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import Database.DBIssue;
 import Database.IssuesDatabase;
-import Database.Session;
+import SessionManager.Session;
 import Helpers.Logger;
 import Models.Issue;
 import Models.IssueStatus;
@@ -55,11 +55,11 @@ public class DBIssueManager implements IssueManagerProvider, DevIssueManager, En
 	@Override
 	public Collection<Issue> getCreatedIssues(Developer developer) {
 
-		if (!(Session.getLoggedInUser() instanceof Developer)) {
+		if (!(Session.getInstance().getLoggedInAs() instanceof Developer)) {
 			Logger.logWarning("Invalid login. Login as a Developer to view issues.");
 			return null;
 		}
-		Developer dev = (Developer) Session.getLoggedInUser();
+		Developer dev = (Developer) Session.getInstance().getLoggedInAs();
 		if (!dev.getUsername().equals(developer.getUsername())) {
 			Logger.logWarning("Invalid request. Cannot view other employee's Issues");
 			return null;
@@ -99,11 +99,11 @@ public class DBIssueManager implements IssueManagerProvider, DevIssueManager, En
 
 	@Override
 	public Collection<Issue> getAssignedIssues(SystemEngineer engineer) {
-		if (!(Session.getLoggedInUser() instanceof SystemEngineer)) {
+		if (!(Session.getInstance().getLoggedInAs() instanceof SystemEngineer)) {
 			Logger.logWarning("Invalid login. Login as a System Engineer to view issues.");
 			return null;
 		}
-		SystemEngineer eng = (SystemEngineer) Session.getLoggedInUser();
+		SystemEngineer eng = (SystemEngineer) Session.getInstance().getLoggedInAs();
 		if (!eng.getUsername().equals(engineer.getUsername())) {
 			Logger.logWarning("Invalid request. Cannot view other Engineer's Issues");
 			return null;
@@ -124,7 +124,7 @@ public class DBIssueManager implements IssueManagerProvider, DevIssueManager, En
 
 	@Override
 	public Collection<Issue> getAllIssues() {
-		if (!(Session.getLoggedInUser() instanceof SystemAdmin)) {
+		if (!(Session.getInstance().getLoggedInAs() instanceof SystemAdmin)) {
 			Logger.logWarning("You do not have access to do this operation.");
 			return null;
 		}

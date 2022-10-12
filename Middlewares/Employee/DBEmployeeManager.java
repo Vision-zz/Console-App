@@ -6,8 +6,9 @@ import java.util.HashSet;
 import Database.DBEmployee;
 import Database.EmployeeDatabase;
 import Users.Employee;
+import Users.EmployeeRole;
 
-public class DBEmployeeManager implements AdminEmployeeManager {
+public class DBEmployeeManager implements AdminEmployeeManager, EmployeeSignupManager {
 
 	private static DBEmployeeManager instance = null;
 
@@ -28,6 +29,13 @@ public class DBEmployeeManager implements AdminEmployeeManager {
 			allEmployees.add(EmployeeUtil.cloneToEmployee(employee));
 		});
 		return allEmployees;
+	}
+
+	@Override
+	public void signUp(String username, String password, String employeeName, EmployeeRole employeeRole) {
+		DBEmployee dbEmployee = new DBEmployee(username, password, employeeName, employeeRole);
+		EmployeeDatabase.getInstance().add(dbEmployee);
+
 	}
 
 }
