@@ -43,6 +43,7 @@ public final class Session {
 	}
 
 	public SignInStatus signIn(String username, String password) {
+		// TODO
 		DBEmployee dbEmployee = EmployeeDatabase.getInstance().get(username);
 		if (dbEmployee == null) {
 			return SignInStatus.UNKNOWN_USERNAME;

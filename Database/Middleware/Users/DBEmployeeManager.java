@@ -3,13 +3,13 @@ package Database.Middleware.Users;
 import java.util.Collection;
 import java.util.HashSet;
 
-import Core.Middleware.Users.AdminEmployeeManager;
+import Core.Middleware.Users.EmployeeDetailsManager;
 import Core.Models.Users.Employee;
 import Core.Models.Users.EmployeeRole;
 import Database.Models.Users.DBEmployee;
 import Database.Models.Users.EmployeeDatabase;
 
-public class DBEmployeeManager implements AdminEmployeeManager, EmployeeSignupManager {
+public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 
 	private static DBEmployeeManager instance = null;
 

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.function.Predicate;
 
 import Core.Middleware.Issues.AdminIssueManager;
-import Core.Middleware.Users.AdminEmployeeManager;
+import Core.Middleware.Users.EmployeeDetailsManager;
 import Core.Models.Issues.Issue;
 
 public final class SystemAdmin extends Employee {
@@ -31,7 +31,7 @@ public final class SystemAdmin extends Employee {
         manager.assignIssue(issue, engineer);
     }
 
-    public Collection<SystemEngineer> viewAllEngineers(AdminEmployeeManager manager) {
+    public Collection<SystemEngineer> viewAllEngineers(EmployeeDetailsManager manager) {
         Collection<Employee> allEmployees = manager.getAllEmployees();
         Collection<SystemEngineer> engineers = new HashSet<>();
 
