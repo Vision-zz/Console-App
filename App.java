@@ -1,12 +1,11 @@
-import Database.DBEmployee;
-import Database.EmployeeDatabase;
-import Database.Session;
+// import Database.DBEmployee;
+import Core.Models.Users.Developer;
+import Core.Models.Users.SystemAdmin;
+import Core.Models.Users.SystemEngineer;
+import Database.Middleware.Users.EmployeeUtil;
+import Database.Models.Users.EmployeeDatabase;
 import Helpers.Logger;
 import Helpers.Scanner;
-import Middlewares.Employee.EmployeeUtil;
-import Users.Developer;
-import Users.SystemAdmin;
-import Users.SystemEngineer;
 
 public class App {
 
@@ -32,13 +31,13 @@ public class App {
 
             LoginInputLoop: do {
 
-                String input = Scanner.getString("1. Sign In | 2. Exit");
+                String input = Scanner.getString("1. Sign In | 2. Sign Up | 3. Exit");
                 if (!input.matches("[12]")) {
                     Logger.logWarning("Please select a valid option");
                     continue;
                 }
 
-                if (input.equals("2"))
+                if (input.equals("3"))
                     break MainLoop;
 
                 break LoginInputLoop;
@@ -47,22 +46,23 @@ public class App {
 
             CredentialsLoop: do {
 
-                String username = Scanner.getString("Enter your username");
-                String password = Scanner.getString("Enter your password");
 
-                EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
-                DBEmployee employee = employeeDB.get(username);
+                // TODO Finish this shit
+                // String username = Scanner.getString("Enter your username");
+                // String password = Scanner.getString("Enter your password");
 
-                if (employee == null || !employee.getPassword().equals(password)) {
-                    Logger.logWarning("Incorrect login credentials");
-                    String input = Scanner.getString("Press any key to retry or EXIT to exit");
-                    if (input.equals("EXIT"))
-                        break MainLoop;
-                    continue;
-                }
 
-                Session.login(EmployeeUtil.cloneToEmployee(employee));
-                Logger.logSuccess("Logged in as " + employee.getEmployeeName());
+                // SignInStatus signInStatus =  Session.getInstance().signIn(username, password);
+
+                // switch (signInStatus) {
+                //     case :
+                        
+                //         break;
+                
+                //     default:
+                //         break;
+                // }
+                // Logger.logSuccess("Logged in as " + username);
 
                 break CredentialsLoop;
 
