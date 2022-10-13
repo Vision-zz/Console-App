@@ -33,6 +33,12 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 	}
 
 	@Override
+	public Employee getEmployee(String username) {
+		DBEmployee dbEmployee = EmployeeDatabase.getInstance().get(username);
+		return EmployeeUtil.cloneToEmployee(dbEmployee);
+	}
+
+	@Override
 	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole) {
 		DBEmployee employee = EmployeeDatabase.getInstance().get(username);
 		if (employee != null) {

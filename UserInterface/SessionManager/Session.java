@@ -5,12 +5,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import Core.Middleware.Users.EmployeeDetailsManager;
 import Core.Models.Users.Employee;
 import Core.Models.Users.EmployeeRole;
 import Database.Middleware.Users.EmployeeSignupManager;
-import Database.Middleware.Users.EmployeeUtil;
 import Database.Middleware.Users.SignUpStatus;
-import Database.Models.Users.DBEmployee;
 import Database.Models.Users.EmployeeDatabase;
 
 public final class Session {
@@ -40,22 +39,24 @@ public final class Session {
 	}
 
 	public Employee getLoggedInAs() {
-		return EmployeeUtil.cloneToEmployee(currentSession.loggedInEmployee);
+		return SessionEmployeeUtil.cloneToEmployee(currentSession.loggedInEmployee);
 	}
 
-	public SignInStatus signIn(String username, String password) {
-		// TODO
-		DBEmployee dbEmployee = EmployeeDatabase.getInstance().get(username);
-		if (dbEmployee == null) {
+	public SignInStatus signIn(String username, String password, EmployeeDetailsManager manager) {
+
+		Employee employee = manager.getEmployee(username);
+
+		// DBEmployee dbEmployee2 = manager
+		if (employee == null) {
 			return SignInStatus.UNKNOWN_USERNAME;
 		}
 
-		if (!dbEmployee.getPassword().equals(password)) {
+		if (!employee.getPassword().equals(password)) {
 			return SignInStatus.INVALID_PASSWORD;
 		}
 
-		SessionEmployee employee = EmployeeUtil.cloneToSessionEmployee(EmployeeUtil.cloneToEmployee(dbEmployee));
-		currentSession = new SessionCache(employee);
+		SessionEmployee sessionEmployee = SessionEmployeeUtil.cloneToSessionEmployee(employee);
+		currentSession = new SessionCache(sessionEmployee);
 		return SignInStatus.SUCCESS;
 	}
 
@@ -64,7 +65,7 @@ public final class Session {
 		Collection<Employee> savedLogins = new HashSet<>();
 
 		currentSavedCache.forEach(cache -> {
-			savedLogins.add(EmployeeUtil.cloneToEmployee(cache.loggedInEmployee));
+			savedLogins.add(SessionEmployeeUtil.cloneToEmployee(cache.loggedInEmployee));
 		});
 
 		return savedLogins;
@@ -76,18 +77,18 @@ public final class Session {
 			return SignInStatus.UNKNOWN_USERNAME;
 		}
 
-		Employee dbEmployee = EmployeeUtil.cloneToEmployee(EmployeeDatabase.getInstance().get(username));
-		if(dbEmployee == null) {
+		Employee dbEmployee = SessionEmployeeUtil.cloneToEmployee(EmployeeDatabase.getInstance().get(username));
+		if (dbEmployee == null) {
 			return SignInStatus.UNKNOWN_EMPLOYEE;
 		}
-		
+
 		SessionCache savedSession = savedLogins.get(username);
-		if(savedSession.sessionExpiresAt.after(new Date(System.currentTimeMillis()))) {
+		if (savedSession.sessionExpiresAt.after(new Date(System.currentTimeMillis()))) {
 			return SignInStatus.SESSION_EXPIRED;
 		}
-		
-		Employee savedEmployeeLogin = EmployeeUtil.cloneToEmployee(savedLogins.get(username).loggedInEmployee);
-		if(!dbEmployee.getPassword().equals(savedEmployeeLogin.getPassword())) {
+
+		Employee savedEmployeeLogin = SessionEmployeeUtil.cloneToEmployee(savedLogins.get(username).loggedInEmployee);
+		if (!dbEmployee.getPassword().equals(savedEmployeeLogin.getPassword())) {
 			return SignInStatus.SESSION_EXPIRED;
 		}
 
@@ -95,9 +96,10 @@ public final class Session {
 
 	}
 
-	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole, EmployeeSignupManager manager) {
-			return manager.signUp(username, password, employeeName, employeeRole);
-		
+	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole,
+			EmployeeSignupManager manager) {
+		return manager.signUp(username, password, employeeName, employeeRole);
+
 	}
 
 	public void logout(boolean saveLoginDetails) {
@@ -107,7 +109,5 @@ public final class Session {
 		}
 		currentSession = null;
 	}
-
-	
 
 }

@@ -6,4 +6,5 @@ import Core.Models.Users.Employee;
 
 public interface EmployeeDetailsManager {
 	Collection<Employee> getAllEmployees();
+	Employee getEmployee(String username);
 }
