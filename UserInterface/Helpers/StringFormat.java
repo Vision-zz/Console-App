@@ -1,6 +1,10 @@
 package UserInterface.Helpers;
 
 public final class StringFormat {
+
+    private StringFormat() {
+    }
+
     private static final String RESET_COLOR = "\033[0m";
     private static final String GREEN = "\033[1;92m[ + ] " + RESET_COLOR;
     private static final String BLUE = "\033[1;94m[ i ] " + RESET_COLOR;
