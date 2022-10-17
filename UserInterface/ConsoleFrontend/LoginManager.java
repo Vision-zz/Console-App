@@ -1,6 +1,10 @@
 package UserInterface.ConsoleFrontend;
 
+import Core.Middleware.Users.EmployeeDetailsManager;
+import Core.Models.Users.EmployeeRole;
 import Database.Middleware.Users.DBEmployeeManager;
+import Database.Middleware.Users.EmployeeSignupManager;
+import Database.Middleware.Users.SignUpStatus;
 import UserInterface.Helpers.Logger;
 import UserInterface.Helpers.Scanner;
 import UserInterface.SessionManager.Session;
@@ -8,7 +12,7 @@ import UserInterface.SessionManager.SignInStatus;
 
 public class LoginManager {
 
-	public boolean start() {
+	public boolean initializeSession() {
 
 		Logger.logSuccess("---- Jogo Pitstop ----", "Select an option below");
 
@@ -23,17 +27,14 @@ public class LoginManager {
 			if (input.equals("3"))
 				return false;
 
-			if (input.equals("1"))
-				return signIn();
-
 			if (input.equals("2")) {
 				boolean signUpStatus = signUp();
 				if (!signUpStatus)
 					return false;
 
-				return signIn();
-
 			}
+			
+			return signIn();
 
 		} while (true);
 
@@ -41,19 +42,30 @@ public class LoginManager {
 
 	public boolean signIn() {
 
+		EmployeeDetailsManager manager = DBEmployeeManager.getInstance();
 		do {
 
 			String username = Scanner.getString("Enter your username");
 			String password = Scanner.getString("Enter your password");
 
-			SignInStatus status = Session.getInstance().signIn(username, password, DBEmployeeManager.getInstance());
+			SignInStatus status = Session.getInstance().signIn(username, password, manager);
 			if (status.equals(SignInStatus.UNKNOWN_USERNAME)) {
-				Logger.logWarning("Username invalid. Try again");
+				Logger.logWarning("User does not exist. Press 1 to try again or any key to Exit");
+
+				String output = Scanner.getString();
+				if (!output.equals("1"))
+					return false;
+
 				continue;
 			}
 
 			if (status.equals(SignInStatus.INVALID_PASSWORD)) {
-				Logger.logWarning("Incorrect password. Try again");
+				Logger.logWarning("Incorrect password. Press 1 to try again or any key to Exit.");
+
+				String output = Scanner.getString();
+				if (!output.equals("1"))
+					return false;
+
 				continue;
 			}
 
@@ -63,14 +75,56 @@ public class LoginManager {
 		} while (true);
 
 		return true;
+
 	}
 
 	public boolean signUp() {
-		return false;
-	}
 
-	public void logout() {
+		do {
 
+			String username = Scanner.getString("Enter username");
+			String password = Scanner.getString("Enter a password");
+			String employeeName = Scanner.getString("Enter your full name");
+
+			EmployeeRole employeeRole;
+			do {
+				Logger.logInfo("Select a role from the list below", "1. System Admin", "2. System Engineer",
+						"3. Developer");
+				String role = Scanner.getString();
+
+				if (!role.matches("[123]")) {
+					Logger.logWarning("Please select a valid option");
+					continue;
+				}
+
+				employeeRole = role.equals("1") ? EmployeeRole.SYSTEM_ADMIN
+						: role.equals("2") ? EmployeeRole.SYSTEM_ENGINEER : EmployeeRole.DEVELOPER;
+				break;
+			} while (true);
+
+			EmployeeSignupManager manager = DBEmployeeManager.getInstance();
+			SignUpStatus status = manager.signUp(username, password, employeeName, employeeRole);
+
+			while (status.equals(SignUpStatus.USERNAME_UNAVAILABLE)) {
+
+				Logger.logWarning("Username not available. Press 1 to try again or any key to exit");
+				String confirm = Scanner.getString();
+				if (!confirm.equals("1"))
+					return false;
+
+				username = Scanner.getString("Enter username");
+				status = manager.signUp(username, password, employeeName, employeeRole);
+
+			}
+
+			Logger.logSuccess("Successfully signed up as " + username);
+			Scanner.getString("Press any key to continue into login page");
+
+			break;
+
+		} while (true);
+
+		return true;
 	}
 
 }
