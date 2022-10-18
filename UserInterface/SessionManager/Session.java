@@ -3,7 +3,7 @@ package UserInterface.SessionManager;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 
 import Core.Middleware.Users.EmployeeDetailsManager;
 import Core.Models.Users.Employee;
@@ -60,12 +60,13 @@ public final class Session {
 		return SignInStatus.SUCCESS;
 	}
 
-	public Collection<Employee> getSavedLogins() {
+	public Map<String, SessionEmployee> getSavedLogins() {
 		Collection<SessionCache> currentSavedCache = this.savedLogins.values();
-		Collection<Employee> savedLogins = new HashSet<>();
+		Map<String, SessionEmployee> savedLogins = new HashMap<>();
 
 		currentSavedCache.forEach(cache -> {
-			savedLogins.add(SessionEmployeeUtil.cloneToEmployee(cache.loggedInEmployee));
+			
+			savedLogins.put(cache.loggedInEmployee.getUsername(), cache.loggedInEmployee);
 		});
 
 		return savedLogins;

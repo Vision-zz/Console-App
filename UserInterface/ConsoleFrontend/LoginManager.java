@@ -12,7 +12,7 @@ import UserInterface.SessionManager.SignInStatus;
 
 public class LoginManager {
 
-	public boolean initializeSession() {
+	public SessionInitializeStatus initializeSession() {
 
 		Logger.logSuccess("---- Jogo Pitstop ----", "Select an option below");
 
@@ -25,27 +25,34 @@ public class LoginManager {
 			}
 
 			if (input.equals("3"))
-				return false;
+				return SessionInitializeStatus.FAILED;
 
 			if (input.equals("2")) {
-				boolean signUpStatus = signUp();
-				if (!signUpStatus)
-					return false;
+				SessionInitializeStatus signUpStatus = signUp();
+				if (signUpStatus.equals(SessionInitializeStatus.RESTART))
+					continue;
 
 			}
-			
+
 			return signIn();
 
 		} while (true);
 
 	}
 
-	public boolean signIn() {
+	public SessionInitializeStatus signIn() {
 
 		EmployeeDetailsManager manager = DBEmployeeManager.getInstance();
 		do {
 
 			String username = Scanner.getString("Enter your username");
+
+			SignInStatus savedLogInStatus = Session.getInstance().signInFromSavedLogin(username);
+			if (savedLogInStatus.equals(SignInStatus.SUCCESS)) {
+				Logger.logInfo("Logged in from saved session");
+				break;
+			}
+
 			String password = Scanner.getString("Enter your password");
 
 			SignInStatus status = Session.getInstance().signIn(username, password, manager);
@@ -54,7 +61,7 @@ public class LoginManager {
 
 				String output = Scanner.getString();
 				if (!output.equals("1"))
-					return false;
+					return SessionInitializeStatus.RESTART;
 
 				continue;
 			}
@@ -64,7 +71,7 @@ public class LoginManager {
 
 				String output = Scanner.getString();
 				if (!output.equals("1"))
-					return false;
+					return SessionInitializeStatus.RESTART;
 
 				continue;
 			}
@@ -74,15 +81,28 @@ public class LoginManager {
 
 		} while (true);
 
-		return true;
+		return SessionInitializeStatus.SUCCESS;
 
 	}
 
-	public boolean signUp() {
+	public SessionInitializeStatus signUp() {
 
 		do {
 
 			String username = Scanner.getString("Enter username");
+
+			if (username.matches("[^a-z0-9_]+") || username.length() < 3) {
+				Logger.logWarning(
+						"Username contains invalid characters. Only lowercase alphabets, numbers and underscores are allowed and username should be atleast 3 characters long");
+
+				String output = Scanner.getString("Press 1 to try again or any key to Exit");
+				if (!output.equals("1"))
+					return SessionInitializeStatus.RESTART;
+
+				continue;
+
+			}
+
 			String password = Scanner.getString("Enter a password");
 			String employeeName = Scanner.getString("Enter your full name");
 
@@ -110,7 +130,7 @@ public class LoginManager {
 				Logger.logWarning("Username not available. Press 1 to try again or any key to exit");
 				String confirm = Scanner.getString();
 				if (!confirm.equals("1"))
-					return false;
+					return SessionInitializeStatus.RESTART;
 
 				username = Scanner.getString("Enter username");
 				status = manager.signUp(username, password, employeeName, employeeRole);
@@ -124,7 +144,7 @@ public class LoginManager {
 
 		} while (true);
 
-		return true;
+		return SessionInitializeStatus.SUCCESS;
 	}
 
 }

@@ -1,3 +1,4 @@
+
 // import Database.DBEmployee;
 import Core.Models.Users.Developer;
 import Core.Models.Users.SystemAdmin;
@@ -5,6 +6,7 @@ import Core.Models.Users.SystemEngineer;
 import Database.Middleware.Users.EmployeeUtil;
 import Database.Models.Users.EmployeeDatabase;
 import UserInterface.ConsoleFrontend.LoginManager;
+import UserInterface.ConsoleFrontend.SessionInitializeStatus;
 
 public class App {
 
@@ -23,12 +25,12 @@ public class App {
     public static void main(String[] args) {
 
         MainLoop: while (true) {
-            
-            boolean status = new LoginManager().initializeSession();
-            if(!status) {
+
+            SessionInitializeStatus status = new LoginManager().initializeSession();
+            if (status.equals(SessionInitializeStatus.FAILED)) {
                 break MainLoop;
             }
-            
+
         }
     }
 
