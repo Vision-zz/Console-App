@@ -8,9 +8,11 @@ import Core.Models.Issues.Issue;
 public final class SystemEngineer extends Employee {
 
     private int reportsResolved;
+    private final EngineerIssueManager manager;
 
-    public SystemEngineer(String username, String password, String employeeName) {
+    public SystemEngineer(String username, String password, String employeeName, EngineerIssueManager manager) {
         super(username, password, employeeName, EmployeeRole.SYSTEM_ENGINEER);
+        this.manager = manager;
         this.reportsResolved = 0;
     }
 
@@ -18,12 +20,12 @@ public final class SystemEngineer extends Employee {
         return reportsResolved;
     }
 
-    public void markIssueAsResolved(Issue issue, EngineerIssueManager manager) {
-        manager.resolveIssue(issue);
+    public void markIssueAsResolved(Issue issue) {
+        this.manager.resolveIssue(issue);
     }
 
-    public Collection<Issue> getAllAssignedIssues(EngineerIssueManager manager) {
-        return manager.getAssignedIssues(this);
+    public Collection<Issue> getAllAssignedIssues() {
+        return this.manager.getAssignedIssues(this);
     }
 
 }
