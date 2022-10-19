@@ -34,7 +34,11 @@ public final class LoginManager {
 
 			}
 
-			return signIn();
+			SessionInitializeStatus signInStatus = signIn();
+			if (signInStatus.equals(SessionInitializeStatus.RESTART))
+				continue;
+
+			return signInStatus;
 
 		} while (true);
 
