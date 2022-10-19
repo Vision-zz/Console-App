@@ -45,7 +45,6 @@ public class App {
 
             Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
 
-            
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:
                     new AdminUIManager((SystemAdmin) loggedInEmployee).mainMenu();
@@ -81,7 +80,7 @@ public class App {
             } while (true);
 
             Logger.logSuccess("--- Logged out ---");
-            System.out.println("\033[1;91m" + "___________________________" +"\033[0m");
+            System.out.println("\033[1;91m" + "___________________________" + "\033[0m");
 
         }
     }

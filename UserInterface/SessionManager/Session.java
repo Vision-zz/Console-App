@@ -65,7 +65,7 @@ public final class Session {
 		Map<String, SessionEmployee> savedLogins = new HashMap<>();
 
 		currentSavedCache.forEach(cache -> {
-			
+
 			savedLogins.put(cache.loggedInEmployee.getUsername(), cache.loggedInEmployee);
 		});
 
@@ -78,21 +78,23 @@ public final class Session {
 			return SignInStatus.UNKNOWN_USERNAME;
 		}
 
-		Employee dbEmployee = SessionEmployeeUtil.cloneToEmployee(EmployeeDatabase.getInstance().get(username));
-		if (dbEmployee == null) {
+		Employee employee = SessionEmployeeUtil.cloneToEmployee(EmployeeDatabase.getInstance().get(username));
+		if (employee == null) {
 			return SignInStatus.UNKNOWN_EMPLOYEE;
 		}
 
 		SessionCache savedSession = savedLogins.get(username);
-		if (savedSession.sessionExpiresAt.after(new Date(System.currentTimeMillis()))) {
+		if (savedSession.sessionExpiresAt.before(new Date(System.currentTimeMillis()))) {
 			return SignInStatus.SESSION_EXPIRED;
 		}
 
 		Employee savedEmployeeLogin = SessionEmployeeUtil.cloneToEmployee(savedLogins.get(username).loggedInEmployee);
-		if (!dbEmployee.getPassword().equals(savedEmployeeLogin.getPassword())) {
+		if (!employee.getPassword().equals(savedEmployeeLogin.getPassword())) {
 			return SignInStatus.SESSION_EXPIRED;
 		}
 
+		SessionEmployee sessionEmployee = SessionEmployeeUtil.cloneToSessionEmployee(employee);
+		currentSession = new SessionCache(sessionEmployee);
 		return SignInStatus.SUCCESS;
 
 	}
@@ -106,7 +108,10 @@ public final class Session {
 	public void logout(boolean saveLoginDetails) {
 		if (saveLoginDetails) {
 			currentSession.sessionExpiresAt = new Date(System.currentTimeMillis() + 180000);
-			savedLogins.put(currentSession.loggedInEmployee.getEmployeeName(), currentSession);
+			savedLogins.put(currentSession.loggedInEmployee.getUsername(), currentSession);
+		} else {
+			if (savedLogins.containsKey(currentSession.loggedInEmployee.getUsername()))
+				savedLogins.remove(currentSession.loggedInEmployee.getUsername());
 		}
 		currentSession = null;
 	}

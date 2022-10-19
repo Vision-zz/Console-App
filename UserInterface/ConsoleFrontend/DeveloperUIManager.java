@@ -72,7 +72,7 @@ public class DeveloperUIManager {
 		do {
 			Logger.logInfo("Seelct the issue category", "1. Hardware | 2. Software | 0. Cancel");
 			String input = Scanner.getString();
-			if (!input.matches("[123]")) {
+			if (!input.matches("[120]")) {
 				Logger.logWarning("Please select a valid option");
 				continue;
 			}

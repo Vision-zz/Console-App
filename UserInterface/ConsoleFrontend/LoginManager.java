@@ -52,6 +52,7 @@ public final class LoginManager {
 			String username = Scanner.getString("Enter your username");
 
 			SignInStatus savedLogInStatus = Session.getInstance().signInFromSavedLogin(username);
+			System.out.println(savedLogInStatus);
 			if (savedLogInStatus.equals(SignInStatus.SUCCESS)) {
 				Logger.logInfo("Logged in from saved session");
 				break;

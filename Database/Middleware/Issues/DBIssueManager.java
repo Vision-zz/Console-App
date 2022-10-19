@@ -62,13 +62,14 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Collection<DBIssue> dbIssue = IssuesDatabase.getInstance().getAll().values();
 
-		Predicate<DBIssue> predicate = issue -> issue.getCreatedBy().getUsername().equals(developer.getUsername());
+		Predicate<DBIssue> predicate = issue -> !issue.getCreatedBy().getUsername().equals(developer.getUsername());
 		dbIssue.removeIf(predicate);
 
 		Collection<Issue> issueCollection = new HashSet<Issue>();
 		dbIssue.forEach((issue) -> {
 			issueCollection.add(IssueUtil.cloneToIssue(issue));
 		});
+
 
 		return issueCollection;
 
@@ -79,7 +80,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
 
-		Predicate<DBIssue> predicate = issue -> issue.getAssignedTo().getUsername().equals(engineer.getUsername());
+		Predicate<DBIssue> predicate = issue -> !issue.getAssignedTo().getUsername().equals(engineer.getUsername());
 		dbIssues.removeIf(predicate);
 
 		Collection<Issue> issueCollection = new HashSet<Issue>();

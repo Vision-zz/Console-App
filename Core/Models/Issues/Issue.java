@@ -89,6 +89,7 @@ public class Issue {
         String string = "Issue ID: " + this.issueID + newLine;
 
         string += "Category: " + this.getCategory().toString() + newLine;
+        string += "Created By: " + this.getCreatedBy().getEmployeeName() + "EID: " + this.getCreatedBy().getEmployeeID();
         string += "Current Status: " + this.getStatus().toString() + newLine;
         if (!this.getStatus().toString().equals("ACTIVE")) {
             string += "Engineer: " + this.getAssignedEngineer().getEmployeeName() + newLine;
