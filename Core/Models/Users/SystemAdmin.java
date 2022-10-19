@@ -37,7 +37,7 @@ public final class SystemAdmin extends Employee {
         issueManager.assignIssue(issue, engineer);
     }
 
-    public Collection<SystemEngineer> viewAllEngineers() {
+    public Collection<SystemEngineer> getAllEngineers() {
         Collection<Employee> allEmployees = employeeManager.getAllEmployees();
         Collection<SystemEngineer> engineers = new HashSet<>();
 

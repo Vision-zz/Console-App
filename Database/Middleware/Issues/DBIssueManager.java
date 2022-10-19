@@ -2,6 +2,7 @@ package Database.Middleware.Issues;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.Predicate;
 
@@ -45,6 +46,12 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		});
 
 		return allIssues;
+	}
+
+	@Override
+	public Issue getIssue(String issueID) {
+		HashMap<String, DBIssue> dbIssues = IssuesDatabase.getInstance().getAll();
+		return IssueUtil.cloneToIssue(dbIssues.get(issueID));
 	}
 
 	@Override
