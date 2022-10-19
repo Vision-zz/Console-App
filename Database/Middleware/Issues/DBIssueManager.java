@@ -51,7 +51,10 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	@Override
 	public Issue getIssue(String issueID) {
 		HashMap<String, DBIssue> dbIssues = IssuesDatabase.getInstance().getAll();
-		return IssueUtil.cloneToIssue(dbIssues.get(issueID));
+		DBIssue dbIssue = dbIssues.get(issueID);
+		if (dbIssue == null)
+			return null;
+		return IssueUtil.cloneToIssue(dbIssue);
 	}
 
 	@Override
