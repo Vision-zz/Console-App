@@ -108,10 +108,10 @@ public class AdminUIManager {
 			return;
 		}
 
-		Table table = new Table(3, "Employee ID", "Name", "Total Resolved Issues").withUnicode(true);
+		Table table = new Table(3, "Employee ID", "Name").withUnicode(true);
 
 		for (SystemEngineer e : engineers) {
-			table.addRow(e.getEmployeeID(), e.getEmployeeName(), e.getTotalResolvedReports() + "");
+			table.addRow(e.getEmployeeID(), e.getEmployeeName());
 		}
 
 		table.print();

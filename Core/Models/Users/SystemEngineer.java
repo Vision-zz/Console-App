@@ -7,17 +7,16 @@ import Core.Models.Issues.Issue;
 
 public final class SystemEngineer extends Employee {
 
-    private int reportsResolved;
     private final EngineerIssueManager manager;
 
     public SystemEngineer(String username, String password, String employeeName, EngineerIssueManager manager) {
         super(username, password, employeeName, EmployeeRole.SYSTEM_ENGINEER);
         this.manager = manager;
-        this.reportsResolved = 0;
     }
 
-    public int getTotalResolvedReports() {
-        return reportsResolved;
+    public SystemEngineer(String username, String password, String employeeName, String employeeID, EngineerIssueManager manager) {
+        super(username, password, employeeName, EmployeeRole.SYSTEM_ENGINEER, employeeID);
+        this.manager = manager;
     }
 
     public void markIssueAsResolved(Issue issue) {

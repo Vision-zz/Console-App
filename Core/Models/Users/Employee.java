@@ -10,6 +10,15 @@ public abstract class Employee {
 
     private static int currentID = 0;
 
+    public Employee(String username, String password, String employeeName, EmployeeRole employeeRole,
+            String employeeID) {
+        this.username = username;
+        this.password = password;
+        this.employeeName = employeeName;
+        this.employeeID = employeeID;
+        this.employeeRole = employeeRole;
+    }
+
     public Employee(String username, String password, String employeeName, EmployeeRole employeeRole) {
         this.username = username;
         this.password = password;

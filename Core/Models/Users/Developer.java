@@ -9,9 +9,15 @@ import Core.Models.Issues.IssueCategory;
 public final class Developer extends Employee {
 
     private final DevIssueManager manager;
-    
+
     public Developer(String username, String password, String employeeName, DevIssueManager manager) {
         super(username, password, employeeName, EmployeeRole.DEVELOPER);
+        this.manager = manager;
+    }
+
+    public Developer(String username, String password, String employeeName, String employeeID,
+            DevIssueManager manager) {
+        super(username, password, employeeName, EmployeeRole.DEVELOPER, employeeID);
         this.manager = manager;
     }
 
@@ -22,7 +28,7 @@ public final class Developer extends Employee {
     }
 
     public Issue getIssueByID(String ID) {
-        Collection<Issue> issues =this.manager.getDevCreatedIssues(this);
+        Collection<Issue> issues = this.manager.getDevCreatedIssues(this);
         Issue issue = null;
 
         for (Issue i : issues) {

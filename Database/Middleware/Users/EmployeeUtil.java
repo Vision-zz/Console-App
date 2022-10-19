@@ -17,14 +17,17 @@ public class EmployeeUtil {
 		switch (sessionEmployee.getEmployeeRole()) {
 			case SYSTEM_ADMIN:
 				return new SystemAdmin(sessionEmployee.getUsername(), sessionEmployee.getPassword(),
-						sessionEmployee.getEmployeeName(), DBIssueManager.getInstance(),
+						sessionEmployee.getEmployeeName(), sessionEmployee.getEmployeeID(),
+						DBIssueManager.getInstance(),
 						DBEmployeeManager.getInstance());
 			case SYSTEM_ENGINEER:
 				return new SystemEngineer(sessionEmployee.getUsername(), sessionEmployee.getPassword(),
-						sessionEmployee.getEmployeeName(), DBIssueManager.getInstance());
+						sessionEmployee.getEmployeeName(), sessionEmployee.getEmployeeID(),
+						DBIssueManager.getInstance());
 			case DEVELOPER:
 				return new Developer(sessionEmployee.getUsername(), sessionEmployee.getPassword(),
-						sessionEmployee.getEmployeeName(), DBIssueManager.getInstance());
+						sessionEmployee.getEmployeeName(), sessionEmployee.getEmployeeID(),
+						DBIssueManager.getInstance());
 			default:
 				throw new RuntimeException("Unknown employee role");
 		}

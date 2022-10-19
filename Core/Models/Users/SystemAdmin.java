@@ -20,6 +20,13 @@ public final class SystemAdmin extends Employee {
         this.employeeManager = employeeManager;
     }
 
+    public SystemAdmin(String username, String password, String employeeName, String employeeID, AdminIssueManager issueManager,
+            EmployeeDetailsManager employeeManager) {
+        super(username, password, employeeName, EmployeeRole.SYSTEM_ADMIN, employeeID);
+        this.issueManager = issueManager;
+        this.employeeManager = employeeManager;
+    }
+
     public Collection<Issue> getAllIssues() {
         return issueManager.getAllIssues();
     }
