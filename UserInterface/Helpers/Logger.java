@@ -2,6 +2,9 @@ package UserInterface.Helpers;
 
 public final class Logger {
 
+    private Logger() {
+    }
+
     public static final void logSuccess(String... message) {
         for (String m : message) {
             System.out.println(StringFormat.formatGreen(m));

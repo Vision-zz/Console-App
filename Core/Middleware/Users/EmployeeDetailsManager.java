@@ -4,6 +4,8 @@ import java.util.Collection;
 
 import Core.Models.Users.Employee;
 
-public interface AdminEmployeeManager {
+public interface EmployeeDetailsManager {
 	Collection<Employee> getAllEmployees();
+	Employee getEmployee(String username);
+	Employee getEmployeeByID(String employeeID);
 }

@@ -1,18 +1,31 @@
+
 // import Database.DBEmployee;
 import Core.Models.Users.Developer;
+import Core.Models.Users.Employee;
 import Core.Models.Users.SystemAdmin;
 import Core.Models.Users.SystemEngineer;
+import Database.Middleware.Issues.DBIssueManager;
+import Database.Middleware.Users.DBEmployeeManager;
 import Database.Middleware.Users.EmployeeUtil;
 import Database.Models.Users.EmployeeDatabase;
+import UserInterface.ConsoleFrontend.AdminUIManager;
+import UserInterface.ConsoleFrontend.DeveloperUIManager;
+import UserInterface.ConsoleFrontend.EngineerUIManager;
+import UserInterface.ConsoleFrontend.LoginManager;
+import UserInterface.ConsoleFrontend.SessionInitializeStatus;
 import UserInterface.Helpers.Logger;
 import UserInterface.Helpers.Scanner;
+import UserInterface.SessionManager.Session;
 
 public class App {
 
     static {
-        SystemAdmin admin = new SystemAdmin("shiva", "verysecuredpass", "Shivaneesh");
-        SystemEngineer engineer = new SystemEngineer("sankar", "anothersecuredpass", "Ragav Suresh");
-        Developer developer = new Developer("sathya", "yetasecuredpass", "Sathya Narayanan");
+        SystemAdmin admin = new SystemAdmin("shiva", "verysecuredpass", "Shivaneesh", DBIssueManager.getInstance(),
+                DBEmployeeManager.getInstance());
+        SystemEngineer engineer = new SystemEngineer("sankar", "anothersecuredpass", "Ragav Suresh",
+                DBIssueManager.getInstance());
+        Developer developer = new Developer("sathya", "yetasecuredpass", "Sathya Narayanan",
+                DBIssueManager.getInstance());
 
         EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
         employeeDB.add(EmployeeUtil.cloneToDBEmployee(admin));
@@ -23,58 +36,54 @@ public class App {
 
     public static void main(String[] args) {
 
-        // TODO Create a Middleware between UI Login flow and the Database
-
         MainLoop: while (true) {
 
-            Logger.logSuccess("---- Jogo Pitstop ----", "Select an option below");
+            SessionInitializeStatus status = new LoginManager().initializeSession();
+            if (status.equals(SessionInitializeStatus.FAILED)) {
+                break MainLoop;
+            }
 
-            LoginInputLoop: do {
+            Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
 
-                String input = Scanner.getString("1. Sign In | 2. Sign Up | 3. Exit");
-                if (!input.matches("[12]")) {
+            
+            switch (loggedInEmployee.getEmployeeRole()) {
+                case SYSTEM_ADMIN:
+                    new AdminUIManager((SystemAdmin) loggedInEmployee).mainMenu();
+                    break;
+
+                case SYSTEM_ENGINEER:
+                    new EngineerUIManager((SystemEngineer) loggedInEmployee).mainMenu();
+                    break;
+
+                case DEVELOPER:
+                    new DeveloperUIManager((Developer) loggedInEmployee).mainMenu();
+                    break;
+                default:
+                    Logger.logError("Unkonwn employee role");
+                    break;
+            }
+
+            Logger.logInfo("Save your login info for ease of access during next time. ");
+
+            do {
+
+                Logger.logInfo("Do you want to save your login? [Y]es / [N]o");
+                String input = Scanner.getString();
+
+                if (!input.matches("[yYnN]")) {
                     Logger.logWarning("Please select a valid option");
                     continue;
                 }
 
-                if (input.equals("3"))
-                    break MainLoop;
-
-                break LoginInputLoop;
+                Session.getInstance().logout(input.toUpperCase().equals("Y"));
+                break;
 
             } while (true);
 
-            CredentialsLoop: do {
-
-
-                // TODO Finish this shit
-                // String username = Scanner.getString("Enter your username");
-                // String password = Scanner.getString("Enter your password");
-
-
-                // SignInStatus signInStatus =  Session.getInstance().signIn(username, password);
-
-                // switch (signInStatus) {
-                //     case :
-                        
-                //         break;
-                
-                //     default:
-                //         break;
-                // }
-                // Logger.logSuccess("Logged in as " + username);
-
-                break CredentialsLoop;
-
-            } while (true);
-
-            Scanner.getString("Press any key to continue . . .");
-            System.out.println("Done");
-
-            // TODO Start the actual work flow
+            Logger.logSuccess("--- Logged out ---");
+            System.out.println("\033[1;91m" + "___________________________" +"\033[0m");
 
         }
-
     }
 
 }

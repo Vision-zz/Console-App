@@ -3,13 +3,13 @@ package UserInterface.SessionManager;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Map;
 
+import Core.Middleware.Users.EmployeeDetailsManager;
 import Core.Models.Users.Employee;
 import Core.Models.Users.EmployeeRole;
 import Database.Middleware.Users.EmployeeSignupManager;
-import Database.Middleware.Users.EmployeeUtil;
-import Database.Models.Users.DBEmployee;
+import Database.Middleware.Users.SignUpStatus;
 import Database.Models.Users.EmployeeDatabase;
 
 public final class Session {
@@ -39,30 +39,34 @@ public final class Session {
 	}
 
 	public Employee getLoggedInAs() {
-		return EmployeeUtil.cloneToEmployee(currentSession.loggedInEmployee);
+		return SessionEmployeeUtil.cloneToEmployee(currentSession.loggedInEmployee);
 	}
 
-	public SignInStatus signIn(String username, String password) {
-		DBEmployee dbEmployee = EmployeeDatabase.getInstance().get(username);
-		if (dbEmployee == null) {
+	public SignInStatus signIn(String username, String password, EmployeeDetailsManager manager) {
+
+		Employee employee = manager.getEmployee(username);
+
+		// DBEmployee dbEmployee2 = manager
+		if (employee == null) {
 			return SignInStatus.UNKNOWN_USERNAME;
 		}
 
-		if (!dbEmployee.getPassword().equals(password)) {
+		if (!employee.getPassword().equals(password)) {
 			return SignInStatus.INVALID_PASSWORD;
 		}
 
-		SessionEmployee employee = EmployeeUtil.cloneToSessionEmployee(EmployeeUtil.cloneToEmployee(dbEmployee));
-		currentSession = new SessionCache(employee);
+		SessionEmployee sessionEmployee = SessionEmployeeUtil.cloneToSessionEmployee(employee);
+		currentSession = new SessionCache(sessionEmployee);
 		return SignInStatus.SUCCESS;
 	}
 
-	public Collection<Employee> getSavedLogins() {
+	public Map<String, SessionEmployee> getSavedLogins() {
 		Collection<SessionCache> currentSavedCache = this.savedLogins.values();
-		Collection<Employee> savedLogins = new HashSet<>();
+		Map<String, SessionEmployee> savedLogins = new HashMap<>();
 
 		currentSavedCache.forEach(cache -> {
-			savedLogins.add(EmployeeUtil.cloneToEmployee(cache.loggedInEmployee));
+			
+			savedLogins.put(cache.loggedInEmployee.getUsername(), cache.loggedInEmployee);
 		});
 
 		return savedLogins;
@@ -74,18 +78,18 @@ public final class Session {
 			return SignInStatus.UNKNOWN_USERNAME;
 		}
 
-		Employee dbEmployee = EmployeeUtil.cloneToEmployee(EmployeeDatabase.getInstance().get(username));
-		if(dbEmployee == null) {
+		Employee dbEmployee = SessionEmployeeUtil.cloneToEmployee(EmployeeDatabase.getInstance().get(username));
+		if (dbEmployee == null) {
 			return SignInStatus.UNKNOWN_EMPLOYEE;
 		}
-		
+
 		SessionCache savedSession = savedLogins.get(username);
-		if(savedSession.sessionExpiresAt.after(new Date(System.currentTimeMillis()))) {
+		if (savedSession.sessionExpiresAt.after(new Date(System.currentTimeMillis()))) {
 			return SignInStatus.SESSION_EXPIRED;
 		}
-		
-		Employee savedEmployeeLogin = EmployeeUtil.cloneToEmployee(savedLogins.get(username).loggedInEmployee);
-		if(!dbEmployee.getPassword().equals(savedEmployeeLogin.getPassword())) {
+
+		Employee savedEmployeeLogin = SessionEmployeeUtil.cloneToEmployee(savedLogins.get(username).loggedInEmployee);
+		if (!dbEmployee.getPassword().equals(savedEmployeeLogin.getPassword())) {
 			return SignInStatus.SESSION_EXPIRED;
 		}
 
@@ -93,13 +97,10 @@ public final class Session {
 
 	}
 
-	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole, EmployeeSignupManager manager) {
-		try {
-			manager.signUp(username, password, employeeName, employeeRole);
-			return SignUpStatus.SUCCESS;
-		} catch (RuntimeException e) {
-			return SignUpStatus.USERNAME_UNAVAILABLE;
-		}
+	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole,
+			EmployeeSignupManager manager) {
+		return manager.signUp(username, password, employeeName, employeeRole);
+
 	}
 
 	public void logout(boolean saveLoginDetails) {
@@ -109,7 +110,5 @@ public final class Session {
 		}
 		currentSession = null;
 	}
-
-	
 
 }

@@ -8,18 +8,21 @@ import Core.Models.Issues.IssueCategory;
 
 public final class Developer extends Employee {
 
-
-    public Developer(String username, String password, String employeeName) {
+    private final DevIssueManager manager;
+    
+    public Developer(String username, String password, String employeeName, DevIssueManager manager) {
         super(username, password, employeeName, EmployeeRole.DEVELOPER);
+        this.manager = manager;
     }
 
-    public void createIssue(IssueCategory category, String description, DevIssueManager manager) {
+    public String createIssue(IssueCategory category, String description) {
         Issue issue = new Issue(category, description);
-        manager.newIssueRequest(issue);
+        this.manager.newIssueRequest(issue);
+        return issue.issueID;
     }
 
-    public Issue getIssueByID(String ID, DevIssueManager manager) {
-        Collection<Issue> issues = manager.getDevCreatedIssues(this);
+    public Issue getIssueByID(String ID) {
+        Collection<Issue> issues =this.manager.getDevCreatedIssues(this);
         Issue issue = null;
 
         for (Issue i : issues) {
@@ -32,8 +35,8 @@ public final class Developer extends Employee {
         return issue;
     }
 
-    public Collection<Issue> getAllCreatedIssues(DevIssueManager manager) {
-        return manager.getDevCreatedIssues(this);
+    public Collection<Issue> getAllCreatedIssues() {
+        return this.manager.getDevCreatedIssues(this);
     }
 
 }
