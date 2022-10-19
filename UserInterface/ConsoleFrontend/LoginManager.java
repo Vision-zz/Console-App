@@ -10,7 +10,7 @@ import UserInterface.Helpers.Scanner;
 import UserInterface.SessionManager.Session;
 import UserInterface.SessionManager.SignInStatus;
 
-public class LoginManager {
+public final class LoginManager {
 
 	public SessionInitializeStatus initializeSession() {
 
