@@ -72,11 +72,14 @@ public class AdminUIManager {
 			return;
 		}
 
-		Table table = new Table(4, "Index", "Issue ID", "Category", "Status").withUnicode(true);
+		Table table = new Table("Index", "Issue ID", "Category", "Status", "Description").withUnicode(true);
 
 		int index = 1;
 		for (Issue i : issues) {
-			table.addRow("" + index, i.issueID, i.getCategory().toString(), i.getStatus().toString());
+			String description = i.getDescription().length() > 40
+					? i.getDescription().subSequence(0, 41).toString() + "..."
+					: i.getDescription();
+			table.addRow("" + index, i.issueID, i.getCategory().toString(), i.getStatus().toString(), description);
 			index++;
 		}
 
@@ -108,10 +111,10 @@ public class AdminUIManager {
 			return;
 		}
 
-		Table table = new Table(2, "Employee ID", "Name").withUnicode(true);
+		Table table = new Table(2, "Employee ID", "Name", "Issues assigned").withUnicode(true);
 
 		for (SystemEngineer e : engineers) {
-			table.addRow(e.getEmployeeID(), e.getEmployeeName());
+			table.addRow(e.getEmployeeID(), e.getEmployeeName(), e.getAllAssignedIssues().size() + "");
 		}
 
 		table.print();
@@ -120,34 +123,58 @@ public class AdminUIManager {
 	}
 
 	private void assignIssue() {
-		String issueID = Scanner.getString("Enter the Issue ID");
-		AdminIssueManager issueManager = DBIssueManager.getInstance();
-		Issue issue = issueManager.getIssue(issueID);
 
-		if (issue == null) {
-			Logger.logError("Issue with ID: " + issueID + " does not exist");
-			Scanner.getString("Press any key to continue to main menu");
-			return;
-		}
+		Issue issue;
+		Employee employee;
 
-		String employeeID = Scanner.getString("Enter the employee ID of the engineer");
-		EmployeeDetailsManager detailsManager = DBEmployeeManager.getInstance();
-		Employee employee = detailsManager.getEmployeeByID(employeeID);
+		do {
 
-		if (employee == null) {
-			Logger.logError("Employee with ID: " + employeeID + " do not exist");
-			Scanner.getString("Press any key to continue");
-			return;
-		}
+			String issueID = Scanner.getString("Enter the Issue ID");
+			AdminIssueManager issueManager = DBIssueManager.getInstance();
+			issue = issueManager.getIssue(issueID);
 
-		if (!employee.getEmployeeRole().equals(EmployeeRole.SYSTEM_ENGINEER)) {
-			Logger.logError("Employee is not a Engineer. Issues can only be assigned to a Engineer");
-			Scanner.getString("Press any key to continue");
-			return;
-		}
+			if (issue == null) {
+				Logger.logError("Issue with ID: " + issueID + " does not exist");
+				String input = Scanner.getString("Press 1 to retry or any key to return to main menu");
+				if (input.equals("1"))
+					continue;
+
+				return;
+			}
+
+			break;
+
+		} while (true);
+
+		do {
+
+			String employeeID = Scanner.getString("Enter the employee ID of the engineer");
+			EmployeeDetailsManager detailsManager = DBEmployeeManager.getInstance();
+			employee = detailsManager.getEmployeeByID(employeeID);
+
+			if (employee == null) {
+				Logger.logError("Employee with ID: " + employeeID + " do not exist");
+				String input = Scanner.getString("Press 1 to retry or any key to return to main menu");
+				if (input.equals("1"))
+					continue;
+				return;
+			}
+
+			if (!employee.getEmployeeRole().equals(EmployeeRole.SYSTEM_ENGINEER)) {
+				Logger.logError("Employee is not a Engineer. Issues can only be assigned to a Engineer");
+				String input = Scanner.getString("Press 1 to retry or any key to return to main menu");
+				if (input.equals("1"))
+					continue;
+				return;
+			}
+
+			break;
+
+		} while (true);
 
 		this.employee.assignIssueToEngineer(issue, (SystemEngineer) employee);
-		Logger.logSuccess("Assigned Issue with ID: " + issue.issueID + " to Engineer " + employee.getEmployeeName());
+		Logger.logSuccess(
+				"Assigned Issue with ID: " + issue.issueID + " to Engineer " + employee.getEmployeeName());
 
 		Scanner.getString("Press any key to continue");
 		return;

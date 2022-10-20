@@ -88,21 +88,21 @@ public class Issue {
         final String newLine = "\n";
         String string = "Issue ID: " + this.issueID + newLine;
 
-        string += "Category: " + this.getCategory().toString() + newLine;
-        string += "Created By: " + this.getCreatedBy().getEmployeeName() + "EID: " + this.getCreatedBy().getEmployeeID();
-        string += "Current Status: " + this.getStatus().toString() + newLine;
+        string += " |_ Category: " + this.getCategory().toString() + newLine;
+        string += "|_ Created By: " + this.getCreatedBy().getEmployeeName() + " EID: " + this.getCreatedBy().getEmployeeID() + newLine;
+        string += "|_ Current Status: " + this.getStatus().toString() + newLine;
         if (!this.getStatus().toString().equals("ACTIVE")) {
-            string += "Engineer: " + this.getAssignedEngineer().getEmployeeName() + newLine;
+            string += "|_ Engineer: " + this.getAssignedEngineer().getEmployeeName() + " EID: " + this.getAssignedEngineer().getEmployeeID() +  newLine;
         }
 
-        string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "Created At: ", this.getCreatedAt()) + newLine;
+        string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "|_ Created At: ", this.getCreatedAt()) + newLine;
 
         if (this.getStatus().toString().equals("RESOLVED")) {
-            string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "Resolved At: ", this.getResolvedAt())
+            string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "|_ Resolved At: ", this.getResolvedAt())
                     + newLine;
         }
 
-        string += "Description: " + this.getDescription();
+        string += "|_ Description: " + this.getDescription();
 
         return string;
     }

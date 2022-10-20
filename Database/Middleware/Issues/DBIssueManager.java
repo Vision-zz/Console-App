@@ -80,7 +80,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
 
-		Predicate<DBIssue> predicate = issue -> !issue.getAssignedTo().getUsername().equals(engineer.getUsername());
+		Predicate<DBIssue> predicate = issue -> !issue.getAssignedTo().getUsername().equals(engineer.getUsername()) || issue.getStatus().equals(IssueStatus.RESOLVED);
 		dbIssues.removeIf(predicate);
 
 		Collection<Issue> issueCollection = new HashSet<Issue>();
