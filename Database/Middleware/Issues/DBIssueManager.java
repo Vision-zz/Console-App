@@ -70,7 +70,6 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 			issueCollection.add(IssueUtil.cloneToIssue(issue));
 		});
 
-
 		return issueCollection;
 
 	}
@@ -80,7 +79,9 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
 
-		Predicate<DBIssue> predicate = issue -> !issue.getAssignedTo().getUsername().equals(engineer.getUsername()) || issue.getStatus().equals(IssueStatus.RESOLVED);
+		Predicate<DBIssue> predicate = issue -> (issue.getAssignedTo() == null
+				|| !issue.getAssignedTo().getUsername().equals(engineer.getUsername())
+				|| issue.getStatus().equals(IssueStatus.RESOLVED));
 		dbIssues.removeIf(predicate);
 
 		Collection<Issue> issueCollection = new HashSet<Issue>();
@@ -100,6 +101,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		}
 		Issue updatedIssue = IssueUtil.cloneToIssue(dbIssue);
 		updatedIssue.assignEngineer(engineer);
+		updatedIssue.updateStatus(IssueStatus.IN_PROGRESS);
 
 		IssuesDatabase.getInstance().udpate(IssueUtil.cloneToDBIssue(updatedIssue));
 		return;

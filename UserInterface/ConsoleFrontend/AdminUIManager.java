@@ -78,7 +78,7 @@ public class AdminUIManager {
 			return;
 		}
 
-		Table table = new Table(2, "Employee ID", "Name", "Issues assigned").withUnicode(true);
+		Table table = new Table("Employee ID", "Name", "Issues assigned").withUnicode(true);
 
 		for (SystemEngineer e : engineers) {
 			table.addRow(e.getEmployeeID(), e.getEmployeeName(), e.getAllAssignedIssues().size() + "");

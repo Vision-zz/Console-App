@@ -48,6 +48,7 @@ public class EngineerUIManager {
 	private void viewAssignedIssues() {
 		Collection<Issue> issues = employee.getAllAssignedIssues();
 		new IssuePrinterUtil().printIssuesAsTable(issues);
+		Scanner.getString("Press any key to continue");
 	}
 
 	private void resolveIssue() {
@@ -67,7 +68,7 @@ public class EngineerUIManager {
 				issue = i;
 
 		if (issue == null) {
-			Logger.logError("You do not have an issue with ID: " + issueID + " assigned to you");
+			Logger.logError("Issue with ID: " + issueID + " does not exist or is not assigned to you ");
 			Scanner.getString("Press any key to continue to main menu");
 			return;
 		}
@@ -91,6 +92,8 @@ public class EngineerUIManager {
 		} while (true);
 
 		employee.markIssueAsResolved(issue);
+		Logger.logSuccess("Issue resolved. Issue ID: " + issue.issueID);
+		Scanner.getString("Press any key to continue");
 	}
 
 }
