@@ -86,9 +86,9 @@ public class Issue {
     @Override
     public String toString() {
         final String newLine = "\n";
-        String string = "Issue ID: " + this.issueID + newLine;
+        String string = "|- Issue ID: " + this.issueID + newLine;
 
-        string += " |_ Category: " + this.getCategory().toString() + newLine;
+        string += "|_ Category: " + this.getCategory().toString() + newLine;
         string += "|_ Created By: " + this.getCreatedBy().getEmployeeName() + " EID: " + this.getCreatedBy().getEmployeeID() + newLine;
         string += "|_ Current Status: " + this.getStatus().toString() + newLine;
         if (!this.getStatus().toString().equals("ACTIVE")) {
@@ -102,7 +102,8 @@ public class Issue {
                     + newLine;
         }
 
-        string += "|_ Description: " + this.getDescription();
+        string += "|_ Description: " + this.getDescription() + newLine;
+        string += "___________________________________";
 
         return string;
     }
