@@ -108,7 +108,7 @@ public class AdminUIManager {
 			return;
 		}
 
-		Table table = new Table(3, "Employee ID", "Name").withUnicode(true);
+		Table table = new Table(2, "Employee ID", "Name").withUnicode(true);
 
 		for (SystemEngineer e : engineers) {
 			table.addRow(e.getEmployeeID(), e.getEmployeeName());
@@ -140,7 +140,7 @@ public class AdminUIManager {
 			return;
 		}
 
-		if (employee.getEmployeeRole().equals(EmployeeRole.SYSTEM_ENGINEER)) {
+		if (!employee.getEmployeeRole().equals(EmployeeRole.SYSTEM_ENGINEER)) {
 			Logger.logError("Employee is not a Engineer. Issues can only be assigned to a Engineer");
 			Scanner.getString("Press any key to continue");
 			return;

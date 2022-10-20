@@ -45,6 +45,7 @@ public class App {
 
             Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
 
+            System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
             Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
             System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
 
