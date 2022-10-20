@@ -87,7 +87,7 @@ public class AdminUIManager {
 			String input = Scanner
 					.getString("Enter the index of the Issue to view more info or enter 0 to return to main menu");
 
-			if (!input.matches("[0-9]") || Integer.parseInt(input) > issues.size() - 1 || Integer.parseInt(input) < 0) {
+			if (!input.matches("[0-9]+") || Integer.parseInt(input) > issues.size() || Integer.parseInt(input) < 0) {
 				Logger.logWarning("Please select a valid option");
 				continue;
 			}

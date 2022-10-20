@@ -45,6 +45,8 @@ public class App {
 
             Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
 
+            Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
+
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:
                     new AdminUIManager((SystemAdmin) loggedInEmployee).mainMenu();
