@@ -46,7 +46,7 @@ public class App {
             Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
 
             Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
-            System.out.println("\033[1;92m" + "___________________________" + "\033[0m");
+            System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
 
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:
@@ -83,7 +83,7 @@ public class App {
             } while (true);
 
             Logger.logSuccess("--- Logged out ---");
-            System.out.println("\033[1;91m" + "___________________________" + "\033[0m");
+            System.out.println("\033[1;91m" + "___________________________________" + "\033[0m\n");
 
         }
     }
