@@ -46,7 +46,7 @@ public class App {
             Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
 
             Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
-            System.out.println();
+            System.out.println("\033[1;92m" + "___________________________" + "\033[0m");
 
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:
