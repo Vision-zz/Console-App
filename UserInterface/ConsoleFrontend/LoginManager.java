@@ -109,6 +109,18 @@ public final class LoginManager {
 			}
 
 			String password = Scanner.getString("Enter a password");
+
+			if (password.matches("^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$")) {
+				Logger.logWarning(
+						"Invalid password. Password must contain atleast 1 Uppercase, Lowercase, Number and a character and should be more than 8 characters in length");
+
+				String output = Scanner.getString("Press 1 to try again or any key to Exit");
+				if (!output.equals("1"))
+					return SessionInitializeStatus.RESTART;
+
+				continue;
+			}
+
 			String employeeName = Scanner.getString("Enter your full name");
 
 			EmployeeRole employeeRole;
