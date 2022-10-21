@@ -96,11 +96,14 @@ public class AdminUIManager {
 
 		do {
 
-			String issueID = Scanner.getString("Enter the Issue ID. Press 0 to view all unassigned issues");
-			if(issueID.equals("0")) {
+			String issueID = Scanner.getString("Enter the Issue ID. Press 0 to view all unassigned issues or 1 to exit");
+			if (issueID.equals("0")) {
 				viewIssues(IssueViewType.UNASSIGNED);
 				continue;
+			} else if(issueID.equals("1")) {
+				return;
 			}
+			
 			AdminIssueManager issueManager = DBIssueManager.getInstance();
 			issue = issueManager.getIssue(issueID);
 
@@ -119,7 +122,15 @@ public class AdminUIManager {
 
 		do {
 
-			String employeeID = Scanner.getString("Enter the employee ID of the engineer");
+			String employeeID = Scanner
+					.getString("Enter the employee ID of the engineer. Press 0 to view all engineers or 1 to exit");
+			if (employeeID.equals("0")) {
+				this.viewEngineers();
+				continue;
+			} else if(employeeID.equals("1")) {
+				return;
+			}
+
 			EmployeeDetailsManager detailsManager = DBEmployeeManager.getInstance();
 			employee = detailsManager.getEmployeeByID(employeeID);
 
