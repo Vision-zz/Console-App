@@ -96,7 +96,7 @@ public final class LoginManager {
 
 			String username = Scanner.getString("Enter username");
 
-			if (username.matches("[^a-z0-9_]+") || username.length() < 3) {
+			if (!username.matches("^([a-z0-9_]*)$") || username.length() < 3) {
 				Logger.logWarning(
 						"Username contains invalid characters. Only lowercase alphabets, numbers and underscores are allowed and username should be atleast 3 characters long");
 

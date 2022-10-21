@@ -96,7 +96,11 @@ public class AdminUIManager {
 
 		do {
 
-			String issueID = Scanner.getString("Enter the Issue ID. Press 0 to view all issues");
+			String issueID = Scanner.getString("Enter the Issue ID. Press 0 to view all unassigned issues");
+			if(issueID.equals("0")) {
+				viewIssues(IssueViewType.UNASSIGNED);
+				continue;
+			}
 			AdminIssueManager issueManager = DBIssueManager.getInstance();
 			issue = issueManager.getIssue(issueID);
 

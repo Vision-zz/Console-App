@@ -48,7 +48,6 @@ public class EngineerUIManager {
 	private void viewAssignedIssues() {
 		Collection<Issue> issues = employee.getAllAssignedIssues();
 		new IssuePrinterUtil().printIssuesAsTable(issues);
-		Scanner.getString("Press any key to continue");
 	}
 
 	private void resolveIssue() {
