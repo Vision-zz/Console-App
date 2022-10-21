@@ -103,7 +103,7 @@ public class AdminUIManager {
 			} else if(issueID.equals("1")) {
 				return;
 			}
-			
+
 			AdminIssueManager issueManager = DBIssueManager.getInstance();
 			issue = issueManager.getIssue(issueID);
 
@@ -119,7 +119,7 @@ public class AdminUIManager {
 			break;
 
 		} while (true);
-
+						
 		do {
 
 			String employeeID = Scanner
