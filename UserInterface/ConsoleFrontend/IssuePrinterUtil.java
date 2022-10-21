@@ -12,6 +12,7 @@ public class IssuePrinterUtil {
 	public void printIssuesAsTable(Collection<Issue> issues) {
 		if (issues.size() < 1) {
 			Logger.logError("No Issues available");
+			Scanner.getString("Press any key to continue");
 			return;
 		}
 

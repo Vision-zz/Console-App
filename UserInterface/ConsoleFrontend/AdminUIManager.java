@@ -2,7 +2,6 @@ package UserInterface.ConsoleFrontend;
 
 import java.util.Collection;
 
-import UserInterface.Helpers.Table;
 import Core.Middleware.Issues.AdminIssueManager;
 import Core.Middleware.Users.EmployeeDetailsManager;
 import Core.Models.Issues.Issue;
@@ -14,6 +13,7 @@ import Database.Middleware.Issues.DBIssueManager;
 import Database.Middleware.Users.DBEmployeeManager;
 import UserInterface.Helpers.Logger;
 import UserInterface.Helpers.Scanner;
+import UserInterface.Helpers.Table;
 
 public class AdminUIManager {
 
