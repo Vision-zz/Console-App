@@ -16,7 +16,7 @@ public class Issue {
     private final Date createdAt;
     private Date resolvedAt;
 
-    private static int currentIssueID = 0;
+    private static int currentIssueID = 1;
 
     public Issue(IssueCategory category, String description) {
         this.issueID = category.toString() + "_" + currentIssueID++;
@@ -81,6 +81,10 @@ public class Issue {
 
     public Date getResolvedAt() {
         return this.resolvedAt;
+    }
+
+    public static void setIssueID(int ID) {
+        Issue.currentIssueID = ID;
     }
 
     @Override

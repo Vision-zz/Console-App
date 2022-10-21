@@ -92,15 +92,24 @@ public class AdminUIManager {
 	private void assignIssue() {
 
 		Issue issue;
-		Employee employee;
+		SystemEngineer engineer = null;
+		Collection<Issue> unassignedIssues = DBIssueManager.getInstance().getAllIssues();
+		unassignedIssues.removeIf(i -> i.getAssignedEngineer() != null);
+
+		if (unassignedIssues.size() < 1) {
+			Logger.logInfo("No unassigned issues available");
+			Scanner.getString("Press any key to continue");
+			return;
+		}
 
 		do {
 
-			String issueID = Scanner.getString("Enter the Issue ID. Press 0 to view all unassigned issues or 1 to exit");
+			String issueID = Scanner
+					.getString("Enter the Issue ID. Press 0 to view all unassigned issues or 1 to exit");
 			if (issueID.equals("0")) {
 				viewIssues(IssueViewType.UNASSIGNED);
 				continue;
-			} else if(issueID.equals("1")) {
+			} else if (issueID.equals("1")) {
 				return;
 			}
 
@@ -116,10 +125,20 @@ public class AdminUIManager {
 				return;
 			}
 
+			if (issue.getAssignedEngineer() != null) {
+				Logger.logError("Issue is already assigned to " + issue.getAssignedEngineer().getEmployeeName()
+						+ " EID: " + issue.getAssignedEngineer().getEmployeeID());
+				String input = Scanner.getString("Press 1 to retry or any key to return to main menu");
+				if (input.equals("1"))
+					continue;
+
+				return;
+			}
+
 			break;
 
 		} while (true);
-						
+
 		do {
 
 			String employeeID = Scanner
@@ -127,12 +146,12 @@ public class AdminUIManager {
 			if (employeeID.equals("0")) {
 				this.viewEngineers();
 				continue;
-			} else if(employeeID.equals("1")) {
+			} else if (employeeID.equals("1")) {
 				return;
 			}
 
 			EmployeeDetailsManager detailsManager = DBEmployeeManager.getInstance();
-			employee = detailsManager.getEmployeeByID(employeeID);
+			Employee employee = detailsManager.getEmployeeByID(employeeID);
 
 			if (employee == null) {
 				Logger.logError("Employee with ID: " + employeeID + " do not exist");
@@ -150,11 +169,13 @@ public class AdminUIManager {
 				return;
 			}
 
+			engineer = (SystemEngineer) employee;
+
 			break;
 
 		} while (true);
 
-		this.employee.assignIssueToEngineer(issue, (SystemEngineer) employee);
+		this.employee.assignIssueToEngineer(issue, engineer);
 		Logger.logSuccess(
 				"Assigned Issue with ID: " + issue.issueID + " to Engineer " + employee.getEmployeeName());
 
