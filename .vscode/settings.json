@@ -1,13 +1,11 @@
 {
 	"java.project.sourcePaths": [
-		"."
+		".",
+		"com"
 	],
 	"java.project.referencedLibraries": {
 		"include": [
 			"lib/**/*.jar"
-		],
-		"exclude": [
-			"lib/json-simple-1.1.1.jar"
 		]
 	}
 }
