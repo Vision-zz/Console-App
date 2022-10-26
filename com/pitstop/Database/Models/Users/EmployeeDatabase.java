@@ -1,8 +1,8 @@
-package pitstop.Database.Models.Users;
+package com.pitstop.Database.Models.Users;
 
 import java.util.HashMap;
 
-import pitstop.Database.Models.DatabaseFunctions;
+import com.pitstop.Database.Models.DatabaseFunctions;
 
 public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
 

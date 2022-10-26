@@ -1,6 +1,6 @@
-package pitstop.Database.Middleware.Users;
+package com.pitstop.Database.Middleware.Users;
 
-import pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Core.Models.Users.EmployeeRole;
 
 public interface EmployeeSignupManager {
 

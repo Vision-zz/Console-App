@@ -1,22 +1,21 @@
-package pitstop;
+package com.pitstop;
 
-// import Database.DBEmployee;
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.Employee;
-import pitstop.Core.Models.Users.SystemAdmin;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.Database.Middleware.Issues.DBIssueManager;
-import pitstop.Database.Middleware.Users.DBEmployeeManager;
-import pitstop.Database.Middleware.Users.EmployeeUtil;
-import pitstop.Database.Models.Users.EmployeeDatabase;
-import pitstop.UserInterface.ConsoleFrontend.AdminUIManager;
-import pitstop.UserInterface.ConsoleFrontend.DeveloperUIManager;
-import pitstop.UserInterface.ConsoleFrontend.EngineerUIManager;
-import pitstop.UserInterface.ConsoleFrontend.LoginManager;
-import pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
-import pitstop.UserInterface.Helpers.Logger;
-import pitstop.UserInterface.Helpers.Scanner;
-import pitstop.UserInterface.SessionManager.Session;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.Employee;
+import com.pitstop.Core.Models.Users.SystemAdmin;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Middleware.Users.EmployeeUtil;
+import com.pitstop.Database.Models.Users.EmployeeDatabase;
+import com.pitstop.UserInterface.ConsoleFrontend.AdminUIManager;
+import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUIManager;
+import com.pitstop.UserInterface.ConsoleFrontend.EngineerUIManager;
+import com.pitstop.UserInterface.ConsoleFrontend.LoginManager;
+import com.pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
+import com.pitstop.UserInterface.Helpers.Logger;
+import com.pitstop.UserInterface.Helpers.Scanner;
+import com.pitstop.UserInterface.SessionManager.Session;
 
 public class App {
 
@@ -49,6 +48,8 @@ public class App {
             System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
             Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
             System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
+
+            
 
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:

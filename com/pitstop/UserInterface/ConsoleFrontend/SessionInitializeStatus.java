@@ -1,4 +1,4 @@
-package pitstop.UserInterface.ConsoleFrontend;
+package com.pitstop.UserInterface.ConsoleFrontend;
 
 public enum SessionInitializeStatus {
 	SUCCESS,

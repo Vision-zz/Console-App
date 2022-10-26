@@ -1,4 +1,4 @@
-package pitstop.Database.Models;
+package com.pitstop.Database.Models;
 
 import java.util.HashMap;
 

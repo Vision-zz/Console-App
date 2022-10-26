@@ -1,4 +1,4 @@
-package pitstop.UserInterface.Helpers;
+package com.pitstop.UserInterface.Helpers;
 
 public final class Scanner {
 

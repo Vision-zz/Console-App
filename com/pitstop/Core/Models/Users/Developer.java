@@ -1,10 +1,10 @@
-package pitstop.Core.Models.Users;
+package com.pitstop.Core.Models.Users;
 
 import java.util.Collection;
 
-import pitstop.Core.Middleware.Issues.DevIssueManager;
-import pitstop.Core.Models.Issues.Issue;
-import pitstop.Core.Models.Issues.IssueCategory;
+import com.pitstop.Core.Middleware.Issues.DevIssueManager;
+import com.pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Models.Issues.IssueCategory;
 
 public final class Developer extends Employee {
 
@@ -22,9 +22,8 @@ public final class Developer extends Employee {
     }
 
     public String createIssue(IssueCategory category, String description) {
-        Issue issue = new Issue(category, description);
-        this.manager.newIssueRequest(issue);
-        return issue.issueID;
+        String issueID = this.manager.newIssueRequest(category, description, this);
+        return issueID;
     }
 
     public Issue getIssueByID(String ID) {

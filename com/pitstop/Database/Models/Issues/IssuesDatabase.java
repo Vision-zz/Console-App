@@ -1,8 +1,8 @@
-package pitstop.Database.Models.Issues;
+package com.pitstop.Database.Models.Issues;
 
 import java.util.HashMap;
 
-import pitstop.Database.Models.DatabaseFunctions;
+import com.pitstop.Database.Models.DatabaseFunctions;
 
 public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
      private final HashMap<String, DBIssue> issues;
@@ -55,5 +55,7 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
           }
           this.issues.put(issue.issueID, issue);
      }
+
+     
 
 }

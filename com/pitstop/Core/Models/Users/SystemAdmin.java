@@ -1,12 +1,12 @@
-package pitstop.Core.Models.Users;
+package com.pitstop.Core.Models.Users;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.function.Predicate;
 
-import pitstop.Core.Middleware.Issues.AdminIssueManager;
-import pitstop.Core.Middleware.Users.EmployeeDetailsManager;
-import pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Middleware.Issues.AdminIssueManager;
+import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Models.Issues.Issue;
 
 public final class SystemAdmin extends Employee {
 

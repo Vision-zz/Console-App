@@ -1,6 +1,6 @@
-package pitstop.Database.Models.Users;
+package com.pitstop.Database.Models.Users;
 
-import pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Core.Models.Users.EmployeeRole;
 
 public final class DBEmployee {
 	private final String username;

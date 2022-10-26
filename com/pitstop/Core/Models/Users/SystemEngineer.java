@@ -1,9 +1,9 @@
-package pitstop.Core.Models.Users;
+package com.pitstop.Core.Models.Users;
 
 import java.util.Collection;
 
-import pitstop.Core.Middleware.Issues.EngineerIssueManager;
-import pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Middleware.Issues.EngineerIssueManager;
+import com.pitstop.Core.Models.Issues.Issue;
 
 public final class SystemEngineer extends Employee {
 

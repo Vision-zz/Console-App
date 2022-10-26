@@ -1,10 +1,9 @@
-package pitstop.Core.Models.Issues;
+package com.pitstop.Core.Models.Issues;
 
 import java.util.Date;
 
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.UserInterface.SessionManager.Session;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.SystemEngineer;
 
 public class Issue {
     public final String issueID;
@@ -18,10 +17,10 @@ public class Issue {
 
     private static int currentIssueID = 1;
 
-    public Issue(IssueCategory category, String description) {
+    public Issue(IssueCategory category, String description, Developer createdBy) {
         this.issueID = category.toString() + "_" + currentIssueID++;
         this.category = category;
-        this.createdBy = (Developer) Session.getInstance().getLoggedInAs();
+        this.createdBy = createdBy;
         this.description = description;
         this.status = IssueStatus.ACTIVE;
         this.createdAt = new Date();

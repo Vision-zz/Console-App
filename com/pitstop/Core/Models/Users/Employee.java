@@ -1,4 +1,4 @@
-package pitstop.Core.Models.Users;
+package com.pitstop.Core.Models.Users;
 
 public abstract class Employee {
 

@@ -1,4 +1,4 @@
-package pitstop.Core.Models.Users;
+package com.pitstop.Core.Models.Users;
 
 public enum EmployeeRole {
 	SYSTEM_ADMIN,

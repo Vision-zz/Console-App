@@ -1,6 +1,6 @@
-package pitstop.UserInterface.SessionManager;
+package com.pitstop.UserInterface.SessionManager;
 
-import pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Core.Models.Users.EmployeeRole;
 
 public class SessionEmployee {
 	private final String username;

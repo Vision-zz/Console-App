@@ -1,4 +1,4 @@
-package pitstop.UserInterface.Helpers;
+package com.pitstop.UserInterface.Helpers;
 
 /**
  * This code does not belong to or has been modified by me.

@@ -1,17 +1,17 @@
-package pitstop.Database.Middleware.Users;
+package com.pitstop.Database.Middleware.Users;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-import pitstop.Core.Middleware.Users.EmployeeDetailsManager;
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.Employee;
-import pitstop.Core.Models.Users.EmployeeRole;
-import pitstop.Core.Models.Users.SystemAdmin;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.Database.Middleware.Issues.DBIssueManager;
-import pitstop.Database.Models.Users.DBEmployee;
-import pitstop.Database.Models.Users.EmployeeDatabase;
+import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.Employee;
+import com.pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Core.Models.Users.SystemAdmin;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Models.Users.DBEmployee;
+import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 

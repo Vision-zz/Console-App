@@ -1,1 +1,4 @@
 /Test.*
+/bin
+/*.jar
+/*txt

@@ -1,4 +1,4 @@
-package pitstop.UserInterface.SessionManager;
+package com.pitstop.UserInterface.SessionManager;
 
 public enum SignInStatus {
 	SUCCESS,

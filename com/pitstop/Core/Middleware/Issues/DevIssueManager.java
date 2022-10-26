@@ -1,11 +1,12 @@
-package pitstop.Core.Middleware.Issues;
+package com.pitstop.Core.Middleware.Issues;
 
 import java.util.Collection;
 
-import pitstop.Core.Models.Issues.Issue;
-import pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Models.Issues.IssueCategory;
+import com.pitstop.Core.Models.Users.Developer;
 
 public interface DevIssueManager {
-	public void newIssueRequest(Issue issue);
+	public String newIssueRequest(IssueCategory category, String description, Developer createdBy);
 	public Collection<Issue> getDevCreatedIssues(Developer developer);
 }

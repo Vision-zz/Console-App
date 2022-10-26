@@ -1,11 +1,11 @@
-package pitstop.Database.Middleware.Users;
+package com.pitstop.Database.Middleware.Users;
 
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.Employee;
-import pitstop.Core.Models.Users.SystemAdmin;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.Database.Middleware.Issues.DBIssueManager;
-import pitstop.Database.Models.Users.DBEmployee;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.Employee;
+import com.pitstop.Core.Models.Users.SystemAdmin;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Models.Users.DBEmployee;
 
 public class EmployeeUtil {
 	public static final DBEmployee cloneToDBEmployee(Employee employee) {

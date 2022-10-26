@@ -1,7 +1,7 @@
-package pitstop.Database.Middleware.Issues;
+package com.pitstop.Database.Middleware.Issues;
 
-import pitstop.Core.Models.Issues.Issue;
-import pitstop.Database.Models.Issues.DBIssue;
+import com.pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Database.Models.Issues.DBIssue;
 
 public class IssueUtil {
 

@@ -1,14 +1,14 @@
-package pitstop.UserInterface.ConsoleFrontend;
+package com.pitstop.UserInterface.ConsoleFrontend;
 
-import pitstop.Core.Middleware.Users.EmployeeDetailsManager;
-import pitstop.Core.Models.Users.EmployeeRole;
-import pitstop.Database.Middleware.Users.DBEmployeeManager;
-import pitstop.Database.Middleware.Users.EmployeeSignupManager;
-import pitstop.Database.Middleware.Users.SignUpStatus;
-import pitstop.UserInterface.Helpers.Logger;
-import pitstop.UserInterface.Helpers.Scanner;
-import pitstop.UserInterface.SessionManager.Session;
-import pitstop.UserInterface.SessionManager.SignInStatus;
+import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Middleware.Users.EmployeeSignupManager;
+import com.pitstop.Database.Middleware.Users.SignUpStatus;
+import com.pitstop.UserInterface.Helpers.Logger;
+import com.pitstop.UserInterface.Helpers.Scanner;
+import com.pitstop.UserInterface.SessionManager.Session;
+import com.pitstop.UserInterface.SessionManager.SignInStatus;
 
 public final class LoginManager {
 

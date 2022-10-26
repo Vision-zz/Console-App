@@ -1,11 +1,11 @@
-package pitstop.UserInterface.ConsoleFrontend;
+package com.pitstop.UserInterface.ConsoleFrontend;
 
 import java.util.Collection;
 
-import pitstop.Core.Models.Issues.Issue;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.UserInterface.Helpers.Logger;
-import pitstop.UserInterface.Helpers.Scanner;
+import com.pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.UserInterface.Helpers.Logger;
+import com.pitstop.UserInterface.Helpers.Scanner;
 
 public class EngineerUIManager {
 

@@ -1,4 +1,4 @@
-package pitstop.Database.Middleware.Users;
+package com.pitstop.Database.Middleware.Users;
 
 public enum SignUpStatus {
 	SUCCESS,

@@ -1,12 +1,12 @@
-package pitstop.UserInterface.SessionManager;
+package com.pitstop.UserInterface.SessionManager;
 
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.Employee;
-import pitstop.Core.Models.Users.SystemAdmin;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.Database.Middleware.Issues.DBIssueManager;
-import pitstop.Database.Middleware.Users.DBEmployeeManager;
-import pitstop.Database.Middleware.Users.EmployeeUtil;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.Employee;
+import com.pitstop.Core.Models.Users.SystemAdmin;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Middleware.Users.EmployeeUtil;
 
 public class SessionEmployeeUtil extends EmployeeUtil {
 

@@ -1,11 +1,11 @@
-package pitstop.Database.Models.Issues;
+package com.pitstop.Database.Models.Issues;
 
 import java.util.Date;
 
-import pitstop.Core.Models.Issues.IssueCategory;
-import pitstop.Core.Models.Issues.IssueStatus;
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Core.Models.Issues.IssueCategory;
+import com.pitstop.Core.Models.Issues.IssueStatus;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.SystemEngineer;
 
 public final class DBIssue {
     public final String issueID;

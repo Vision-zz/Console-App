@@ -1,4 +1,4 @@
-package pitstop.Database.Middleware.Issues;
+package com.pitstop.Database.Middleware.Issues;
 
 import java.util.Collection;
 import java.util.Date;
@@ -6,15 +6,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.Predicate;
 
-import pitstop.Core.Middleware.Issues.AdminIssueManager;
-import pitstop.Core.Middleware.Issues.DevIssueManager;
-import pitstop.Core.Middleware.Issues.EngineerIssueManager;
-import pitstop.Core.Models.Issues.Issue;
-import pitstop.Core.Models.Issues.IssueStatus;
-import pitstop.Core.Models.Users.Developer;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.Database.Models.Issues.DBIssue;
-import pitstop.Database.Models.Issues.IssuesDatabase;
+import com.pitstop.Core.Middleware.Issues.AdminIssueManager;
+import com.pitstop.Core.Middleware.Issues.DevIssueManager;
+import com.pitstop.Core.Middleware.Issues.EngineerIssueManager;
+import com.pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Models.Issues.IssueCategory;
+import com.pitstop.Core.Models.Issues.IssueStatus;
+import com.pitstop.Core.Models.Users.Developer;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Models.Issues.DBIssue;
+import com.pitstop.Database.Models.Issues.IssuesDatabase;
 
 public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
 
@@ -30,9 +31,11 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public void newIssueRequest(Issue issue) {
+	public String newIssueRequest(IssueCategory category, String description, Developer createdBy ) {
+		Issue issue = new Issue(category, description, createdBy);
 		DBIssue dbIssue = IssueUtil.cloneToDBIssue(issue);
 		IssuesDatabase.getInstance().add(dbIssue);
+		return dbIssue.issueID;
 	}
 
 	@Override

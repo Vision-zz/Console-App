@@ -1,16 +1,16 @@
-package pitstop.UserInterface.SessionManager;
+package com.pitstop.UserInterface.SessionManager;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import pitstop.Core.Middleware.Users.EmployeeDetailsManager;
-import pitstop.Core.Models.Users.Employee;
-import pitstop.Core.Models.Users.EmployeeRole;
-import pitstop.Database.Middleware.Users.EmployeeSignupManager;
-import pitstop.Database.Middleware.Users.SignUpStatus;
-import pitstop.Database.Models.Users.EmployeeDatabase;
+import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Models.Users.Employee;
+import com.pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Database.Middleware.Users.EmployeeSignupManager;
+import com.pitstop.Database.Middleware.Users.SignUpStatus;
+import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public final class Session {
 

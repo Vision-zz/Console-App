@@ -1,19 +1,19 @@
-package pitstop.UserInterface.ConsoleFrontend;
+package com.pitstop.UserInterface.ConsoleFrontend;
 
 import java.util.Collection;
 
-import pitstop.Core.Middleware.Issues.AdminIssueManager;
-import pitstop.Core.Middleware.Users.EmployeeDetailsManager;
-import pitstop.Core.Models.Issues.Issue;
-import pitstop.Core.Models.Users.Employee;
-import pitstop.Core.Models.Users.EmployeeRole;
-import pitstop.Core.Models.Users.SystemAdmin;
-import pitstop.Core.Models.Users.SystemEngineer;
-import pitstop.Database.Middleware.Issues.DBIssueManager;
-import pitstop.Database.Middleware.Users.DBEmployeeManager;
-import pitstop.UserInterface.Helpers.Logger;
-import pitstop.UserInterface.Helpers.Scanner;
-import pitstop.UserInterface.Helpers.Table;
+import com.pitstop.Core.Middleware.Issues.AdminIssueManager;
+import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Models.Issues.Issue;
+import com.pitstop.Core.Models.Users.Employee;
+import com.pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Core.Models.Users.SystemAdmin;
+import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.UserInterface.Helpers.Logger;
+import com.pitstop.UserInterface.Helpers.Scanner;
+import com.pitstop.UserInterface.Helpers.Table;
 
 public class AdminUIManager {
 
