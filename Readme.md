@@ -3,11 +3,13 @@
 
 A Java Console Application that works within the console implementing most of the OOP concepts.
 
+![GitHub](https://img.shields.io/github/license/Vision-zz/Console-App?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/Vision-zz/Console-App?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/Vision-zz/Console-App?style=for-the-badge)
 
 ## Concept
 
 A reporting system to create Issues and solve them within a organisation. Three different access levels allows access to create, assign and resolve Issues.
-
 
 ## Running the application
 
