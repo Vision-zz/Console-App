@@ -1,4 +1,5 @@
-/Test.*
-/bin
-/*.jar
-/*txt
+bin
+build
+Test*
+/*.txt
+.vscode

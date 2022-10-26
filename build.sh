@@ -1,8 +1,13 @@
 #!/bin/bash
+
 echo "Building source file"
-find . -name "*.java" > source.txt
+find ./com -name "*.java" > source.txt
 
 echo "Compiling java files"
+if ! [ -e bin/ ]
+	echo "bin folder not found. Creating..."
+	mkdir bin
+
 if javac -d bin/ @source.txt; then
 	echo "Successfully compiled java files"
 else 
@@ -11,7 +16,14 @@ else
 fi
 
 echo "Building JAR"
-jar cfve ./ConsoleApp.jar com/pitstop/App.class bin/
-jar uf ConsoleApp.jar lib/
+if ! [ -e build/ ]
+	echo "build folder not found. Creating..."
+	mkdir build
+
+cd bin/
+jar cfve ../build/ConsoleApp.jar com/pitstop/App com/
+
+cd ../
+jar uf ./build/ConsoleApp.jar lib/
 
 echo "Process complete"
