@@ -9,15 +9,11 @@ import com.pitstop.Core.Models.Issues.IssueCategory;
 public final class Developer extends Employee {
 
     private final DevIssueManager manager;
-
-    public Developer(String username, String password, String employeeName, DevIssueManager manager) {
-        super(username, password, employeeName, EmployeeRole.DEVELOPER);
-        this.manager = manager;
-    }
+    private static final EmployeeRole ROLE = EmployeeRole.DEVELOPER;
 
     public Developer(String username, String password, String employeeName, String employeeID,
             DevIssueManager manager) {
-        super(username, password, employeeName, EmployeeRole.DEVELOPER, employeeID);
+        super(username, password, employeeName, ROLE, employeeID);
         this.manager = manager;
     }
 

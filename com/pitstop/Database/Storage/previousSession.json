@@ -1,0 +1,10 @@
+{
+	"employeeDatabase": {
+		"currentID": 0,
+		"employees": []
+	},
+	"issueDatabase": {
+		"currentID": 0,
+		"issues": []
+	}
+}

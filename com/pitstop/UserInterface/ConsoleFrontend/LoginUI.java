@@ -1,16 +1,15 @@
 package com.pitstop.UserInterface.ConsoleFrontend;
 
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.EmployeeRole;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
-import com.pitstop.Database.Middleware.Users.EmployeeSignupManager;
-import com.pitstop.Database.Middleware.Users.SignUpStatus;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.SessionManager.Session;
 import com.pitstop.UserInterface.SessionManager.SignInStatus;
 
-public final class LoginManager {
+public final class LoginUI {
 
 	public SessionInitializeStatus initializeSession() {
 
@@ -140,9 +139,9 @@ public final class LoginManager {
 			} while (true);
 
 			EmployeeSignupManager manager = DBEmployeeManager.getInstance();
-			SignUpStatus status = manager.signUp(username, password, employeeName, employeeRole);
+			EmployeeSignupManager.SignUpStatus status = manager.signUp(username, password, employeeName, employeeRole);
 
-			while (status.equals(SignUpStatus.USERNAME_UNAVAILABLE)) {
+			while (status.equals(EmployeeSignupManager.SignUpStatus.USERNAME_UNAVAILABLE)) {
 
 				Logger.logWarning("Username not available. Press 1 to try again or any key to exit");
 				String confirm = Scanner.getString();

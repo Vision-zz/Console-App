@@ -8,11 +8,11 @@ import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 
-public class DeveloperUIManager {
+public class DeveloperUI {
 
 	private final Developer employee;
 
-	public DeveloperUIManager(Developer employee) {
+	public DeveloperUI(Developer employee) {
 		this.employee = employee;
 	}
 

@@ -15,11 +15,11 @@ import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.Helpers.Table;
 
-public class AdminUIManager {
+public class AdminUI {
 
 	private final SystemAdmin employee;
 
-	public AdminUIManager(SystemAdmin employee) {
+	public AdminUI(SystemAdmin employee) {
 		this.employee = employee;
 	}
 

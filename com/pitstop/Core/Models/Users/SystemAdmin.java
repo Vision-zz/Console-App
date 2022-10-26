@@ -12,17 +12,11 @@ public final class SystemAdmin extends Employee {
 
     private final AdminIssueManager issueManager;
     private final EmployeeDetailsManager employeeManager;
-
-    public SystemAdmin(String username, String password, String employeeName, AdminIssueManager issueManager,
-            EmployeeDetailsManager employeeManager) {
-        super(username, password, employeeName, EmployeeRole.SYSTEM_ADMIN);
-        this.issueManager = issueManager;
-        this.employeeManager = employeeManager;
-    }
+    private static final EmployeeRole ROLE = EmployeeRole.SYSTEM_ADMIN;
 
     public SystemAdmin(String username, String password, String employeeName, String employeeID, AdminIssueManager issueManager,
             EmployeeDetailsManager employeeManager) {
-        super(username, password, employeeName, EmployeeRole.SYSTEM_ADMIN, employeeID);
+        super(username, password, employeeName, ROLE, employeeID);
         this.issueManager = issueManager;
         this.employeeManager = employeeManager;
     }

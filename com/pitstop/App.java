@@ -8,10 +8,10 @@ import com.pitstop.Database.Middleware.Issues.DBIssueManager;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
 import com.pitstop.Database.Middleware.Users.EmployeeUtil;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
-import com.pitstop.UserInterface.ConsoleFrontend.AdminUIManager;
-import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUIManager;
-import com.pitstop.UserInterface.ConsoleFrontend.EngineerUIManager;
-import com.pitstop.UserInterface.ConsoleFrontend.LoginManager;
+import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
+import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUI;
+import com.pitstop.UserInterface.ConsoleFrontend.EngineerUI;
+import com.pitstop.UserInterface.ConsoleFrontend.LoginUI;
 import com.pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
@@ -20,11 +20,11 @@ import com.pitstop.UserInterface.SessionManager.Session;
 public class App {
 
     static {
-        SystemAdmin admin = new SystemAdmin("admin", "pass", "Shivaneesh", DBIssueManager.getInstance(),
+        SystemAdmin admin = new SystemAdmin("admin", "pass", "Shivaneesh", "0_ADMIN", DBIssueManager.getInstance(),
                 DBEmployeeManager.getInstance());
-        SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Ragav Suresh",
+        SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Ragav Suresh", "0_ENGINEER",
                 DBIssueManager.getInstance());
-        Developer developer = new Developer("developer", "pass", "Sathya Narayanan",
+        Developer developer = new Developer("developer", "pass", "Sathya Narayanan", "0_DEVELOPER",
                 DBIssueManager.getInstance());
 
         EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
@@ -38,7 +38,7 @@ public class App {
 
         MainLoop: while (true) {
 
-            SessionInitializeStatus status = new LoginManager().initializeSession();
+            SessionInitializeStatus status = new LoginUI().initializeSession();
             if (status.equals(SessionInitializeStatus.FAILED)) {
                 break MainLoop;
             }
@@ -53,15 +53,15 @@ public class App {
 
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:
-                    new AdminUIManager((SystemAdmin) loggedInEmployee).mainMenu();
+                    new AdminUI((SystemAdmin) loggedInEmployee).mainMenu();
                     break;
 
                 case SYSTEM_ENGINEER:
-                    new EngineerUIManager((SystemEngineer) loggedInEmployee).mainMenu();
+                    new EngineerUI((SystemEngineer) loggedInEmployee).mainMenu();
                     break;
 
                 case DEVELOPER:
-                    new DeveloperUIManager((Developer) loggedInEmployee).mainMenu();
+                    new DeveloperUI((Developer) loggedInEmployee).mainMenu();
                     break;
                 default:
                     Logger.logError("Unkonwn employee role");

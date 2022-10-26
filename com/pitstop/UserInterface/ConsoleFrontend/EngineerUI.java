@@ -7,11 +7,11 @@ import com.pitstop.Core.Models.Users.SystemEngineer;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 
-public class EngineerUIManager {
+public class EngineerUI {
 
 	private final SystemEngineer employee;
 
-	public EngineerUIManager(SystemEngineer employee) {
+	public EngineerUI(SystemEngineer employee) {
 		this.employee = employee;
 	}
 

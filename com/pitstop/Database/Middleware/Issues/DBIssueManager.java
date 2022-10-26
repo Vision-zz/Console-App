@@ -20,6 +20,7 @@ import com.pitstop.Database.Models.Issues.IssuesDatabase;
 public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
 
 	private static DBIssueManager instance = null;
+	private static int issueID = 0;
 
 	public static DBIssueManager getInstance() {
 		if (instance == null)
@@ -31,8 +32,8 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	}
 
 	@Override
-	public String newIssueRequest(IssueCategory category, String description, Developer createdBy ) {
-		Issue issue = new Issue(category, description, createdBy);
+	public String newIssueRequest(IssueCategory category, String description, Developer createdBy) {
+		Issue issue = new Issue(category.toString() + "_" + issueID++, category, description, createdBy);
 		DBIssue dbIssue = IssueUtil.cloneToDBIssue(issue);
 		IssuesDatabase.getInstance().add(dbIssue);
 		return dbIssue.issueID;

@@ -6,10 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
+import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.EmployeeRole;
-import com.pitstop.Database.Middleware.Users.EmployeeSignupManager;
-import com.pitstop.Database.Middleware.Users.SignUpStatus;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public final class Session {
@@ -99,7 +98,7 @@ public final class Session {
 
 	}
 
-	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole,
+	public EmployeeSignupManager.SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole,
 			EmployeeSignupManager manager) {
 		return manager.signUp(username, password, employeeName, employeeRole);
 
