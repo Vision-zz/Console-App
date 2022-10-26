@@ -15,18 +15,22 @@ A reporting system to create Issues and solve them within a organisation. Three 
 
 - Make sure you have JDK installed. You can find the download for your operating software [here](https://www.oracle.com/in/java/technologies/downloads/)
 
-- Clone this repository and cd into the folder
-```sh 
+- Clone this repository
+```bash 
 git clone https://github.com/Vision-zz/Console-App.git
+```
+
+- Go to the project directory
+```bash
 cd Console-App/
 ```
 
 - Run the shell script `build.sh` to compile and create a JAR file
-```sh
+```bash
 sh build.sh
 ```
 
 - Run the JAR file to start the Application
-```sh
+```bash
 java -jar ConsoleApp.jar
 ```
