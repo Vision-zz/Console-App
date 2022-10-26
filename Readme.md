@@ -34,3 +34,7 @@ sh build.sh
 ```bash
 java -jar ConsoleApp.jar
 ```
+
+## License
+
+> [MIT](https://choosealicense.com/licenses/mit/)
