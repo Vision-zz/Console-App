@@ -32,11 +32,23 @@
 				"issueID": "",
 				"category": "",
 				"description": "",
-				"assignedTo": "",
-				"createdBy": "",
+				"assignedTo": {
+					"username": "engineer",
+					"password": "pass",
+					"employeeName": "Engineer",
+					"employeeID": "SYSTEM_ENGINEER_0",
+					"employeeRole": "SYSTEM_ENGINEER"
+				},
+				"createdBy": {
+					"username": "developer",
+					"password": "pass",
+					"employeeName": "developer",
+					"employeeID": "DEVELOPER_0",
+					"employeeRole": "DEVELOPER"
+				},
 				"status": "",
-				"createdAt": -1,
-				"resolvedAt": -1
+				"createdAt": 1666893195484,
+				"resolvedAt": null
 			}
 		]
 	}

@@ -15,7 +15,7 @@ public class EngineerUI {
 		this.employee = employee;
 	}
 
-	public void mainMenu() {
+	public void showUserInterface() {
 		do {
 
 			Logger.logInfo(

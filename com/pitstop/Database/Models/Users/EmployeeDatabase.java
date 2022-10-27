@@ -7,9 +7,10 @@ import com.pitstop.Database.Models.DatabaseFunctions;
 public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
 
     private final HashMap<String, DBEmployee> employees;
+    private int currentEmployeeID = 0;
 
     private static EmployeeDatabase instance = null;
-
+    
     public static EmployeeDatabase getInstance() {
         if (instance == null)
             instance = new EmployeeDatabase();
@@ -18,6 +19,16 @@ public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
 
     private EmployeeDatabase() {
         employees = new HashMap<String, DBEmployee>();
+    }
+
+    @Override
+    public int getCurrentID() {
+        return this.currentEmployeeID;
+    }
+
+    @Override
+    public void updateCurrentID(int ID) {
+        this.currentEmployeeID = ID;
     }
 
     @Override

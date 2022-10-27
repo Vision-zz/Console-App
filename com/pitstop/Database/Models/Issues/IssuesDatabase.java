@@ -6,6 +6,7 @@ import com.pitstop.Database.Models.DatabaseFunctions;
 
 public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
      private final HashMap<String, DBIssue> issues;
+     private int currentIssueID = 0;
 
      private static IssuesDatabase instance = null;
 
@@ -19,10 +20,22 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
           this.issues = new HashMap<String, DBIssue>();
      }
 
+     
+     @Override
+     public int getCurrentID() {
+          return this.currentIssueID;
+     }
+
+     @Override
+     public void updateCurrentID(int ID) {
+        this.currentIssueID = ID;
+     }
+
      @Override
      public DBIssue get(String ID) {
           return this.issues.get(ID);
      }
+
 
      @Override
      public HashMap<String, DBIssue> getAll() {

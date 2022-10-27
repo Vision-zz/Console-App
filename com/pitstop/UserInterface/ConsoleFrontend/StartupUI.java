@@ -3,17 +3,54 @@ package com.pitstop.UserInterface.ConsoleFrontend;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Database.Middleware.Storage.DBStorageManager;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Models.DBStorageLoadable;
+import com.pitstop.Database.Storage.JSONDatamanager;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.SessionManager.Session;
 import com.pitstop.UserInterface.SessionManager.SignInStatus;
 
-public final class LoginUI {
+public final class StartupUI {
 
-	public SessionInitializeStatus initializeSession() {
+	public SessionInitializeStatus showUserInterface() {
 
 		Logger.logSuccess("---- Jogo Pitstop ----", "Select an option below");
+
+		do {
+			String input = Scanner.getString("Do you want to load previously saved data? [Y]es / [N]o");
+			if (!input.matches("[YyNn]")) {
+				Logger.logWarning("Please select a valid option");
+				continue;
+			}
+
+			if (input.toUpperCase().equals("Y")) {
+
+				JSONDatamanager.LoadType loadType;
+
+				do {
+					Logger.logInfo("Select the type of data to load into DB",
+							"1. Default data | 2. Previous session data");
+					String type = Scanner.getString();
+					if (!type.matches("[12]")) {
+						Logger.logWarning("Please select a valid option");
+						continue;
+					}
+
+					loadType = type.equals("1") ? JSONDatamanager.LoadType.DEFAULT
+							: JSONDatamanager.LoadType.LAST_SESSION;
+					break;
+				} while (true);
+
+				DBStorageLoadable manager = DBStorageManager.getInstance();
+
+				manager.loadDataToDB(new JSONDatamanager(loadType));
+			}
+
+			break;
+
+		} while (true);
 
 		do {
 

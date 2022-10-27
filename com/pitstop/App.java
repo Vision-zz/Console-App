@@ -1,17 +1,23 @@
 package com.pitstop;
 
+import java.io.IOException;
+
 import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
 import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Middleware.Storage.DBStorageManager;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
 import com.pitstop.Database.Middleware.Users.EmployeeUtil;
+import com.pitstop.Database.Models.DBStorageLoadable;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
+import com.pitstop.Database.Storage.JSONDatamanager;
+import com.pitstop.Database.Storage.JSONDatamanager.LoadType;
 import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
 import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUI;
 import com.pitstop.UserInterface.ConsoleFrontend.EngineerUI;
-import com.pitstop.UserInterface.ConsoleFrontend.LoginUI;
+import com.pitstop.UserInterface.ConsoleFrontend.StartupUI;
 import com.pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
@@ -38,7 +44,7 @@ public class App {
 
         MainLoop: while (true) {
 
-            SessionInitializeStatus status = new LoginUI().initializeSession();
+            SessionInitializeStatus status = new StartupUI().showUserInterface();
             if (status.equals(SessionInitializeStatus.FAILED)) {
                 break MainLoop;
             }
@@ -49,19 +55,17 @@ public class App {
             Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
             System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
 
-            
-
             switch (loggedInEmployee.getEmployeeRole()) {
                 case SYSTEM_ADMIN:
-                    new AdminUI((SystemAdmin) loggedInEmployee).mainMenu();
+                    new AdminUI((SystemAdmin) loggedInEmployee).showUserInterface();
                     break;
 
                 case SYSTEM_ENGINEER:
-                    new EngineerUI((SystemEngineer) loggedInEmployee).mainMenu();
+                    new EngineerUI((SystemEngineer) loggedInEmployee).showUserInterface();
                     break;
 
                 case DEVELOPER:
-                    new DeveloperUI((Developer) loggedInEmployee).mainMenu();
+                    new DeveloperUI((Developer) loggedInEmployee).showUserInterface();
                     break;
                 default:
                     Logger.logError("Unkonwn employee role");
@@ -90,8 +94,26 @@ public class App {
 
         }
 
-        System.out.println("\033[1;92m" + "_______________ ADIOS _______________" + "\033[0m\n");
+        do {
+            String input = Scanner.getString("Do you want to save your current session data? [Y]es / [N]o");
+            if (!input.matches("[YyNn]")) {
+                Logger.logWarning("Please select a valid option");
+                continue;
+            }
 
+            if (input.toUpperCase().equals("Y")) {
+                DBStorageLoadable manager = DBStorageManager.getInstance();
+                try {
+                    manager.saveDataFromDB(new JSONDatamanager(LoadType.LAST_SESSION));
+                } catch (IOException e) {
+                    Logger.logWarning("Error while writing to JSON file");
+                }
+            }
+
+            break;
+        } while (true);
+
+        System.out.println("\033[1;92m" + "_______________ ADIOS _______________" + "\033[0m\n");
 
     }
 

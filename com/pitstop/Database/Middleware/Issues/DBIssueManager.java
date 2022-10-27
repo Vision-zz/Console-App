@@ -21,28 +21,30 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 	private static DBIssueManager instance = null;
 	private static int issueID = 0;
+	private final IssuesDatabase database;
 
 	public static DBIssueManager getInstance() {
 		if (instance == null)
-			instance = new DBIssueManager();
+			instance = new DBIssueManager(IssuesDatabase.getInstance());
 		return instance;
 	}
 
-	private DBIssueManager() {
+	private DBIssueManager(IssuesDatabase database) {
+		this.database = database;
 	}
 
 	@Override
 	public String newIssueRequest(IssueCategory category, String description, Developer createdBy) {
 		Issue issue = new Issue(category.toString() + "_" + issueID++, category, description, createdBy);
 		DBIssue dbIssue = IssueUtil.cloneToDBIssue(issue);
-		IssuesDatabase.getInstance().add(dbIssue);
+		database.add(dbIssue);
 		return dbIssue.issueID;
 	}
 
 	@Override
 	public Collection<Issue> getAllIssues() {
 
-		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
+		Collection<DBIssue> dbIssues = database.getAll().values();
 
 		Collection<Issue> allIssues = new HashSet<>();
 		dbIssues.forEach(issue -> {
@@ -54,7 +56,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 	@Override
 	public Issue getIssue(String issueID) {
-		HashMap<String, DBIssue> dbIssues = IssuesDatabase.getInstance().getAll();
+		HashMap<String, DBIssue> dbIssues = database.getAll();
 		DBIssue dbIssue = dbIssues.get(issueID);
 		if (dbIssue == null)
 			return null;
@@ -64,7 +66,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	@Override
 	public Collection<Issue> getDevCreatedIssues(Developer developer) {
 
-		Collection<DBIssue> dbIssue = IssuesDatabase.getInstance().getAll().values();
+		Collection<DBIssue> dbIssue = database.getAll().values();
 
 		Predicate<DBIssue> predicate = issue -> !issue.getCreatedBy().getUsername().equals(developer.getUsername());
 		dbIssue.removeIf(predicate);
@@ -81,7 +83,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 	@Override
 	public Collection<Issue> getAssignedIssues(SystemEngineer engineer) {
 
-		Collection<DBIssue> dbIssues = IssuesDatabase.getInstance().getAll().values();
+		Collection<DBIssue> dbIssues = database.getAll().values();
 
 		Predicate<DBIssue> predicate = issue -> (issue.getAssignedTo() == null
 				|| !issue.getAssignedTo().getUsername().equals(engineer.getUsername())
@@ -98,7 +100,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 	@Override
 	public void assignIssue(Issue issue, SystemEngineer engineer) throws RuntimeException {
-		DBIssue dbIssue = IssuesDatabase.getInstance().get(issue.issueID);
+		DBIssue dbIssue = database.get(issue.issueID);
 		if (dbIssue == null) {
 			throw new RuntimeException(
 					"Unknown Issue. Issue ID: " + issue.issueID + " is invalid or the Issue does not exist");
@@ -107,13 +109,13 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		updatedIssue.assignEngineer(engineer);
 		updatedIssue.updateStatus(IssueStatus.IN_PROGRESS);
 
-		IssuesDatabase.getInstance().udpate(IssueUtil.cloneToDBIssue(updatedIssue));
+		database.udpate(IssueUtil.cloneToDBIssue(updatedIssue));
 		return;
 	}
 
 	@Override
 	public void resolveIssue(Issue issue) throws RuntimeException {
-		DBIssue dbIssue = IssuesDatabase.getInstance().get(issue.issueID);
+		DBIssue dbIssue = database.get(issue.issueID);
 		if (dbIssue == null) {
 			throw new RuntimeException(
 					"Unknown Issue. Issue ID: " + issue.issueID + " is invalid or the Issue does not exist");
@@ -123,7 +125,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 		updatedIssue.updateStatus(IssueStatus.RESOLVED);
 		updatedIssue.setResolvedAt(new Date());
 
-		IssuesDatabase.getInstance().udpate(IssueUtil.cloneToDBIssue(updatedIssue));
+		database.udpate(IssueUtil.cloneToDBIssue(updatedIssue));
 		return;
 	}
 

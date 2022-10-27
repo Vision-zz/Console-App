@@ -2,6 +2,9 @@ package com.pitstop.Database.Storage;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -12,14 +15,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.pitstop.Core.Models.Issues.Issue;
-
+import com.pitstop.Database.Middleware.Storage.StorageParseable;
 import com.pitstop.Database.Models.Issues.DBIssue;
-import com.pitstop.Database.Models.Issues.IssueStorageManager;
 import com.pitstop.Database.Models.Users.DBEmployee;
-import com.pitstop.Database.Models.Users.EmployeeStorageManager;
 
-public final class JSONDatamanager implements IssueStorageManager, EmployeeStorageManager {
+public final class JSONDatamanager implements StorageParseable {
 
 	public enum LoadType {
 		DEFAULT,
@@ -27,12 +27,12 @@ public final class JSONDatamanager implements IssueStorageManager, EmployeeStora
 	}
 
 	private class IssueJSON {
-		private int currentID;
+		private Integer currentID;
 		private List<DBIssue> issues = new ArrayList<DBIssue>();
 	}
 
 	private class EmployeeJson {
-		private int currentID;
+		private Integer currentID;
 		private List<DBEmployee> employees = new ArrayList<DBEmployee>();
 	}
 
@@ -46,20 +46,32 @@ public final class JSONDatamanager implements IssueStorageManager, EmployeeStora
 	private static final String PREVIOUS_SESSION_JSON_FILENAME = "previousSession";
 
 	private final ParsedJson parsedJson;
+	private final Gson gson = new GsonBuilder().serializeNulls().create();
 
-	JSONDatamanager(LoadType type) {
+	public JSONDatamanager(LoadType type) {
 		String location;
 		if (type.equals(LoadType.DEFAULT))
 			location = BASE_LOCATION + DEFAULT_JSON_FILENAME;
 		else
 			location = BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME;
 
-		Gson gson = new GsonBuilder().serializeNulls().create();
 		try {
 			parsedJson = gson.fromJson(new FileReader(location), ParsedJson.class);
 		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
 			throw new RuntimeException("Error while parsing json through GSON", e);
 		}
+	}
+
+	@Override
+	public boolean validateData() {
+		if (parsedJson == null || parsedJson.issueDatabase == null || parsedJson.employeeDatabase == null)
+			return false;
+		if (parsedJson.issueDatabase.currentID == null || parsedJson.employeeDatabase.currentID == null)
+			return false;
+		if (parsedJson.issueDatabase.issues == null || parsedJson.employeeDatabase.employees == null)
+			return false;
+
+		return true;
 	}
 
 	@Override
@@ -77,9 +89,14 @@ public final class JSONDatamanager implements IssueStorageManager, EmployeeStora
 	}
 
 	@Override
-	public void saveEmployees(int currentIssueID, Collection<DBEmployee> employees) {
-		// TODO Auto-generated method stub
-
+	public void saveEmployees(int currentEmployeeID, Collection<DBEmployee> employees)
+			throws IOException {
+		this.parsedJson.employeeDatabase.currentID = currentEmployeeID;
+		this.parsedJson.employeeDatabase.employees = new ArrayList<DBEmployee>(employees);
+		Writer fileWriter = new FileWriter(BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME);
+		gson.toJson(parsedJson, fileWriter);
+		fileWriter.flush();
+		fileWriter.close();
 	}
 
 	@Override
@@ -97,9 +114,13 @@ public final class JSONDatamanager implements IssueStorageManager, EmployeeStora
 	}
 
 	@Override
-	public void saveIssues(int currentIssueID, Collection<Issue> issues) {
-		// TODO Auto-generated method stub
-
+	public void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException {
+		this.parsedJson.issueDatabase.currentID = currentIssueID;
+		this.parsedJson.issueDatabase.issues = new ArrayList<DBIssue>(issues);
+		Writer fileWriter = new FileWriter(BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME);
+		gson.toJson(parsedJson, fileWriter);
+		fileWriter.flush();
+		fileWriter.close();
 	}
 
 }

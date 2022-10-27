@@ -6,6 +6,10 @@ public interface DatabaseFunctions<T> {
 
     public T get(String ID);
 
+    public int getCurrentID();
+
+    public void updateCurrentID(int ID);
+
     public HashMap<String, T> getAll();
 
     public void add(T t);

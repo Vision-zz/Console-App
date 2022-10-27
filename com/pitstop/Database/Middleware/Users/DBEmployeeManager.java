@@ -18,19 +18,21 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 
 	private static DBEmployeeManager instance = null;
 	private static int employeeID = 0;
+	private final EmployeeDatabase database;
 
 	public static DBEmployeeManager getInstance() {
 		if (instance == null)
-			instance = new DBEmployeeManager();
+			instance = new DBEmployeeManager(EmployeeDatabase.getInstance());
 		return instance;
 	}
 
-	private DBEmployeeManager() {
+	private DBEmployeeManager(EmployeeDatabase database) {
+		this.database = database;
 	}
 
 	@Override
 	public Collection<Employee> getAllEmployees() {
-		Collection<DBEmployee> dbEmployees = EmployeeDatabase.getInstance().getAll().values();
+		Collection<DBEmployee> dbEmployees = database.getAll().values();
 		Collection<Employee> allEmployees = new HashSet<>();
 		dbEmployees.forEach(employee -> {
 			allEmployees.add(EmployeeUtil.cloneToEmployee(employee));
@@ -40,7 +42,7 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 
 	@Override
 	public Employee getEmployee(String username) {
-		DBEmployee dbEmployee = EmployeeDatabase.getInstance().get(username);
+		DBEmployee dbEmployee = database.get(username);
 		if (dbEmployee == null)
 			return null;
 		return EmployeeUtil.cloneToEmployee(dbEmployee);
@@ -48,7 +50,7 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 
 	@Override
 	public Employee getEmployeeByID(String employeeID) {
-		Collection<DBEmployee> dbEmployee = EmployeeDatabase.getInstance().getAll().values();
+		Collection<DBEmployee> dbEmployee = database.getAll().values();
 
 		Employee employee = null;
 		for (DBEmployee e : dbEmployee) {
@@ -61,7 +63,7 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 
 	@Override
 	public SignUpStatus signUp(String username, String password, String employeeName, EmployeeRole employeeRole) {
-		DBEmployee employee = EmployeeDatabase.getInstance().get(username);
+		DBEmployee employee = database.get(username);
 		if (employee != null) {
 			return SignUpStatus.USERNAME_UNAVAILABLE;
 		}
@@ -86,7 +88,7 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 		}
 
 		DBEmployee dbEmployee = EmployeeUtil.cloneToDBEmployee(newEmployee);
-		EmployeeDatabase.getInstance().add(dbEmployee);
+		database.add(dbEmployee);
 		return SignUpStatus.SUCCESS;
 	}
 

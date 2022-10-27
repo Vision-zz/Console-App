@@ -23,7 +23,7 @@ public class AdminUI {
 		this.employee = employee;
 	}
 
-	public void mainMenu() {
+	public void showUserInterface() {
 		do {
 
 			Logger.logInfo(
