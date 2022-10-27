@@ -43,7 +43,7 @@ public final class JSONDatamanager implements StorageParseable {
 
 	private static final String BASE_LOCATION = "./com/pitstop/Database/Storage/";
 	private static final String DEFAULT_JSON_FILENAME = "defaultSession.json";
-	private static final String PREVIOUS_SESSION_JSON_FILENAME = "previousSession";
+	private static final String PREVIOUS_SESSION_JSON_FILENAME = "previousSession.json";
 
 	private final ParsedJson parsedJson;
 	private final Gson gson = new GsonBuilder().serializeNulls().create();

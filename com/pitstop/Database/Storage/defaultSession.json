@@ -29,9 +29,9 @@
 		"currentID": 4,
 		"issues": [
 			{
-				"issueID": "",
-				"category": "",
-				"description": "",
+				"issueID": "SOFTWARE_0",
+				"category": "SOFTWARE",
+				"description": "This is a issue",
 				"assignedTo": {
 					"username": "engineer",
 					"password": "pass",
@@ -46,8 +46,8 @@
 					"employeeID": "DEVELOPER_0",
 					"employeeRole": "DEVELOPER"
 				},
-				"status": "",
-				"createdAt": 1666893195484,
+				"status": "IN_PROGRESS",
+				"createdAt": null,
 				"resolvedAt": null
 			}
 		]

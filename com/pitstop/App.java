@@ -6,12 +6,8 @@ import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Issues.DBIssueManager;
 import com.pitstop.Database.Middleware.Storage.DBStorageManager;
-import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
-import com.pitstop.Database.Middleware.Users.EmployeeUtil;
 import com.pitstop.Database.Models.DBStorageLoadable;
-import com.pitstop.Database.Models.Users.EmployeeDatabase;
 import com.pitstop.Database.Storage.JSONDatamanager;
 import com.pitstop.Database.Storage.JSONDatamanager.LoadType;
 import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
@@ -25,22 +21,59 @@ import com.pitstop.UserInterface.SessionManager.Session;
 
 public class App {
 
-    static {
-        SystemAdmin admin = new SystemAdmin("admin", "pass", "Admin Alpha", "0_ADMIN", DBIssueManager.getInstance(),
-                DBEmployeeManager.getInstance());
-        SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Engineer Echo", "0_ENGINEER",
-                DBIssueManager.getInstance());
-        Developer developer = new Developer("developer", "pass", "Developer Delta", "0_DEVELOPER",
-                DBIssueManager.getInstance());
+    // static {
+    // SystemAdmin admin = new SystemAdmin("admin", "pass", "Admin Alpha",
+    // "0_ADMIN", DBIssueManager.getInstance(),
+    // DBEmployeeManager.getInstance());
+    // SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Engineer
+    // Echo", "0_ENGINEER",
+    // DBIssueManager.getInstance());
+    // Developer developer = new Developer("developer", "pass", "Developer Delta",
+    // "0_DEVELOPER",
+    // DBIssueManager.getInstance());
 
-        EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
-        employeeDB.add(EmployeeUtil.cloneToDBEmployee(admin));
-        employeeDB.add(EmployeeUtil.cloneToDBEmployee(engineer));
-        employeeDB.add(EmployeeUtil.cloneToDBEmployee(developer));
+    // EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
+    // employeeDB.add(EmployeeUtil.cloneToDBEmployee(admin));
+    // employeeDB.add(EmployeeUtil.cloneToDBEmployee(engineer));
+    // employeeDB.add(EmployeeUtil.cloneToDBEmployee(developer));
 
-    }
+    // }
 
     public static void main(String[] args) {
+
+        do {
+
+            String loadConfirmation = Scanner.getString("Do you want to load previously saved data? [Y]es / [N]o");
+            if (!loadConfirmation.matches("[YyNn]")) {
+                Logger.logWarning("Please select a valid option");
+                continue;
+            }
+
+            if (loadConfirmation.toUpperCase().equals("Y")) {
+
+                JSONDatamanager.LoadType loadType;
+
+                do {
+                    Logger.logInfo("Select the type of data to load into DB",
+                            "1. Default data | 2. Previous session data");
+                    String type = Scanner.getString();
+                    if (!type.matches("[12]")) {
+                        Logger.logWarning("Please select a valid option");
+                        continue;
+                    }
+
+                    loadType = type.equals("1") ? JSONDatamanager.LoadType.DEFAULT
+                            : JSONDatamanager.LoadType.LAST_SESSION;
+                    break;
+                } while (true);
+
+                DBStorageLoadable manager = DBStorageManager.getInstance();
+
+                manager.loadDataToDB(new JSONDatamanager(loadType));
+            }
+
+            break;
+        } while (true);
 
         MainLoop: while (true) {
 
