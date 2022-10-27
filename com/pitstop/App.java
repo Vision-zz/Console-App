@@ -20,11 +20,11 @@ import com.pitstop.UserInterface.SessionManager.Session;
 public class App {
 
     static {
-        SystemAdmin admin = new SystemAdmin("admin", "pass", "Shivaneesh", "0_ADMIN", DBIssueManager.getInstance(),
+        SystemAdmin admin = new SystemAdmin("admin", "pass", "Admin Alpha", "0_ADMIN", DBIssueManager.getInstance(),
                 DBEmployeeManager.getInstance());
-        SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Ragav Suresh", "0_ENGINEER",
+        SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Engineer Echo", "0_ENGINEER",
                 DBIssueManager.getInstance());
-        Developer developer = new Developer("developer", "pass", "Sathya Narayanan", "0_DEVELOPER",
+        Developer developer = new Developer("developer", "pass", "Developer Delta", "0_DEVELOPER",
                 DBIssueManager.getInstance());
 
         EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();

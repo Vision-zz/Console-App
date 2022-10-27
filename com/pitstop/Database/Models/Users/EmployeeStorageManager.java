@@ -1,12 +1,13 @@
 package com.pitstop.Database.Models.Users;
 
 import java.util.Collection;
-
-import com.pitstop.Core.Models.Users.Employee;
+import java.util.Map;
 
 public interface EmployeeStorageManager {
 	int getCurrentEmployeeID();
-	Collection<Employee> getEmployees();
-	void saveEmployees(int currentIssueID, Collection<Employee> employees);
+
+	Map<String, DBEmployee> getEmployees();
+
+	void saveEmployees(int currentIssueID, Collection<DBEmployee> employees);
 
 }

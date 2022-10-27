@@ -21,7 +21,7 @@ public class Issue {
         this.category = category;
         this.createdBy = createdBy;
         this.description = description;
-        this.status = IssueStatus.ACTIVE;
+        this.status = IssueStatus.OPEN;
         this.createdAt = new Date();
     }
 

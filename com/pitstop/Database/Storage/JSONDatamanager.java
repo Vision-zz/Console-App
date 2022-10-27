@@ -1,80 +1,105 @@
 package com.pitstop.Database.Storage;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.pitstop.Core.Models.Issues.Issue;
-import com.pitstop.Core.Models.Users.Employee;
+
+import com.pitstop.Database.Models.Issues.DBIssue;
 import com.pitstop.Database.Models.Issues.IssueStorageManager;
+import com.pitstop.Database.Models.Users.DBEmployee;
 import com.pitstop.Database.Models.Users.EmployeeStorageManager;
 
 public final class JSONDatamanager implements IssueStorageManager, EmployeeStorageManager {
 
-	enum JSONTypes {
+	public enum LoadType {
 		DEFAULT,
-		LAST_SESSION;
+		LAST_SESSION
 	}
 
-	private final JSONObject employeeDatabase;
-	private final JSONObject issueDatabase;
+	private class IssueJSON {
+		private int currentID;
+		private List<DBIssue> issues = new ArrayList<DBIssue>();
+	}
 
-	public JSONDatamanager(JSONTypes jsonType) throws ParseException {
-		JSONParser parser = new JSONParser();
+	private class EmployeeJson {
+		private int currentID;
+		private List<DBEmployee> employees = new ArrayList<DBEmployee>();
+	}
 
-		JSONObject object;
-		switch (jsonType) {
-			case DEFAULT:
-				object = (JSONObject) parser.parse("/com/pitstop/Database/Storage/defaultSession.json");
-				break;
+	private class ParsedJson {
+		private EmployeeJson employeeDatabase = new EmployeeJson();
+		private IssueJSON issueDatabase = new IssueJSON();
+	}
 
-			case LAST_SESSION:
-				object = (JSONObject) parser.parse("/com/pitstop/Database/Storage/previousSession.json");
-				break;
+	private static final String BASE_LOCATION = "./com/pitstop/Database/Storage/";
+	private static final String DEFAULT_JSON_FILENAME = "defaultSession.json";
+	private static final String PREVIOUS_SESSION_JSON_FILENAME = "previousSession";
 
-			default:
-				throw new RuntimeException("Unknown JSON type");
+	private final ParsedJson parsedJson;
+
+	JSONDatamanager(LoadType type) {
+		String location;
+		if (type.equals(LoadType.DEFAULT))
+			location = BASE_LOCATION + DEFAULT_JSON_FILENAME;
+		else
+			location = BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME;
+
+		Gson gson = new GsonBuilder().serializeNulls().create();
+		try {
+			parsedJson = gson.fromJson(new FileReader(location), ParsedJson.class);
+		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+			throw new RuntimeException("Error while parsing json through GSON", e);
 		}
-
-		employeeDatabase = (JSONObject) object.get("employeeDatabase");
-		issueDatabase = (JSONObject) object.get("issueDatabase");
 	}
 
 	@Override
 	public int getCurrentEmployeeID() {
-		int employeeID = (int) employeeDatabase.get("currentID");
-		return employeeID;
+		return parsedJson.employeeDatabase.currentID;
 	}
 
 	@Override
-	public Collection<Employee> getEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, DBEmployee> getEmployees() {
+		Map<String, DBEmployee> employees = new HashMap<>();
+		parsedJson.employeeDatabase.employees.forEach(employee -> {
+			employees.put(employee.getEmployeeID(), employee);
+		});
+		return employees;
 	}
 
 	@Override
-	public void saveEmployees(int currentIssueID, Collection<Employee> employees) {
+	public void saveEmployees(int currentIssueID, Collection<DBEmployee> employees) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public int getCurrentIssueID() {
-		int issueID = (int) issueDatabase.get("currentID");
-		return issueID;
+		return parsedJson.issueDatabase.currentID;
 	}
 
 	@Override
-	public Collection<Issue> getIssues() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, DBIssue> getIssues() {
+		Map<String, DBIssue> issues = new HashMap<>();
+		parsedJson.issueDatabase.issues.forEach(issue -> {
+			issues.put(issue.issueID, issue);
+		});
+		return issues;
 	}
 
 	@Override
 	public void saveIssues(int currentIssueID, Collection<Issue> issues) {
 		// TODO Auto-generated method stub
+
 	}
 
 }

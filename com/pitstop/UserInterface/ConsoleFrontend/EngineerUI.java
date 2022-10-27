@@ -67,7 +67,7 @@ public class EngineerUI {
 				issue = i;
 
 		if (issue == null) {
-			Logger.logError("Issue with ID: " + issueID + " does not exist or is not assigned to you ");
+			Logger.logError("Issue with ID: " + issueID + " does not exist or is not assigned to you");
 			Scanner.getString("Press any key to continue to main menu");
 			return;
 		}

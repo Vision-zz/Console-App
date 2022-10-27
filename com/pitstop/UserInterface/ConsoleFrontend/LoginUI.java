@@ -93,6 +93,22 @@ public final class LoginUI {
 
 		do {
 
+			EmployeeRole employeeRole;
+			do {
+				Logger.logInfo("Select a role from the list below", "1. System Admin", "2. System Engineer",
+						"3. Developer");
+				String role = Scanner.getString();
+
+				if (!role.matches("[123]")) {
+					Logger.logWarning("Please select a valid option");
+					continue;
+				}
+
+				employeeRole = role.equals("1") ? EmployeeRole.SYSTEM_ADMIN
+						: role.equals("2") ? EmployeeRole.SYSTEM_ENGINEER : EmployeeRole.DEVELOPER;
+				break;
+			} while (true);
+
 			String username = Scanner.getString("Enter username");
 
 			if (!username.matches("^([a-z0-9_]*)$") || username.length() < 3) {
@@ -121,22 +137,6 @@ public final class LoginUI {
 			}
 
 			String employeeName = Scanner.getString("Enter your full name");
-
-			EmployeeRole employeeRole;
-			do {
-				Logger.logInfo("Select a role from the list below", "1. System Admin", "2. System Engineer",
-						"3. Developer");
-				String role = Scanner.getString();
-
-				if (!role.matches("[123]")) {
-					Logger.logWarning("Please select a valid option");
-					continue;
-				}
-
-				employeeRole = role.equals("1") ? EmployeeRole.SYSTEM_ADMIN
-						: role.equals("2") ? EmployeeRole.SYSTEM_ENGINEER : EmployeeRole.DEVELOPER;
-				break;
-			} while (true);
 
 			EmployeeSignupManager manager = DBEmployeeManager.getInstance();
 			EmployeeSignupManager.SignUpStatus status = manager.signUp(username, password, employeeName, employeeRole);

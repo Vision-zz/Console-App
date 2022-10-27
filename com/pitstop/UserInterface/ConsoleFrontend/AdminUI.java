@@ -177,7 +177,7 @@ public class AdminUI {
 
 		this.employee.assignIssueToEngineer(issue, engineer);
 		Logger.logSuccess(
-				"Assigned Issue with ID: " + issue.issueID + " to Engineer " + employee.getEmployeeName());
+				"Assigned Issue with ID: " + issue.issueID + " to Engineer " + engineer.getEmployeeName());
 
 		Scanner.getString("Press any key to continue");
 		return;

@@ -35,8 +35,8 @@
 				"assignedTo": "",
 				"createdBy": "",
 				"status": "",
-				"createdAt": "",
-				"resolvedAt": ""
+				"createdAt": -1,
+				"resolvedAt": -1
 			}
 		]
 	}
