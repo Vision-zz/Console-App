@@ -25,14 +25,10 @@ git clone https://github.com/Vision-zz/Console-App.git
 cd Console-App/
 ```
 
-- Run the shell script `build.sh` to compile and create a JAR file
+- Run the shell scripts to compile and start the application
 ```bash
 sh build.sh
-```
-
-- Run the JAR file to start the Application
-```bash
-java -jar ConsoleApp.jar
+sh start.sh
 ```
 
 ## License
