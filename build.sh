@@ -9,7 +9,7 @@ if ! [ -e bin/ ]; then
 fi
 
 echo "Compiling java files"
-if javac -d bin/ -cp lib/**/*.jar @source.txt; then
+if javac -d bin/ -cp lib/*.jar @source.txt; then
 	echo "Successfully compiled java files"
 else 
 	echo "Error while compiling java file"
@@ -22,9 +22,35 @@ if ! [ -e build/ ]; then
 	mkdir build
 fi
 
-jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ . -C lib/gson-2.10/ .
+jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ ./com
 
-cd ../
-# jar uf ./build/ConsoleApp.jar lib/
+echo "Adding dependecies from lib folder"
+cd bin/
+if ! [ -e lib/ ]; then
+	echo "lib folder not found. Creating..."
+	mkdir lib
+fi
+
+cd lib/
+
+for jarFile in ../../lib/*.jar; do
+
+	name=`basename $jarFile .jar`
+	if [ $name == "*" ]; 
+		then continue
+	fi
+	
+	if ! [ -e $name ]; then
+		mkdir $name
+	fi
+
+	cd $name
+	jar xf "../$jarFile"
+
+	rm -rf META-INF
+	cd ../
+	jar uf ../../build/ConsoleApp.jar -C $name .
+
+done
 
 echo "Process complete"
