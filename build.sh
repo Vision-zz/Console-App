@@ -3,13 +3,13 @@
 echo "Building source file"
 find ./com -name "*.java" > source.txt
 
-echo "Compiling java files"
 if ! [ -e bin/ ]; then
 	echo "bin folder not found. Creating..."
 	mkdir bin
 fi
 
-if javac -d bin/ @source.txt; then
+echo "Compiling java files"
+if javac -d bin/ -cp lib/**/*.jar @source.txt; then
 	echo "Successfully compiled java files"
 else 
 	echo "Error while compiling java file"
@@ -22,10 +22,9 @@ if ! [ -e build/ ]; then
 	mkdir build
 fi
 
-cd bin/
-jar cfve ../build/ConsoleApp.jar com/pitstop/App com/
+jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ . lib/
 
 cd ../
-jar uf ./build/ConsoleApp.jar lib/
+# jar uf ./build/ConsoleApp.jar lib/
 
 echo "Process complete"
