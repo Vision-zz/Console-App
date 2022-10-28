@@ -22,7 +22,7 @@ if ! [ -e build/ ]; then
 	mkdir build
 fi
 
-jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ . lib/
+jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ . -C lib/gson-2.10/ .
 
 cd ../
 # jar uf ./build/ConsoleApp.jar lib/
