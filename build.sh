@@ -16,16 +16,26 @@ else
 	return
 fi
 
-echo "Copying JSON files to bin folder"
-for json_file in $(find ./com -name '*.json')
-do
-	cp -v $json_file bin/$json_file # Copying .json files into bin folder to add these into the JAR
-done
-
 echo "Building JAR"
 if ! [ -e build/ ]; then
 	echo "build folder not found. Creating..."
 	mkdir build # Creating a build folder inside the root directory to hold the .jar files
+fi
+
+if ! [ -e build/defaultSession.json ]; then
+	if ! [ -e ./defaultSession.json ]; then
+		echo "Creating defaultSession.json"
+		touch build/defaultSession.json
+	else 
+		echo "Copying defaultSession.json from root"
+		cp -v ./defaultSession.json build/defaultSession.json
+	fi
+fi
+		
+
+if ! [ -e build/previousSession.json ]; then
+	echo "Creating a previousSession.json"
+	touch build/previousSession.json # Creating a json file to store previous session's data. [!!!] THIS IS REQUIRED AND THE APP MIGHT NOT WORK AS EXPECTED WITHOUT THIS
 fi
 
 # WARNING! If you do not see a Manifext.txt in the root directory, you probably need to construct it or repull the repository
@@ -41,7 +51,8 @@ fi
 
 cd lib/ # cd into lib folder to extract jars
 
-# (╯°□°）╯︵ ┻━┻ Lazy to explain. Learn shell script to understand
+# (╯°□°）╯︵ ┻━┻ Lazy to explain. Learn shell script and how jar works to understand why I did this
+# PS: Search for fat jar or uber jar
 for jar_file in ../../lib/*.jar
 do
 

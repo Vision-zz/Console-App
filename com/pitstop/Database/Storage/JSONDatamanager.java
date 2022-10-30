@@ -41,15 +41,14 @@ public final class JSONDatamanager implements StorageParseable {
 		IssueJSON issueDatabase;
 
 		ParsedJson() {
-			employeeDatabase= new EmployeeJson();
+			employeeDatabase = new EmployeeJson();
 			issueDatabase = new IssueJSON();
 		}
 
 	}
 
-	private static final String BASE_LOCATION = "./com/pitstop/Database/Storage/";
-	private static final String DEFAULT_JSON_FILENAME = "defaultSession.json";
-	private static final String PREVIOUS_SESSION_JSON_FILENAME = "previousSession.json";
+	private static final String DEFAULT_JSON = "./defaultSession.json";
+	private static final String PREVIOUS_SESSION_JSON_FILENAME = "./previousSession.json";
 
 	private ParsedJson parsedJson;
 	private final Gson gson = new GsonBuilder().serializeNulls().create();
@@ -57,17 +56,18 @@ public final class JSONDatamanager implements StorageParseable {
 	public JSONDatamanager(LoadType type) {
 		String location;
 		if (type.equals(LoadType.DEFAULT))
-			location = BASE_LOCATION + DEFAULT_JSON_FILENAME;
+			location = DEFAULT_JSON;
 		else
-			location = BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME;
+			location = PREVIOUS_SESSION_JSON_FILENAME;
 
 		try {
 			parsedJson = gson.fromJson(new FileReader(location), ParsedJson.class);
 		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
-			throw new RuntimeException("Error while parsing json through GSON", e);
+			throw new RuntimeException("Error while parsing json through GSON. Cannot find file " + location, e);
 		}
 
-		if(parsedJson == null) parsedJson = new ParsedJson();
+		if (parsedJson == null)
+			parsedJson = new ParsedJson();
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public final class JSONDatamanager implements StorageParseable {
 			throws IOException {
 		this.parsedJson.employeeDatabase.currentID = currentEmployeeID;
 		this.parsedJson.employeeDatabase.employees = new ArrayList<DBEmployee>(employees);
-		Writer fileWriter = new FileWriter(BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME);
+		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
 		gson.toJson(parsedJson, fileWriter);
 		fileWriter.flush();
 		fileWriter.close();
@@ -128,7 +128,7 @@ public final class JSONDatamanager implements StorageParseable {
 		System.out.println(this.parsedJson.issueDatabase.currentID);
 		this.parsedJson.issueDatabase.currentID = currentIssueID;
 		this.parsedJson.issueDatabase.issues = new ArrayList<DBIssue>(issues);
-		Writer fileWriter = new FileWriter(BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME);
+		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
 		gson.toJson(parsedJson, fileWriter);
 		fileWriter.flush();
 		fileWriter.close();
