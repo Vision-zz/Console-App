@@ -27,25 +27,31 @@ public final class JSONDatamanager implements StorageParseable {
 	}
 
 	private class IssueJSON {
-		private Integer currentID;
-		private List<DBIssue> issues = new ArrayList<DBIssue>();
+		Integer currentID;
+		List<DBIssue> issues = new ArrayList<DBIssue>();
 	}
 
 	private class EmployeeJson {
-		private Integer currentID;
-		private List<DBEmployee> employees = new ArrayList<DBEmployee>();
+		Integer currentID;
+		List<DBEmployee> employees = new ArrayList<DBEmployee>();
 	}
 
 	private class ParsedJson {
-		private EmployeeJson employeeDatabase = new EmployeeJson();
-		private IssueJSON issueDatabase = new IssueJSON();
+		EmployeeJson employeeDatabase;
+		IssueJSON issueDatabase;
+
+		ParsedJson() {
+			employeeDatabase= new EmployeeJson();
+			issueDatabase = new IssueJSON();
+		}
+
 	}
 
 	private static final String BASE_LOCATION = "./com/pitstop/Database/Storage/";
 	private static final String DEFAULT_JSON_FILENAME = "defaultSession.json";
 	private static final String PREVIOUS_SESSION_JSON_FILENAME = "previousSession.json";
 
-	private final ParsedJson parsedJson;
+	private ParsedJson parsedJson;
 	private final Gson gson = new GsonBuilder().serializeNulls().create();
 
 	public JSONDatamanager(LoadType type) {
@@ -60,6 +66,8 @@ public final class JSONDatamanager implements StorageParseable {
 		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
 			throw new RuntimeException("Error while parsing json through GSON", e);
 		}
+
+		if(parsedJson == null) parsedJson = new ParsedJson();
 	}
 
 	@Override
@@ -115,6 +123,9 @@ public final class JSONDatamanager implements StorageParseable {
 
 	@Override
 	public void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException {
+		System.out.println(this.parsedJson);
+		System.out.println(this.parsedJson.issueDatabase);
+		System.out.println(this.parsedJson.issueDatabase.currentID);
 		this.parsedJson.issueDatabase.currentID = currentIssueID;
 		this.parsedJson.issueDatabase.issues = new ArrayList<DBIssue>(issues);
 		Writer fileWriter = new FileWriter(BASE_LOCATION + PREVIOUS_SESSION_JSON_FILENAME);

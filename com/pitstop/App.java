@@ -137,7 +137,8 @@ public class App {
             if (input.toUpperCase().equals("Y")) {
                 DBStorageLoadable manager = DBStorageManager.getInstance();
                 try {
-                    manager.saveDataFromDB(new JSONDatamanager(LoadType.LAST_SESSION));
+                    JSONDatamanager dataManager = new JSONDatamanager(LoadType.LAST_SESSION);
+                    manager.saveDataFromDB(dataManager);
                 } catch (IOException e) {
                     Logger.logWarning("Error while writing to JSON file");
                 }

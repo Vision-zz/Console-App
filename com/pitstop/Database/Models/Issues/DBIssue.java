@@ -4,21 +4,20 @@ import java.util.Date;
 
 import com.pitstop.Core.Models.Issues.IssueCategory;
 import com.pitstop.Core.Models.Issues.IssueStatus;
-import com.pitstop.Core.Models.Users.Developer;
-import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Models.Users.DBEmployee;
 
 public final class DBIssue {
     public final String issueID;
     private final IssueCategory category;
     private final String description;
-    private final SystemEngineer assignedTo;
-    private final Developer createdBy;
+    private final DBEmployee assignedTo;
+    private final DBEmployee createdBy;
     private final IssueStatus status;
     private final Date createdAt;
     private final Date resolvedAt;
 
-    public DBIssue(String issueID, IssueCategory category, String description, SystemEngineer assignedTo,
-            Developer createdBy, IssueStatus status, Date createdAt, Date resolvedAt) {
+    public DBIssue(String issueID, IssueCategory category, String description, DBEmployee assignedTo,
+            DBEmployee createdBy, IssueStatus status, Date createdAt, Date resolvedAt) {
         this.issueID = issueID;
         this.category = category;
         this.createdBy = createdBy;
@@ -41,11 +40,11 @@ public final class DBIssue {
         return description;
     }
 
-    public SystemEngineer getAssignedTo() {
+    public DBEmployee getAssignedTo() {
         return assignedTo;
     }
 
-    public Developer getCreatedBy() {
+    public DBEmployee getCreatedBy() {
         return createdBy;
     }
 

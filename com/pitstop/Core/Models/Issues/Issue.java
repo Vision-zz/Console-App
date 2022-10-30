@@ -89,7 +89,7 @@ public class Issue {
         string += "|_ Category: " + this.getCategory().toString() + newLine;
         string += "|_ Created By: " + this.getCreatedBy().getEmployeeName() + " EID: " + this.getCreatedBy().getEmployeeID() + newLine;
         string += "|_ Current Status: " + this.getStatus().toString() + newLine;
-        if (!this.getStatus().toString().equals("ACTIVE")) {
+        if (!this.getStatus().toString().equals("OPEN")) {
             string += "|_ Engineer: " + this.getAssignedEngineer().getEmployeeName() + " EID: " + this.getAssignedEngineer().getEmployeeID() +  newLine;
         }
 
