@@ -21,24 +21,6 @@ import com.pitstop.UserInterface.SessionManager.Session;
 
 public class App {
 
-    // static {
-    // SystemAdmin admin = new SystemAdmin("admin", "pass", "Admin Alpha",
-    // "0_ADMIN", DBIssueManager.getInstance(),
-    // DBEmployeeManager.getInstance());
-    // SystemEngineer engineer = new SystemEngineer("engineer", "pass", "Engineer
-    // Echo", "0_ENGINEER",
-    // DBIssueManager.getInstance());
-    // Developer developer = new Developer("developer", "pass", "Developer Delta",
-    // "0_DEVELOPER",
-    // DBIssueManager.getInstance());
-
-    // EmployeeDatabase employeeDB = EmployeeDatabase.getInstance();
-    // employeeDB.add(EmployeeUtil.cloneToDBEmployee(admin));
-    // employeeDB.add(EmployeeUtil.cloneToDBEmployee(engineer));
-    // employeeDB.add(EmployeeUtil.cloneToDBEmployee(developer));
-
-    // }
-
     public static void main(String[] args) {
 
         do {
@@ -56,6 +38,7 @@ public class App {
                 do {
                     Logger.logInfo("Select the type of data to load into DB",
                             "1. Default data | 2. Previous session data");
+                            
                     String type = Scanner.getString();
                     if (!type.matches("[12]")) {
                         Logger.logWarning("Please select a valid option");
