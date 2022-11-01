@@ -25,16 +25,6 @@ if ! [ -e build/ ]; then
 	mkdir build # Creating a build folder inside the root directory to hold the .jar files
 fi
 
-# if ! [ -e build/defaultSession.json ]; then
-# 	if ! [ -e ./defaultSession.json ]; then
-# 		echo "Creating defaultSession.json"
-# 		touch build/defaultSession.json
-# 	else
-# 		echo "Copying defaultSession.json from root"
-# 		cp -v ./defaultSession.json build/defaultSession.json
-# 	fi
-# fi
-
 if ! [ -e build/previousSession.json ]; then
 	echo "Creating a previousSession.json"
 	touch build/previousSession.json # Creating a json file to store previous session's data. [!!!] THIS IS REQUIRED AND THE APP MIGHT NOT WORK AS EXPECTED WITHOUT THIS
