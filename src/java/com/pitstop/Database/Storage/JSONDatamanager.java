@@ -1,9 +1,12 @@
 package com.pitstop.Database.Storage;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,23 +50,31 @@ public final class JSONDatamanager implements StorageParseable {
 
 	}
 
-	private static final String DEFAULT_JSON = "./defaultSession.json";
+	private static final String DEFAULT_JSON = "json/defaultSession.json";
 	private static final String PREVIOUS_SESSION_JSON_FILENAME = "./previousSession.json";
 
 	private ParsedJson parsedJson;
 	private final Gson gson = new GsonBuilder().serializeNulls().create();
 
-	public JSONDatamanager(LoadType type) {
-		String location;
-		if (type.equals(LoadType.DEFAULT))
-			location = DEFAULT_JSON;
-		else
-			location = PREVIOUS_SESSION_JSON_FILENAME;
+	public JSONDatamanager(LoadType type) throws IOException {
 
-		try {
-			parsedJson = gson.fromJson(new FileReader(location), ParsedJson.class);
-		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
-			throw new RuntimeException("Error while parsing json through GSON. Cannot find file " + location, e);
+		if (type.equals(LoadType.DEFAULT)) {
+			InputStream stream = JSONDatamanager.class.getClassLoader().getResourceAsStream(DEFAULT_JSON);
+			parsedJson = gson.fromJson(new InputStreamReader(stream), ParsedJson.class);
+		}
+
+		else {
+
+			File previousSessionFile = new File(PREVIOUS_SESSION_JSON_FILENAME);
+			if (!previousSessionFile.isFile())
+				previousSessionFile.createNewFile();
+
+			try {
+				parsedJson = gson.fromJson(new FileReader(PREVIOUS_SESSION_JSON_FILENAME), ParsedJson.class);
+			} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+				throw new RuntimeException(
+						"Error while parsing json through GSON. Cannot find file " + PREVIOUS_SESSION_JSON_FILENAME, e);
+			}
 		}
 
 		if (parsedJson == null)

@@ -13,8 +13,8 @@ import com.pitstop.Database.Storage.JSONDatamanager.LoadType;
 import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
 import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUI;
 import com.pitstop.UserInterface.ConsoleFrontend.EngineerUI;
-import com.pitstop.UserInterface.ConsoleFrontend.StartupUI;
 import com.pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
+import com.pitstop.UserInterface.ConsoleFrontend.StartupUI;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.SessionManager.Session;
@@ -52,7 +52,11 @@ public class App {
 
                 DBStorageLoadable manager = DBStorageManager.getInstance();
 
-                manager.loadData(new JSONDatamanager(loadType));
+                try {
+                    manager.loadData(new JSONDatamanager(loadType));
+                } catch (IOException e) {
+                    Logger.logError("Cannot create previousSession.json file");
+                }
             }
 
             break;

@@ -4,10 +4,10 @@ echo "Starting Console App"
 
 cd build/
 
-if ! [ -e ./defaultSession.json ]; then
-	echo "defaultSession.json not found. Created a empty file"
-	touch defaultSession.json
-fi
+# if ! [ -e ./defaultSession.json ]; then
+# 	echo "defaultSession.json not found. Created a empty file"
+# 	touch defaultSession.json
+# fi
 
 if ! [ -e ./previousSession.json ]; then
 	echo "previousSession.json not found. Created a empty file"

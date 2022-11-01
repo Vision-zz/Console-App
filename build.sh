@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Building source file"
-find ./com -name "*.java" >source.txt # Building a source.txt which contains all the locations of the .java files
+find ./src/java/com -name "*.java" >source.txt # Building a source.txt which contains all the locations of the .java files
 
 if ! [ -e bin/ ]; then
 	echo "bin folder not found. Creating..."
@@ -16,21 +16,24 @@ else
 	return
 fi
 
+echo "Copying resources into bin folder"
+cp -r src/resources bin/
+
 echo "Building JAR"
 if ! [ -e build/ ]; then
 	echo "build folder not found. Creating..."
 	mkdir build # Creating a build folder inside the root directory to hold the .jar files
 fi
 
-if ! [ -e build/defaultSession.json ]; then
-	if ! [ -e ./defaultSession.json ]; then
-		echo "Creating defaultSession.json"
-		touch build/defaultSession.json
-	else
-		echo "Copying defaultSession.json from root"
-		cp -v ./defaultSession.json build/defaultSession.json
-	fi
-fi
+# if ! [ -e build/defaultSession.json ]; then
+# 	if ! [ -e ./defaultSession.json ]; then
+# 		echo "Creating defaultSession.json"
+# 		touch build/defaultSession.json
+# 	else
+# 		echo "Copying defaultSession.json from root"
+# 		cp -v ./defaultSession.json build/defaultSession.json
+# 	fi
+# fi
 
 if ! [ -e build/previousSession.json ]; then
 	echo "Creating a previousSession.json"
@@ -38,7 +41,7 @@ if ! [ -e build/previousSession.json ]; then
 fi
 
 # WARNING! If you do not see a Manifext.txt in the root directory, you probably need to construct it or repull the repository
-jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ ./com # Creating the jar file with custom Manifest.txt
+jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ com/ -C bin/resources . # Creating the jar file with custom Manifest.txt
 
 cd bin/ # cd into the bin folder to add with external libraries
 
