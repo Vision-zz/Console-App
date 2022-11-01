@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Starting Console App" 
+echo "Starting Console App"
 
 cd build/
 

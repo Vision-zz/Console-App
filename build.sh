@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Building source file"
-find ./com -name "*.java" > source.txt # Building a source.txt which contains all the locations of the .java files
+find ./com -name "*.java" >source.txt # Building a source.txt which contains all the locations of the .java files
 
 if ! [ -e bin/ ]; then
 	echo "bin folder not found. Creating..."
@@ -26,12 +26,11 @@ if ! [ -e build/defaultSession.json ]; then
 	if ! [ -e ./defaultSession.json ]; then
 		echo "Creating defaultSession.json"
 		touch build/defaultSession.json
-	else 
+	else
 		echo "Copying defaultSession.json from root"
 		cp -v ./defaultSession.json build/defaultSession.json
 	fi
 fi
-		
 
 if ! [ -e build/previousSession.json ]; then
 	echo "Creating a previousSession.json"
@@ -41,7 +40,7 @@ fi
 # WARNING! If you do not see a Manifext.txt in the root directory, you probably need to construct it or repull the repository
 jar cvfm build/ConsoleApp.jar Manifest.txt -C bin/ ./com # Creating the jar file with custom Manifest.txt
 
-cd bin/ # cd into the bin folder to add with external libraries 
+cd bin/ # cd into the bin folder to add with external libraries
 
 echo "Adding dependecies from lib folder"
 if ! [ -e lib/ ]; then
@@ -53,12 +52,11 @@ cd lib/ # cd into lib folder to extract jars
 
 # (╯°□°）╯︵ ┻━┻ Lazy to explain. Learn shell script and how jar works to understand why I did this
 # PS: Search for fat jar or uber jar
-for jar_file in ../../lib/*.jar
-do
+for jar_file in ../../lib/*.jar; do
 
-	jar_name=`basename $jar_file .jar`
-	if [ $jar_name == "*" ];
-		then continue
+	jar_name=$(basename $jar_file .jar)
+	if [ $jar_name == "*" ]; then
+		continue
 	fi
 
 	if ! [ -e $jar_name ]; then
