@@ -18,7 +18,7 @@ public final class Developer extends Employee {
     }
 
     public String createIssue(IssueCategory category, String description) {
-        String issueID = this.manager.newIssueRequest(category, description, this);
+        String issueID = this.manager.createIssue(category, description, this);
         return issueID;
     }
 

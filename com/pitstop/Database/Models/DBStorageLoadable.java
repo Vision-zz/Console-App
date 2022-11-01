@@ -5,6 +5,6 @@ import java.io.IOException;
 import com.pitstop.Database.Middleware.Storage.StorageParseable;
 
 public interface DBStorageLoadable {
-    public void loadDataToDB(StorageParseable parser);
-    public void saveDataFromDB(StorageParseable parser) throws IOException;
+    public void loadData(StorageParseable parser);
+    public void saveData(StorageParseable parser) throws IOException;
 }

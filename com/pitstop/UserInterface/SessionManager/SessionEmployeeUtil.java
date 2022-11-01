@@ -6,7 +6,7 @@ import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
 import com.pitstop.Database.Middleware.Issues.DBIssueManager;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
-import com.pitstop.Database.Middleware.Users.EmployeeUtil;
+import com.pitstop.Database.Middleware.Utils.EmployeeUtil;
 
 public class SessionEmployeeUtil extends EmployeeUtil {
 

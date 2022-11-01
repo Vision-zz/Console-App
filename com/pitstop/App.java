@@ -52,7 +52,7 @@ public class App {
 
                 DBStorageLoadable manager = DBStorageManager.getInstance();
 
-                manager.loadDataToDB(new JSONDatamanager(loadType));
+                manager.loadData(new JSONDatamanager(loadType));
             }
 
             break;
@@ -121,7 +121,7 @@ public class App {
                 DBStorageLoadable manager = DBStorageManager.getInstance();
                 try {
                     JSONDatamanager dataManager = new JSONDatamanager(LoadType.LAST_SESSION);
-                    manager.saveDataFromDB(dataManager);
+                    manager.saveData(dataManager);
                 } catch (IOException e) {
                     Logger.logWarning("Error while writing to JSON file");
                 }

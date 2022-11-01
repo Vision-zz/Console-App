@@ -1,10 +1,9 @@
-package com.pitstop.Database.Middleware.Issues;
+package com.pitstop.Database.Middleware.Utils;
 
 import com.pitstop.Core.Models.Issues.Issue;
 import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Users.EmployeeUtil;
 import com.pitstop.Database.Models.Issues.DBIssue;
 import com.pitstop.Database.Models.Users.DBEmployee;
 

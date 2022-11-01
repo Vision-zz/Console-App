@@ -11,13 +11,14 @@ import com.pitstop.Core.Models.Users.EmployeeRole;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
 import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Middleware.Utils.EmployeeUtil;
+import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Models.Users.DBEmployee;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 
 	private static DBEmployeeManager instance = null;
-	private static int employeeID = 0;
 	private final EmployeeDatabase database;
 
 	public static DBEmployeeManager getInstance() {
@@ -69,21 +70,21 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 		}
 
 		Employee newEmployee;
+		String employeeID = IDGenerator.generateEmployeeID(employeeRole);
 		switch (employeeRole) {
 			case SYSTEM_ADMIN:
-				newEmployee = new SystemAdmin(username, password, employeeName,
-						EmployeeRole.SYSTEM_ADMIN + "_" + employeeID++, DBIssueManager.getInstance(),
-						DBEmployeeManager.getInstance());
+				newEmployee = new SystemAdmin(username, password, employeeName, employeeID,
+						DBIssueManager.getInstance(), DBEmployeeManager.getInstance());
 				break;
 
 			case SYSTEM_ENGINEER:
-				newEmployee = new SystemEngineer(username, password, employeeName,
-						EmployeeRole.SYSTEM_ENGINEER + "_" + employeeID++, DBIssueManager.getInstance());
+				newEmployee = new SystemEngineer(username, password, employeeName, employeeID,
+						DBIssueManager.getInstance());
 				break;
 
 			default:
-				newEmployee = new Developer(username, password, employeeName,
-						EmployeeRole.DEVELOPER + "_" + employeeID++, DBIssueManager.getInstance());
+				newEmployee = new Developer(username, password, employeeName, employeeID,
+						DBIssueManager.getInstance());
 				break;
 		}
 

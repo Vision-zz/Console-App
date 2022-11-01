@@ -24,7 +24,7 @@ public class DBStorageManager implements DBStorageLoadable {
     }
 
     @Override
-    public void loadDataToDB(StorageParseable parser) {
+    public void loadData(StorageParseable parser) {
         if(!parser.validateData()) return;
         this.issuesDatabase.updateCurrentID(parser.getCurrentIssueID());
         this.employeeDatabase.updateCurrentID(parser.getCurrentEmployeeID());
@@ -33,7 +33,7 @@ public class DBStorageManager implements DBStorageLoadable {
     }
 
     @Override
-    public void saveDataFromDB(StorageParseable parser) throws IOException {
+    public void saveData(StorageParseable parser) throws IOException {
         parser.saveIssues(issuesDatabase.getCurrentID(), issuesDatabase.getAll().values());
         parser.saveEmployees(employeeDatabase.getCurrentID(), employeeDatabase.getAll().values());
     }
