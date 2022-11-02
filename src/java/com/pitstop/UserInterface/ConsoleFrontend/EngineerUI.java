@@ -9,10 +9,10 @@ import com.pitstop.UserInterface.Helpers.Scanner;
 
 public class EngineerUI {
 
-	private final SystemEngineer employee;
+	private final SystemEngineer engineer;
 
 	public EngineerUI(SystemEngineer employee) {
-		this.employee = employee;
+		this.engineer = employee;
 	}
 
 	public void showUserInterface() {
@@ -46,13 +46,13 @@ public class EngineerUI {
 	}
 
 	private void viewAssignedIssues() {
-		Collection<Issue> issues = employee.getAllAssignedIssues();
+		Collection<Issue> issues = engineer.getAllAssignedIssues();
 		new IssuePrinterUtil().printIssuesAsTable(issues);
 	}
 
 	private void resolveIssue() {
 
-		Collection<Issue> issues = employee.getAllAssignedIssues();
+		Collection<Issue> issues = engineer.getAllAssignedIssues();
 		if (issues.size() < 1) {
 			Logger.logError("No Issues pending");
 			Scanner.getString("Press any key to continue");
@@ -90,7 +90,7 @@ public class EngineerUI {
 
 		} while (true);
 
-		employee.markIssueAsResolved(issue);
+		engineer.markIssueAsResolved(issue);
 		Logger.logSuccess("Issue resolved. Issue ID: " + issue.issueID);
 		Scanner.getString("Press any key to continue");
 	}

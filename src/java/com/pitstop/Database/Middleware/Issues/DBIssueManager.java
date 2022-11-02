@@ -14,6 +14,7 @@ import com.pitstop.Core.Models.Issues.IssueCategory;
 import com.pitstop.Core.Models.Issues.IssueStatus;
 import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.SystemEngineer;
+import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Middleware.Utils.IssueUtil;
 import com.pitstop.Database.Models.Issues.DBIssue;
 import com.pitstop.Database.Models.Issues.IssuesDatabase;
@@ -21,7 +22,6 @@ import com.pitstop.Database.Models.Issues.IssuesDatabase;
 public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
 
 	private static DBIssueManager instance = null;
-	private static int issueID = 0;
 	private final IssuesDatabase database;
 
 	public static DBIssueManager getInstance() {
@@ -36,7 +36,7 @@ public class DBIssueManager implements DevIssueManager, EngineerIssueManager, Ad
 
 	@Override
 	public String createIssue(IssueCategory category, String description, Developer createdBy) {
-		Issue issue = new Issue(category.toString() + "_" + issueID++, category, description, createdBy);
+		Issue issue = new Issue(IDGenerator.generateIssueID(category), category, description, createdBy);
 		DBIssue dbIssue = IssueUtil.cloneToDBIssue(issue);
 		database.add(dbIssue);
 		return dbIssue.issueID;

@@ -12,8 +12,8 @@ public class DeveloperUI {
 
 	private final Developer employee;
 
-	public DeveloperUI(Developer employee) {
-		this.employee = employee;
+	public DeveloperUI(Developer developer) {
+		this.employee = developer;
 	}
 
 	public void showUserInterface() {

@@ -17,10 +17,10 @@ import com.pitstop.UserInterface.Helpers.Table;
 
 public class AdminUI {
 
-	private final SystemAdmin employee;
+	private final SystemAdmin admin;
 
 	public AdminUI(SystemAdmin employee) {
-		this.employee = employee;
+		this.admin = employee;
 	}
 
 	public void showUserInterface() {
@@ -65,13 +65,13 @@ public class AdminUI {
 	}
 
 	private void viewIssues(IssueViewType type) {
-		Collection<Issue> issues = type.equals(IssueViewType.UNASSIGNED) ? this.employee.getUnassignedIssues()
-				: this.employee.getAllIssues();
+		Collection<Issue> issues = type.equals(IssueViewType.UNASSIGNED) ? this.admin.getUnassignedIssues()
+				: this.admin.getAllIssues();
 		new IssuePrinterUtil().printIssuesAsTable(issues);
 	}
 
 	private void viewEngineers() {
-		Collection<SystemEngineer> engineers = this.employee.getAllEngineers();
+		Collection<SystemEngineer> engineers = this.admin.getAllEngineers();
 
 		if (engineers.size() < 1) {
 			Logger.logError("No Engineers available");
@@ -102,7 +102,7 @@ public class AdminUI {
 			return;
 		}
 
-		if(this.employee.getAllEngineers().size() < 1) {
+		if(this.admin.getAllEngineers().size() < 1) {
 			Logger.logWarning("No Engineers available");
 			Scanner.getString("Press any key to continue");
 			return;
@@ -181,7 +181,7 @@ public class AdminUI {
 
 		} while (true);
 
-		this.employee.assignIssueToEngineer(issue, engineer);
+		this.admin.assignIssueToEngineer(issue, engineer);
 		Logger.logSuccess(
 				"Assigned Issue with ID: " + issue.issueID + " to Engineer " + engineer.getEmployeeName());
 
