@@ -1,4 +1,4 @@
-package com.pitstop.Database.Storage;
+package com.pitstop.StorageManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,16 +18,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.pitstop.Database.Middleware.Storage.StorageParseable;
 import com.pitstop.Database.Models.Issues.DBIssue;
 import com.pitstop.Database.Models.Users.DBEmployee;
 
-public final class JSONDatamanager implements StorageParseable {
-
-	public enum LoadType {
-		DEFAULT,
-		LAST_SESSION
-	}
+public final class JSONDataParser {
 
 	private class IssueJSON {
 		Integer currentID;
@@ -56,10 +50,10 @@ public final class JSONDatamanager implements StorageParseable {
 	private ParsedJson parsedJson;
 	private final Gson gson = new GsonBuilder().serializeNulls().create();
 
-	public JSONDatamanager(LoadType type) throws IOException {
+	public JSONDataParser(StorageLoadTypes type) {
 
-		if (type.equals(LoadType.DEFAULT)) {
-			InputStream stream = JSONDatamanager.class.getClassLoader().getResourceAsStream(DEFAULT_JSON);
+		if (type.equals(StorageLoadTypes.DEFAULT)) {
+			InputStream stream = JSONDataParser.class.getClassLoader().getResourceAsStream(DEFAULT_JSON);
 			parsedJson = gson.fromJson(new InputStreamReader(stream), ParsedJson.class);
 		}
 
@@ -67,7 +61,11 @@ public final class JSONDatamanager implements StorageParseable {
 
 			File previousSessionFile = new File(PREVIOUS_SESSION_JSON_FILENAME);
 			if (!previousSessionFile.isFile())
-				previousSessionFile.createNewFile();
+				try {
+					previousSessionFile.createNewFile();
+				} catch (IOException e1) {
+					throw new RuntimeException("Error while creating new previousSession.json");
+				}
 
 			try {
 				parsedJson = gson.fromJson(new FileReader(PREVIOUS_SESSION_JSON_FILENAME), ParsedJson.class);
@@ -81,7 +79,6 @@ public final class JSONDatamanager implements StorageParseable {
 			parsedJson = new ParsedJson();
 	}
 
-	@Override
 	public boolean validateData() {
 		if (parsedJson == null || parsedJson.issueDatabase == null || parsedJson.employeeDatabase == null)
 			return false;
@@ -93,12 +90,10 @@ public final class JSONDatamanager implements StorageParseable {
 		return true;
 	}
 
-	@Override
 	public int getCurrentEmployeeID() {
 		return parsedJson.employeeDatabase.currentID;
 	}
 
-	@Override
 	public Map<String, DBEmployee> getEmployees() {
 		Map<String, DBEmployee> employees = new HashMap<>();
 		parsedJson.employeeDatabase.employees.forEach(employee -> {
@@ -107,7 +102,6 @@ public final class JSONDatamanager implements StorageParseable {
 		return employees;
 	}
 
-	@Override
 	public void saveEmployees(int currentEmployeeID, Collection<DBEmployee> employees)
 			throws IOException {
 		this.parsedJson.employeeDatabase.currentID = currentEmployeeID;
@@ -118,12 +112,10 @@ public final class JSONDatamanager implements StorageParseable {
 		fileWriter.close();
 	}
 
-	@Override
 	public int getCurrentIssueID() {
 		return parsedJson.issueDatabase.currentID;
 	}
 
-	@Override
 	public Map<String, DBIssue> getIssues() {
 		Map<String, DBIssue> issues = new HashMap<>();
 		parsedJson.issueDatabase.issues.forEach(issue -> {
@@ -132,7 +124,6 @@ public final class JSONDatamanager implements StorageParseable {
 		return issues;
 	}
 
-	@Override
 	public void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException {
 		this.parsedJson.issueDatabase.currentID = currentIssueID;
 		this.parsedJson.issueDatabase.issues = new ArrayList<DBIssue>(issues);

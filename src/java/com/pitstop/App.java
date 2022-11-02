@@ -6,10 +6,8 @@ import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Storage.DBStorageManager;
-import com.pitstop.Database.Models.DBStorageLoadable;
-import com.pitstop.Database.Storage.JSONDatamanager;
-import com.pitstop.Database.Storage.JSONDatamanager.LoadType;
+import com.pitstop.StorageManager.DBStorageManager;
+import com.pitstop.StorageManager.StorageLoadTypes;
 import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
 import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUI;
 import com.pitstop.UserInterface.ConsoleFrontend.EngineerUI;
@@ -33,30 +31,27 @@ public class App {
 
             if (loadConfirmation.toUpperCase().equals("Y")) {
 
-                JSONDatamanager.LoadType loadType;
+                StorageLoadTypes loadType;
 
                 do {
                     Logger.logInfo("Select the type of data to load into DB",
                             "1. Default data | 2. Previous session data");
-                            
+
                     String type = Scanner.getString();
                     if (!type.matches("[12]")) {
                         Logger.logWarning("Please select a valid option");
                         continue;
                     }
 
-                    loadType = type.equals("1") ? JSONDatamanager.LoadType.DEFAULT
-                            : JSONDatamanager.LoadType.LAST_SESSION;
+                    loadType = type.equals("1") ? StorageLoadTypes.DEFAULT
+                            : StorageLoadTypes.PREVIOUS_SESSION;
                     break;
                 } while (true);
 
-                DBStorageLoadable manager = DBStorageManager.getInstance();
+                DBStorageManager manager = DBStorageManager.getInstance();
 
-                try {
-                    manager.loadData(new JSONDatamanager(loadType));
-                } catch (IOException e) {
-                    Logger.logError("Cannot create previousSession.json file");
-                }
+                manager.loadData(loadType);
+
             }
 
             break;
@@ -122,10 +117,9 @@ public class App {
             }
 
             if (input.toUpperCase().equals("Y")) {
-                DBStorageLoadable manager = DBStorageManager.getInstance();
+                DBStorageManager manager = DBStorageManager.getInstance();
                 try {
-                    JSONDatamanager dataManager = new JSONDatamanager(LoadType.LAST_SESSION);
-                    manager.saveData(dataManager);
+                    manager.saveData(StorageLoadTypes.PREVIOUS_SESSION);
                 } catch (IOException e) {
                     Logger.logWarning("Error while writing to JSON file");
                 }

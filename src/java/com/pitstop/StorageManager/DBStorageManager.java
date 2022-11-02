@@ -1,12 +1,11 @@
-package com.pitstop.Database.Middleware.Storage;
+package com.pitstop.StorageManager;
 
 import java.io.IOException;
 
-import com.pitstop.Database.Models.DBStorageLoadable;
 import com.pitstop.Database.Models.Issues.IssuesDatabase;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
-public class DBStorageManager implements DBStorageLoadable {
+public class DBStorageManager {
 
     private static DBStorageManager instance = null;
     private final IssuesDatabase issuesDatabase;
@@ -23,8 +22,8 @@ public class DBStorageManager implements DBStorageLoadable {
         this.employeeDatabase = employeeDatabase;
     }
 
-    @Override
-    public void loadData(StorageParseable parser) {
+    public void loadData(StorageLoadTypes type) {
+        JSONDataParser parser = new JSONDataParser(type);
         if(!parser.validateData()) return;
         this.issuesDatabase.updateCurrentID(parser.getCurrentIssueID());
         this.employeeDatabase.updateCurrentID(parser.getCurrentEmployeeID());
@@ -32,8 +31,8 @@ public class DBStorageManager implements DBStorageLoadable {
         parser.getEmployees().values().forEach(employee -> employeeDatabase.add(employee));
     }
 
-    @Override
-    public void saveData(StorageParseable parser) throws IOException {
+    public void saveData(StorageLoadTypes type) throws IOException {
+        JSONDataParser parser = new JSONDataParser(type);
         parser.saveIssues(issuesDatabase.getCurrentID(), issuesDatabase.getAll().values());
         parser.saveEmployees(employeeDatabase.getCurrentID(), employeeDatabase.getAll().values());
     }
