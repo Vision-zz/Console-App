@@ -1,0 +1,55 @@
+{
+	"employeeDatabase": {
+		"currentID": 3,
+		"employees": [
+			{
+				"username": "admin",
+				"password": "pass",
+				"employeeName": "Admin",
+				"employeeID": "SYSTEM_ADMIN_0",
+				"employeeRole": "SYSTEM_ADMIN"
+			},
+			{
+				"username": "engineer",
+				"password": "pass",
+				"employeeName": "Engineer",
+				"employeeID": "SYSTEM_ENGINEER_1",
+				"employeeRole": "SYSTEM_ENGINEER"
+			},
+			{
+				"username": "developer",
+				"password": "pass",
+				"employeeName": "developer",
+				"employeeID": "DEVELOPER_2",
+				"employeeRole": "DEVELOPER"
+			}
+		]
+	},
+	"issueDatabase": {
+		"currentID": 4,
+		"issues": [
+			{
+				"issueID": "SOFTWARE_0",
+				"category": "SOFTWARE",
+				"description": "This is a issue",
+				"assignedTo": {
+					"username": "engineer",
+					"password": "pass",
+					"employeeName": "Engineer",
+					"employeeID": "SYSTEM_ENGINEER_1",
+					"employeeRole": "SYSTEM_ENGINEER"
+				},
+				"createdBy": {
+					"username": "developer",
+					"password": "pass",
+					"employeeName": "developer",
+					"employeeID": "DEVELOPER_2",
+					"employeeRole": "DEVELOPER"
+				},
+				"status": "IN_PROGRESS",
+				"createdAt": "Oct 30, 2022 5:00:00 PM",
+				"resolvedAt": null
+			}
+		]
+	}
+}
