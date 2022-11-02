@@ -97,7 +97,13 @@ public class AdminUI {
 		unassignedIssues.removeIf(i -> i.getAssignedEngineer() != null);
 
 		if (unassignedIssues.size() < 1) {
-			Logger.logInfo("No unassigned issues available");
+			Logger.logWarning("No unassigned issues available");
+			Scanner.getString("Press any key to continue");
+			return;
+		}
+
+		if(this.employee.getAllEngineers().size() < 1) {
+			Logger.logWarning("No Engineers available");
 			Scanner.getString("Press any key to continue");
 			return;
 		}

@@ -134,9 +134,6 @@ public final class JSONDatamanager implements StorageParseable {
 
 	@Override
 	public void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException {
-		System.out.println(this.parsedJson);
-		System.out.println(this.parsedJson.issueDatabase);
-		System.out.println(this.parsedJson.issueDatabase.currentID);
 		this.parsedJson.issueDatabase.currentID = currentIssueID;
 		this.parsedJson.issueDatabase.issues = new ArrayList<DBIssue>(issues);
 		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
