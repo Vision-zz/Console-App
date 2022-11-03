@@ -7,6 +7,7 @@ import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
 import com.pitstop.StorageManager.DBStorageManager;
+import com.pitstop.StorageManager.JSONDataParser;
 import com.pitstop.StorageManager.StorageLoadTypes;
 import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
 import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUI;
@@ -48,7 +49,7 @@ public class App {
                     break;
                 } while (true);
 
-                DBStorageManager manager = DBStorageManager.getInstance();
+                DBStorageManager manager = DBStorageManager.getInstance(JSONDataParser.getInstance());
 
                 manager.loadData(loadType);
 
@@ -117,7 +118,7 @@ public class App {
             }
 
             if (input.toUpperCase().equals("Y")) {
-                DBStorageManager manager = DBStorageManager.getInstance();
+                DBStorageManager manager = DBStorageManager.getInstance(JSONDataParser.getInstance());
                 try {
                     manager.saveData(StorageLoadTypes.PREVIOUS_SESSION);
                 } catch (IOException e) {

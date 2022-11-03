@@ -21,7 +21,7 @@ import com.google.gson.JsonSyntaxException;
 import com.pitstop.Database.Models.Issues.DBIssue;
 import com.pitstop.Database.Models.Users.DBEmployee;
 
-public final class JSONDataParser {
+public final class JSONDataParser implements StorageDataManager {
 
 	private class IssueJSON {
 		Integer currentID;
@@ -47,56 +47,64 @@ public final class JSONDataParser {
 	private static final String DEFAULT_JSON = "json/defaultSession.json";
 	private static final String PREVIOUS_SESSION_JSON_FILENAME = "./previousSession.json";
 
-	private ParsedJson parsedJson;
+	private ParsedJson defaultData = null;
+	private ParsedJson previousData = null;
+
 	private final Gson gson = new GsonBuilder().serializeNulls().create();
 
-	public JSONDataParser(StorageLoadTypes type) {
+	private static JSONDataParser instance = null;
 
-		if (type.equals(StorageLoadTypes.DEFAULT)) {
-			InputStream stream = JSONDataParser.class.getClassLoader().getResourceAsStream(DEFAULT_JSON);
-			parsedJson = gson.fromJson(new InputStreamReader(stream), ParsedJson.class);
-		}
+	public static JSONDataParser getInstance() {
+		if (instance == null)
+			instance = new JSONDataParser();
+		return instance;
+	}
 
-		else {
+	private JSONDataParser() {
 
-			File previousSessionFile = new File(PREVIOUS_SESSION_JSON_FILENAME);
-			if (!previousSessionFile.isFile())
-				try {
-					previousSessionFile.createNewFile();
-				} catch (IOException e1) {
-					throw new RuntimeException("Error while creating new previousSession.json");
-				}
+		InputStream stream = JSONDataParser.class.getClassLoader().getResourceAsStream(DEFAULT_JSON);
+		defaultData = gson.fromJson(new InputStreamReader(stream), ParsedJson.class);
 
+		File previousSessionFile = new File(PREVIOUS_SESSION_JSON_FILENAME);
+		if (!previousSessionFile.isFile())
 			try {
-				parsedJson = gson.fromJson(new FileReader(PREVIOUS_SESSION_JSON_FILENAME), ParsedJson.class);
-			} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
-				throw new RuntimeException(
-						"Error while parsing json through GSON. Cannot find file " + PREVIOUS_SESSION_JSON_FILENAME, e);
+				previousSessionFile.createNewFile();
+			} catch (IOException e1) {
+				throw new RuntimeException("Error while creating new previousSession.json");
 			}
+
+		try {
+			defaultData = gson.fromJson(new FileReader(PREVIOUS_SESSION_JSON_FILENAME), ParsedJson.class);
+		} catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+			throw new RuntimeException(
+					"Error while parsing json through GSON. Cannot find file " + PREVIOUS_SESSION_JSON_FILENAME, e);
 		}
 
-		if (parsedJson == null)
-			parsedJson = new ParsedJson();
+		if (defaultData == null)
+			defaultData = new ParsedJson();
+		if (previousData == null)
+			previousData = new ParsedJson();
+
 	}
 
 	public boolean validateData() {
-		if (parsedJson == null || parsedJson.issueDatabase == null || parsedJson.employeeDatabase == null)
+		if (defaultData == null || defaultData.issueDatabase == null || defaultData.employeeDatabase == null)
 			return false;
-		if (parsedJson.issueDatabase.currentID == null || parsedJson.employeeDatabase.currentID == null)
+		if (defaultData.issueDatabase.currentID == null || defaultData.employeeDatabase.currentID == null)
 			return false;
-		if (parsedJson.issueDatabase.issues == null || parsedJson.employeeDatabase.employees == null)
+		if (defaultData.issueDatabase.issues == null || defaultData.employeeDatabase.employees == null)
 			return false;
 
 		return true;
 	}
 
 	public int getCurrentEmployeeID() {
-		return parsedJson.employeeDatabase.currentID;
+		return defaultData.employeeDatabase.currentID;
 	}
 
 	public Map<String, DBEmployee> getEmployees() {
 		Map<String, DBEmployee> employees = new HashMap<>();
-		parsedJson.employeeDatabase.employees.forEach(employee -> {
+		defaultData.employeeDatabase.employees.forEach(employee -> {
 			employees.put(employee.getEmployeeID(), employee);
 		});
 		return employees;
@@ -104,31 +112,31 @@ public final class JSONDataParser {
 
 	public void saveEmployees(int currentEmployeeID, Collection<DBEmployee> employees)
 			throws IOException {
-		this.parsedJson.employeeDatabase.currentID = currentEmployeeID;
-		this.parsedJson.employeeDatabase.employees = new ArrayList<DBEmployee>(employees);
+		this.defaultData.employeeDatabase.currentID = currentEmployeeID;
+		this.defaultData.employeeDatabase.employees = new ArrayList<DBEmployee>(employees);
 		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
-		gson.toJson(parsedJson, fileWriter);
+		gson.toJson(defaultData, fileWriter);
 		fileWriter.flush();
 		fileWriter.close();
 	}
 
 	public int getCurrentIssueID() {
-		return parsedJson.issueDatabase.currentID;
+		return defaultData.issueDatabase.currentID;
 	}
 
 	public Map<String, DBIssue> getIssues() {
 		Map<String, DBIssue> issues = new HashMap<>();
-		parsedJson.issueDatabase.issues.forEach(issue -> {
+		defaultData.issueDatabase.issues.forEach(issue -> {
 			issues.put(issue.issueID, issue);
 		});
 		return issues;
 	}
 
 	public void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException {
-		this.parsedJson.issueDatabase.currentID = currentIssueID;
-		this.parsedJson.issueDatabase.issues = new ArrayList<DBIssue>(issues);
+		this.defaultData.issueDatabase.currentID = currentIssueID;
+		this.defaultData.issueDatabase.issues = new ArrayList<DBIssue>(issues);
 		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
-		gson.toJson(parsedJson, fileWriter);
+		gson.toJson(defaultData, fileWriter);
 		fileWriter.flush();
 		fileWriter.close();
 	}
