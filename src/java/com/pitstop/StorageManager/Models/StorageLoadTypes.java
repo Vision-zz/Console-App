@@ -1,4 +1,4 @@
-package com.pitstop.StorageManager;
+package com.pitstop.StorageManager.Models;
 
 public enum StorageLoadTypes {
 	DEFAULT,
