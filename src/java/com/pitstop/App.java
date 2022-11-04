@@ -6,9 +6,9 @@ import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.StorageManager.DBStorageManager;
-import com.pitstop.StorageManager.JSONDataParser;
-import com.pitstop.StorageManager.StorageLoadTypes;
+import com.pitstop.StorageManager.Models.DBStorageManager;
+import com.pitstop.StorageManager.Models.StorageLoadTypes;
+import com.pitstop.StorageManager.Structure.Converter;
 import com.pitstop.UserInterface.ConsoleFrontend.AdminUI;
 import com.pitstop.UserInterface.ConsoleFrontend.DeveloperUI;
 import com.pitstop.UserInterface.ConsoleFrontend.EngineerUI;
@@ -49,7 +49,7 @@ public class App {
                     break;
                 } while (true);
 
-                DBStorageManager manager = DBStorageManager.getInstance(JSONDataParser.getInstance());
+                DBStorageManager manager = DBStorageManager.getInstance(new Converter());
 
                 manager.loadData(loadType);
 
@@ -118,7 +118,7 @@ public class App {
             }
 
             if (input.toUpperCase().equals("Y")) {
-                DBStorageManager manager = DBStorageManager.getInstance(JSONDataParser.getInstance());
+                DBStorageManager manager = DBStorageManager.getInstance(new Converter());
                 try {
                     manager.saveData();
                 } catch (IOException e) {
