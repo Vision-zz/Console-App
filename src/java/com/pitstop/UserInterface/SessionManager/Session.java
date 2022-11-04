@@ -45,6 +45,7 @@ public final class Session {
 
 		Employee employee = manager.getEmployee(username);
 
+		// DBEmployee dbEmployee2 = manager
 		if (employee == null) {
 			return SignInStatus.UNKNOWN_USERNAME;
 		}
