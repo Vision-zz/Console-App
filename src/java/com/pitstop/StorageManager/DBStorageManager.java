@@ -27,16 +27,16 @@ public class DBStorageManager implements StorageLoadable {
 
     @Override
     public void loadData(StorageLoadTypes type) {
-        if (!manager.validateData())
+        if (!manager.validateData(type))
             return;
-        this.issuesDatabase.updateCurrentID(manager.getCurrentIssueID());
-        this.employeeDatabase.updateCurrentID(manager.getCurrentEmployeeID());
-        manager.getIssues().values().forEach(issue -> issuesDatabase.add(issue));
-        manager.getEmployees().values().forEach(employee -> employeeDatabase.add(employee));
+        this.issuesDatabase.updateCurrentID(manager.getCurrentIssueID(type));
+        this.employeeDatabase.updateCurrentID(manager.getCurrentEmployeeID(type));
+        manager.getIssues(type).values().forEach(issue -> issuesDatabase.add(issue));
+        manager.getEmployees(type).values().forEach(employee -> employeeDatabase.add(employee));
     }
 
     @Override
-    public void saveData(StorageLoadTypes type) throws IOException {
+    public void saveData() throws IOException {
         manager.saveIssues(issuesDatabase.getCurrentID(), issuesDatabase.getAll().values());
         manager.saveEmployees(employeeDatabase.getCurrentID(), employeeDatabase.getAll().values());
     }

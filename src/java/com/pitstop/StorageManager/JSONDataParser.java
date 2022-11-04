@@ -87,58 +87,70 @@ public final class JSONDataParser implements StorageDataManager {
 
 	}
 
-	public boolean validateData() {
-		if (defaultData == null || defaultData.issueDatabase == null || defaultData.employeeDatabase == null)
+	@Override
+	public boolean validateData(StorageLoadTypes type) {
+		ParsedJson data = getData(type); 
+		if (data == null || data.issueDatabase == null || data.employeeDatabase == null)
 			return false;
-		if (defaultData.issueDatabase.currentID == null || defaultData.employeeDatabase.currentID == null)
+		if (data.issueDatabase.currentID == null || data.employeeDatabase.currentID == null)
 			return false;
-		if (defaultData.issueDatabase.issues == null || defaultData.employeeDatabase.employees == null)
+		if (data.issueDatabase.issues == null || data.employeeDatabase.employees == null)
 			return false;
 
 		return true;
 	}
 
-	public int getCurrentEmployeeID() {
-		return defaultData.employeeDatabase.currentID;
+	@Override
+	public int getCurrentEmployeeID(StorageLoadTypes type) {
+		return getData(type).employeeDatabase.currentID;
 	}
 
-	public Map<String, DBEmployee> getEmployees() {
+	@Override
+	public Map<String, DBEmployee> getEmployees(StorageLoadTypes type) {
 		Map<String, DBEmployee> employees = new HashMap<>();
-		defaultData.employeeDatabase.employees.forEach(employee -> {
+		getData(type).employeeDatabase.employees.forEach(employee -> {
 			employees.put(employee.getEmployeeID(), employee);
 		});
 		return employees;
 	}
 
+	@Override
 	public void saveEmployees(int currentEmployeeID, Collection<DBEmployee> employees)
 			throws IOException {
-		this.defaultData.employeeDatabase.currentID = currentEmployeeID;
-		this.defaultData.employeeDatabase.employees = new ArrayList<DBEmployee>(employees);
+		this.previousData.employeeDatabase.currentID = currentEmployeeID;
+		this.previousData.employeeDatabase.employees = new ArrayList<DBEmployee>(employees);
 		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
-		gson.toJson(defaultData, fileWriter);
+		gson.toJson(previousData, fileWriter);
 		fileWriter.flush();
 		fileWriter.close();
 	}
 
-	public int getCurrentIssueID() {
-		return defaultData.issueDatabase.currentID;
+	@Override
+	public int getCurrentIssueID(StorageLoadTypes type) {
+		return getData(type).issueDatabase.currentID;
 	}
 
-	public Map<String, DBIssue> getIssues() {
+	@Override
+	public Map<String, DBIssue> getIssues(StorageLoadTypes type) {
 		Map<String, DBIssue> issues = new HashMap<>();
-		defaultData.issueDatabase.issues.forEach(issue -> {
+		getData(type).issueDatabase.issues.forEach(issue -> {
 			issues.put(issue.issueID, issue);
 		});
 		return issues;
 	}
 
+	@Override
 	public void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException {
-		this.defaultData.issueDatabase.currentID = currentIssueID;
-		this.defaultData.issueDatabase.issues = new ArrayList<DBIssue>(issues);
+		this.previousData.issueDatabase.currentID = currentIssueID;
+		this.previousData.issueDatabase.issues = new ArrayList<DBIssue>(issues);
 		Writer fileWriter = new FileWriter(PREVIOUS_SESSION_JSON_FILENAME);
-		gson.toJson(defaultData, fileWriter);
+		gson.toJson(previousData, fileWriter);
 		fileWriter.flush();
 		fileWriter.close();
+	}
+
+	private ParsedJson getData(StorageLoadTypes type) {
+		return type.equals(StorageLoadTypes.DEFAULT) ? this.defaultData : this.previousData;
 	}
 
 }

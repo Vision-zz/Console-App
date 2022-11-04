@@ -120,7 +120,7 @@ public class App {
             if (input.toUpperCase().equals("Y")) {
                 DBStorageManager manager = DBStorageManager.getInstance(JSONDataParser.getInstance());
                 try {
-                    manager.saveData(StorageLoadTypes.PREVIOUS_SESSION);
+                    manager.saveData();
                 } catch (IOException e) {
                     Logger.logWarning("Error while writing to JSON file");
                 }

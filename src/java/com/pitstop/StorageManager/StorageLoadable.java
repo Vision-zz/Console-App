@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface StorageLoadable {
     public void loadData(StorageLoadTypes type);
-    public void saveData(StorageLoadTypes types) throws IOException;
+    public void saveData() throws IOException;
 }

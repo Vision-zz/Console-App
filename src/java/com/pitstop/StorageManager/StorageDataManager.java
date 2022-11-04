@@ -9,17 +9,17 @@ import com.pitstop.Database.Models.Users.DBEmployee;
 
 public interface StorageDataManager {
 
-	boolean validateData();
+	boolean validateData(StorageLoadTypes type);
 
-	int getCurrentIssueID();
+	int getCurrentIssueID(StorageLoadTypes type);
 
-	Map<String, DBIssue> getIssues();
+	Map<String, DBIssue> getIssues(StorageLoadTypes type);
 
 	void saveIssues(int currentIssueID, Collection<DBIssue> issues) throws IOException;
 
-	int getCurrentEmployeeID();
+	int getCurrentEmployeeID(StorageLoadTypes type);
 
-	Map<String, DBEmployee> getEmployees();
+	Map<String, DBEmployee> getEmployees(StorageLoadTypes type);
 
 	void saveEmployees(int currentEmployeeID, Collection<DBEmployee> employees) throws IOException;
 
