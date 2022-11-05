@@ -4,8 +4,7 @@ import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Issues.DBIssueManager;
-import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Middleware.Provider.ManagerProvider;
 import com.pitstop.Database.Models.Users.DBEmployee;
 
 public class EmployeeUtil {
@@ -19,16 +18,16 @@ public class EmployeeUtil {
 			case SYSTEM_ADMIN:
 				return new SystemAdmin(sessionEmployee.getUsername(), sessionEmployee.getPassword(),
 						sessionEmployee.getEmployeeName(), sessionEmployee.getEmployeeID(),
-						DBIssueManager.getInstance(),
-						DBEmployeeManager.getInstance());
+						ManagerProvider.getAdminIssueManager(),
+						ManagerProvider.getEmployeeDetailsManager());
 			case SYSTEM_ENGINEER:
 				return new SystemEngineer(sessionEmployee.getUsername(), sessionEmployee.getPassword(),
 						sessionEmployee.getEmployeeName(), sessionEmployee.getEmployeeID(),
-						DBIssueManager.getInstance());
+						ManagerProvider.getEngineerIssueManager());
 			case DEVELOPER:
 				return new Developer(sessionEmployee.getUsername(), sessionEmployee.getPassword(),
 						sessionEmployee.getEmployeeName(), sessionEmployee.getEmployeeID(),
-						DBIssueManager.getInstance());
+						ManagerProvider.getDevIssueManager());
 			default:
 				throw new RuntimeException("Unknown employee role");
 		}

@@ -3,7 +3,7 @@ package com.pitstop.UserInterface.ConsoleFrontend;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.EmployeeRole;
-import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Middleware.Provider.ManagerProvider;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.SessionManager.Session;
@@ -45,7 +45,7 @@ public final class StartupUI {
 
 	public SessionInitializeStatus signIn() {
 
-		EmployeeDetailsManager manager = DBEmployeeManager.getInstance();
+		EmployeeDetailsManager manager = ManagerProvider.getEmployeeDetailsManager();
 		do {
 
 			String username = Scanner.getString("Enter your username");
@@ -138,7 +138,7 @@ public final class StartupUI {
 
 			String employeeName = Scanner.getString("Enter your full name");
 
-			EmployeeSignupManager manager = DBEmployeeManager.getInstance();
+			EmployeeSignupManager manager = ManagerProvider.getEmployeeSignupManager();
 			EmployeeSignupManager.SignUpStatus status = manager.signUp(username, password, employeeName, employeeRole);
 
 			while (status.equals(EmployeeSignupManager.SignUpStatus.USERNAME_UNAVAILABLE)) {

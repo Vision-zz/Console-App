@@ -2,7 +2,6 @@ package com.pitstop.Core.Models.Users;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.function.Predicate;
 
 import com.pitstop.Core.Middleware.Issues.AdminIssueManager;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
@@ -28,8 +27,7 @@ public final class SystemAdmin extends Employee {
     public Collection<Issue> getUnassignedIssues() {
         Collection<Issue> allIssues = issueManager.getAllIssues();
 
-        Predicate<Issue> predicate = issue -> issue.getAssignedEngineer() != null;
-        allIssues.removeIf(predicate);
+        allIssues.removeIf(issue -> issue.getAssignedEngineer() != null);
 
         return allIssues;
     }

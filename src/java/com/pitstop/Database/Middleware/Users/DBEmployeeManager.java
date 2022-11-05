@@ -10,7 +10,7 @@ import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.EmployeeRole;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Issues.DBIssueManager;
+import com.pitstop.Database.Middleware.Provider.ManagerProvider;
 import com.pitstop.Database.Middleware.Utils.EmployeeUtil;
 import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Models.Users.DBEmployee;
@@ -74,17 +74,17 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 		switch (employeeRole) {
 			case SYSTEM_ADMIN:
 				newEmployee = new SystemAdmin(username, password, employeeName, employeeID,
-						DBIssueManager.getInstance(), DBEmployeeManager.getInstance());
+						ManagerProvider.getAdminIssueManager(), ManagerProvider.getEmployeeDetailsManager());
 				break;
 
 			case SYSTEM_ENGINEER:
 				newEmployee = new SystemEngineer(username, password, employeeName, employeeID,
-						DBIssueManager.getInstance());
+						ManagerProvider.getEngineerIssueManager());
 				break;
 
 			default:
 				newEmployee = new Developer(username, password, employeeName, employeeID,
-						DBIssueManager.getInstance());
+						ManagerProvider.getDevIssueManager());
 				break;
 		}
 
