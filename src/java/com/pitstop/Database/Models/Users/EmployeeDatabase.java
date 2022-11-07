@@ -2,9 +2,7 @@ package com.pitstop.Database.Models.Users;
 
 import java.util.HashMap;
 
-import com.pitstop.Database.Models.DatabaseFunctions;
-
-public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
+public final class EmployeeDatabase implements EmployeeDatabaseFunctions {
 
     private final HashMap<String, DBEmployee> employees;
     private int currentEmployeeID = 0;

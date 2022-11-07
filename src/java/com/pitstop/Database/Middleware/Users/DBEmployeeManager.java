@@ -18,16 +18,10 @@ import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 
-	private static DBEmployeeManager instance = null;
 	private final EmployeeDatabase database;
 
-	public static DBEmployeeManager getInstance() {
-		if (instance == null)
-			instance = new DBEmployeeManager(EmployeeDatabase.getInstance());
-		return instance;
-	}
 
-	private DBEmployeeManager(EmployeeDatabase database) {
+	public DBEmployeeManager(EmployeeDatabase database) {
 		this.database = database;
 	}
 

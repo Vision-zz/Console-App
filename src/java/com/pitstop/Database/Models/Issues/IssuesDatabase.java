@@ -2,9 +2,7 @@ package com.pitstop.Database.Models.Issues;
 
 import java.util.HashMap;
 
-import com.pitstop.Database.Models.DatabaseFunctions;
-
-public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
+public final class IssuesDatabase implements IssueDatabaseFunctions {
      private final HashMap<String, DBIssue> issues;
      private int currentIssueID = 0;
 
