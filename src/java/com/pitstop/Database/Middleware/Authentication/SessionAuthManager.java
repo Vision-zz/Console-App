@@ -1,5 +1,7 @@
 package com.pitstop.Database.Middleware.Authentication;
 
+import java.util.UUID;
+
 import com.pitstop.Database.Models.Authentication.AuthLevel;
 import com.pitstop.Database.Models.Authentication.SessionDatabaseFunctions;
 
@@ -7,14 +9,15 @@ public class SessionAuthManager implements AuthLevelManager, AuthTokenManager {
 
 	private SessionDatabaseFunctions database;
 
-	SessionAuthManager(SessionDatabaseFunctions database) {
+	public SessionAuthManager(SessionDatabaseFunctions database) {
 		this.database = database;
 	}
 
 	@Override
 	public String generateAuthToken(AuthLevel authLevel) {
-		// TODO Auto-generated method stub
-		return null;
+		String uuid = UUID.randomUUID().toString();
+		database.addToken(uuid, authLevel);
+		return uuid;
 	}
 
 	@Override
@@ -24,14 +27,14 @@ public class SessionAuthManager implements AuthLevelManager, AuthTokenManager {
 
 	@Override
 	public boolean validateToken(String token) {
-		// TODO Auto-generated method stub
-		return false;
+		AuthLevel authLevel = database.getTokenAuthLevel(token);
+		return !(authLevel.equals(AuthLevel.UNKNOWN));
 	}
 
 	@Override
 	public boolean validateTokenAuthLevel(String token, AuthLevel authLevel) {
-		// TODO Auto-generated method stub
-		return false;
+		AuthLevel dbAuthLevel = database.getTokenAuthLevel(token);
+		return authLevel.equals(dbAuthLevel);
 	}
-	
+
 }

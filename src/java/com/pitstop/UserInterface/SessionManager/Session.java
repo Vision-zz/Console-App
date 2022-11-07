@@ -22,7 +22,7 @@ public final class Session {
 		private final SessionEmployee loggedInEmployee;
 		private Date sessionExpiresAt;
 
-		SessionCache(SessionEmployee loggedInEmployee) {
+		private SessionCache(SessionEmployee loggedInEmployee) {
 			this.loggedInEmployee = loggedInEmployee;
 		}
 	}
