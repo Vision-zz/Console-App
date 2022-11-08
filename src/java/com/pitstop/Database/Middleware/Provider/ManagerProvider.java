@@ -7,18 +7,18 @@ import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Database.Middleware.Authentication.AuthLevelManager;
 import com.pitstop.Database.Middleware.Authentication.AuthTokenManager;
+import com.pitstop.Database.Middleware.Authentication.AuthTokenUpdater;
 import com.pitstop.Database.Middleware.Authentication.SessionAuthManager;
 import com.pitstop.Database.Middleware.Issues.AuthIssueManager;
-import com.pitstop.Database.Middleware.Issues.DBIssueManager;
-import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
+import com.pitstop.Database.Middleware.Users.AuthEmployeeManager;
 import com.pitstop.Database.Models.Authentication.SessionAuthDatabase;
 import com.pitstop.Database.Models.Issues.IssuesDatabase;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public class ManagerProvider {
 
-	private static DBIssueManager issueManager = null;
-	private static DBEmployeeManager employeeManager = null;
+	private static AuthIssueManager issueManager = null;
+	private static AuthEmployeeManager employeeManager = null;
 	private static SessionAuthManager authManager = null;
 
 	public static DevIssueManager getDevIssueManager() {
@@ -41,6 +41,14 @@ public class ManagerProvider {
 		return getEmployeeManager();
 	}
 
+	public static AuthTokenUpdater getIssueManagerAuthUpdater() {
+		return getIssueManager();
+	}
+
+	public static AuthTokenUpdater getEmployeeManagerAuthUpdater() {
+		return getEmployeeManager();
+	}
+
 	public static AuthLevelManager getAuthLevelManager(){
 		return getAuthManager();
 	}
@@ -49,15 +57,15 @@ public class ManagerProvider {
 		return getAuthManager();
 	}
 
-	private static DBIssueManager getIssueManager() {
+	private static AuthIssueManager getIssueManager() {
 		if (issueManager == null)
 			issueManager = new AuthIssueManager(IssuesDatabase.getInstance(), getAuthLevelManager());
 		return issueManager;
 	}
 
-	private static DBEmployeeManager getEmployeeManager() {
+	private static AuthEmployeeManager getEmployeeManager() {
 		if (employeeManager == null)
-			employeeManager = new DBEmployeeManager(EmployeeDatabase.getInstance());
+			employeeManager = new AuthEmployeeManager(EmployeeDatabase.getInstance(), getAuthLevelManager());
 		return employeeManager;
 	}
 
