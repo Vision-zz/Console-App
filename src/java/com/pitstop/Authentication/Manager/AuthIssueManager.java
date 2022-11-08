@@ -1,39 +1,28 @@
-package com.pitstop.Database.Middleware.Issues;
+package com.pitstop.Authentication.Manager;
 
 import java.util.Collection;
 
+import com.pitstop.Authentication.Database.AuthLevel;
 import com.pitstop.Core.Models.Issues.Issue;
 import com.pitstop.Core.Models.Issues.IssueCategory;
 import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Authentication.AuthLevelManager;
-import com.pitstop.Database.Middleware.Authentication.AuthTokenUpdater;
-import com.pitstop.Database.Models.Authentication.AuthLevel;
+import com.pitstop.Database.Middleware.Issues.DBIssueManager;
 import com.pitstop.Database.Models.Issues.IssueDatabaseFunctions;
 
-public class AuthIssueManager extends DBIssueManager implements AuthTokenUpdater {
+public class AuthIssueManager extends DBIssueManager {
 
 	private final AuthLevelManager manager;
-	private String token = null;
+	private String token;
 
 	private static final AuthLevel ADMIN_AUTH_LEVEL = AuthLevel.ADMIN;
 	private static final AuthLevel ENGINEER_AUTH_LEVEL = AuthLevel.ENGINEER;
 	private static final AuthLevel DEV_AUTH_LEVEL = AuthLevel.DEVELOPER;
 	private static final String EXCEPTION_MESSAGE = "You are not authorized to make this action";
-
+           
 	public AuthIssueManager(IssueDatabaseFunctions database, AuthLevelManager manager) {
 		super(database);
 		this.manager = manager;
-	}
-
-	@Override
-	public void setAuthToken(String token) {
-		this.token = token;
-	}
-
-	@Override
-	public void removeAuthToken() {
-		this.token = null;
 	}
 
 	@Override

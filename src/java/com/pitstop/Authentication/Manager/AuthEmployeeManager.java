@@ -1,14 +1,13 @@
-package com.pitstop.Database.Middleware.Users;
+package com.pitstop.Authentication.Manager;
 
 import java.util.Collection;
 
+import com.pitstop.Authentication.Database.AuthLevel;
 import com.pitstop.Core.Models.Users.Employee;
-import com.pitstop.Database.Middleware.Authentication.AuthLevelManager;
-import com.pitstop.Database.Middleware.Authentication.AuthTokenUpdater;
-import com.pitstop.Database.Models.Authentication.AuthLevel;
+import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
-public class AuthEmployeeManager extends DBEmployeeManager implements AuthTokenUpdater {
+public class AuthEmployeeManager extends DBEmployeeManager {
 
 	private final AuthLevelManager manager;
 	private String token = null;
@@ -21,16 +20,6 @@ public class AuthEmployeeManager extends DBEmployeeManager implements AuthTokenU
 	public AuthEmployeeManager(EmployeeDatabase database, AuthLevelManager manager) {
 		super(database);
 		this.manager = manager;
-	}
-
-	@Override
-	public void setAuthToken(String token) {
-		this.token = token;
-	}
-
-	@Override
-	public void removeAuthToken() {
-		this.token = null;
 	}
 
 	@Override

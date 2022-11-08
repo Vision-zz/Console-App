@@ -1,32 +1,51 @@
-package com.pitstop.UserInterface.SessionManager;
+package com.pitstop.UserInterface.Session.SessionManager;
 
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
+import com.pitstop.ManagerProvider;
+import com.pitstop.Authentication.Database.AuthLevel;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.EmployeeRole;
-import com.pitstop.Database.Middleware.Provider.ManagerProvider;
-import com.pitstop.Database.Models.Authentication.AuthLevel;
 
 public final class Session {
 
-	private HashMap<String, SessionCache> savedLogins;
+	private HashMap<String, ActiveSession> savedLogins;
 
 	private static Session instance = null;
-	private SessionCache currentSession = null;
+	private ActiveSession currentSession = null;
 
-	private class SessionCache {
+	class ActiveSession {
 		private final SessionEmployee loggedInEmployee;
 		private Date sessionExpiresAt;
 		private final String token;
+		private final String sessionID;
 
-		private SessionCache(SessionEmployee loggedInEmployee, String token) {
+		private ActiveSession(SessionEmployee loggedInEmployee, String token) {
 			this.loggedInEmployee = loggedInEmployee;
 			this.token = token;
+			sessionID = UUID.randomUUID().toString();
+		}
+
+		public SessionEmployee getLoggedInEmployee() {
+			return loggedInEmployee;
+		}
+
+		public Date getSessionExpiresAt() {
+			return sessionExpiresAt;
+		}
+
+		public String getSessionID() {
+			return sessionID;
+		}
+
+		public String getToken() {
+			return token;
 		}
 	}
 
@@ -58,16 +77,14 @@ public final class Session {
 
 		SessionEmployee sessionEmployee = SessionEmployeeUtil.cloneToSessionEmployee(employee);
 
-		String newToken = getToken(sessionEmployee.getEmployeeRole());
-		currentSession = new SessionCache(sessionEmployee, newToken);
+		String newToken = getToken(employee);
+		currentSession = new ActiveSession(sessionEmployee, newToken);
 
-		ManagerProvider.getEmployeeManagerAuthUpdater().setAuthToken(currentSession.token);
-		ManagerProvider.getIssueManagerAuthUpdater().setAuthToken(currentSession.token);
 		return SignInStatus.SUCCESS;
 	}
 
 	public Map<String, SessionEmployee> getSavedLogins() {
-		Collection<SessionCache> currentSavedCache = this.savedLogins.values();
+		Collection<ActiveSession> currentSavedCache = this.savedLogins.values();
 		Map<String, SessionEmployee> savedLogins = new HashMap<>();
 
 		currentSavedCache
@@ -89,7 +106,7 @@ public final class Session {
 			return SignInStatus.UNKNOWN_EMPLOYEE;
 		}
 
-		SessionCache savedSession = savedLogins.get(username);
+		ActiveSession savedSession = savedLogins.get(username);
 		if (savedSession.sessionExpiresAt.before(new Date(System.currentTimeMillis()))) {
 			savedLogins.remove(username);
 			return SignInStatus.SESSION_EXPIRED;
@@ -120,16 +137,13 @@ public final class Session {
 				savedLogins.remove(currentSession.loggedInEmployee.getUsername());
 		}
 
-		ManagerProvider.getIssueManagerAuthUpdater().removeAuthToken();
-		ManagerProvider.getEmployeeManagerAuthUpdater().removeAuthToken();
-
 		currentSession = null;
 	}
 
-	private String getToken(EmployeeRole role) {
+	private String getToken(Employee employee) {
 		AuthLevel authLevel = AuthLevel.UNKNOWN;
 
-		switch (role) {
+		switch (employee.getEmployeeRole()) {
 			case SYSTEM_ADMIN:
 				authLevel = AuthLevel.ADMIN;
 				break;
@@ -141,7 +155,7 @@ public final class Session {
 				break;
 		}
 
-		return ManagerProvider.getAuthTokenManager().generateAuthToken(authLevel);
+		return ManagerProvider.getAuthTokenManager().generateAuthToken(authLevel, employee);
 
 	}
 

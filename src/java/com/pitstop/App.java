@@ -16,7 +16,7 @@ import com.pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
 import com.pitstop.UserInterface.ConsoleFrontend.StartupUI;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
-import com.pitstop.UserInterface.SessionManager.Session;
+import com.pitstop.UserInterface.Session.SessionManager.Session;
 
 public class App {
 

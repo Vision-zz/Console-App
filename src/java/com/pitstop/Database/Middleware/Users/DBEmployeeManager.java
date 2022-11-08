@@ -5,12 +5,8 @@ import java.util.HashSet;
 
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
-import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.EmployeeRole;
-import com.pitstop.Core.Models.Users.SystemAdmin;
-import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Provider.ManagerProvider;
 import com.pitstop.Database.Middleware.Utils.EmployeeUtil;
 import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Models.Users.DBEmployee;
@@ -19,7 +15,6 @@ import com.pitstop.Database.Models.Users.EmployeeDatabase;
 public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 
 	private final EmployeeDatabase database;
-
 
 	public DBEmployeeManager(EmployeeDatabase database) {
 		this.database = database;
@@ -63,27 +58,10 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 			return SignUpStatus.USERNAME_UNAVAILABLE;
 		}
 
-		Employee newEmployee;
 		String employeeID = IDGenerator.generateEmployeeID(employeeRole);
-		switch (employeeRole) {
-			case SYSTEM_ADMIN:
-				newEmployee = new SystemAdmin(username, password, employeeName, employeeID,
-						ManagerProvider.getAdminIssueManager(), ManagerProvider.getEmployeeDetailsManager());
-				break;
-
-			case SYSTEM_ENGINEER:
-				newEmployee = new SystemEngineer(username, password, employeeName, employeeID,
-						ManagerProvider.getEngineerIssueManager());
-				break;
-
-			default:
-				newEmployee = new Developer(username, password, employeeName, employeeID,
-						ManagerProvider.getDevIssueManager());
-				break;
-		}
-
-		DBEmployee dbEmployee = EmployeeUtil.cloneToDBEmployee(newEmployee);
+		DBEmployee dbEmployee = new DBEmployee(username, password, employeeName, employeeID, employeeRole);
 		database.add(dbEmployee);
+
 		return SignUpStatus.SUCCESS;
 	}
 

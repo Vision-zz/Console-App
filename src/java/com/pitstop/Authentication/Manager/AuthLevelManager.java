@@ -1,6 +1,6 @@
-package com.pitstop.Database.Middleware.Authentication;
+package com.pitstop.Authentication.Manager;
 
-import com.pitstop.Database.Models.Authentication.AuthLevel;
+import com.pitstop.Authentication.Database.AuthLevel;
 
 public interface AuthLevelManager {
 	boolean validateToken(String token);

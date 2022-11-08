@@ -1,13 +1,13 @@
 package com.pitstop.UserInterface.ConsoleFrontend;
 
+import com.pitstop.ManagerProvider;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.EmployeeRole;
-import com.pitstop.Database.Middleware.Provider.ManagerProvider;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
-import com.pitstop.UserInterface.SessionManager.Session;
-import com.pitstop.UserInterface.SessionManager.SignInStatus;
+import com.pitstop.UserInterface.Session.SessionManager.Session;
+import com.pitstop.UserInterface.Session.SessionManager.SignInStatus;
 
 public final class StartupUI {
 
