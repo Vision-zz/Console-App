@@ -1,4 +1,4 @@
-package com.pitstop.UserInterface.SessionManager;
+package com.pitstop.Session;
 
 import java.util.Collection;
 import java.util.Date;
@@ -6,27 +6,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.pitstop.ManagerProvider;
-import com.pitstop.Authentication.Manager.SignInManager.SignInManager;
-import com.pitstop.Authentication.Manager.SignInManager.SignInStatus;
+import com.pitstop.Authentication.Manager.SignInManager.AuthenticationManager;
+import com.pitstop.Authentication.Model.AuthenticationStatus;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.EmployeeRole;
 
-public final class Session implements SessionFunctions {
+public final class SessionManager implements SessionFunctions {
 
-	private HashMap<String, SessionCache> savedLogins;
+	private HashMap<String, Session> savedLogins;
 
-	private static Session instance = null;
-	private SessionCache currentSession = null;
-	private final SignInManager signInManager;
+	private static SessionManager instance = null;
+	private Session currentSession = null;
+	private final AuthenticationManager signInManager;
 
-	class SessionCache {
+	class Session {
 		private final SessionEmployee loggedInEmployee;
 		private Date sessionExpiresAt;
 		private final String token;
 
-		private SessionCache(SessionEmployee loggedInEmployee, String token) {
+		private Session(SessionEmployee loggedInEmployee, String token) {
 			this.loggedInEmployee = loggedInEmployee;
 			this.token = token;
 		}
@@ -44,13 +44,13 @@ public final class Session implements SessionFunctions {
 		}
 	}
 
-	public static Session getInstance(SignInManager manager) {
+	public static SessionManager getInstance(AuthenticationManager manager) {
 		if (instance == null)
-			instance = new Session(manager);
+			instance = new SessionManager(manager);
 		return instance;
 	}
 
-	private Session(SignInManager manager) {
+	private SessionManager(AuthenticationManager manager) {
 		this.savedLogins = new HashMap<>();
 		this.signInManager = manager;
 	}
@@ -63,24 +63,27 @@ public final class Session implements SessionFunctions {
 	@Override
 	public SessionSignInStatus signIn(String username, String password, EmployeeDetailsManager manager) {
 
-		SignInStatus status = signInManager.signIn(username, password);
+		AuthenticationStatus status = signInManager.authenticate(username, password);
 
-		if (status.isProcessFailed) {
-			return status.reason.equals("UNKNOWN_USERNAME") ? SessionSignInStatus.UNKNOWN_USERNAME
+		if (status instanceof AuthenticationStatus.Fail) {
+			AuthenticationStatus.Fail failedStatus = (AuthenticationStatus.Fail) status;
+			return failedStatus.reason.equals("UNKNOWN_USERNAME") ? SessionSignInStatus.UNKNOWN_USERNAME
 					: SessionSignInStatus.INVALID_PASSWORD;
 		}
 
-		SessionEmployee sessionEmployee = SessionEmployeeUtil.cloneToSessionEmployee(status.employee);
+		AuthenticationStatus.Success successStatus = (AuthenticationStatus.Success) status;
 
-		currentSession = new SessionCache(sessionEmployee, status.token);
-		ManagerProvider.getSessoinAuthTokenManager().updateCurrentToken(status.token);
+		SessionEmployee sessionEmployee = SessionEmployeeUtil.cloneToSessionEmployee(successStatus.employee);
+
+		currentSession = new Session(sessionEmployee, successStatus.token);
+		ManagerProvider.getSessoinAuthTokenManager().updateCurrentToken(successStatus.token);
 
 		return SessionSignInStatus.SUCCESS;
 	}
 
 	@Override
 	public Map<String, SessionEmployee> getSavedLogins() {
-		Collection<SessionCache> currentSavedCache = this.savedLogins.values();
+		Collection<Session> currentSavedCache = this.savedLogins.values();
 		Map<String, SessionEmployee> savedLogins = new HashMap<>();
 
 		currentSavedCache
@@ -97,18 +100,20 @@ public final class Session implements SessionFunctions {
 			return SessionSignInStatus.UNKNOWN_USERNAME;
 		}
 
-		SessionCache savedSession = savedLogins.get(username);
+		Session savedSession = savedLogins.get(username);
 		if (savedSession.sessionExpiresAt.before(new Date(System.currentTimeMillis()))) {
 			savedLogins.remove(username);
 			return SessionSignInStatus.SESSION_EXPIRED;
 		}
 
-		SignInStatus status = signInManager.signIn(savedSession.getLoggedInEmployee().getUsername(),
+		AuthenticationStatus status = signInManager.authenticate(savedSession.getLoggedInEmployee().getUsername(),
 				savedSession.getLoggedInEmployee().getPassword());
 
-		if (status.isProcessFailed) {
+		if (status instanceof AuthenticationStatus.Fail) {
+			AuthenticationStatus.Fail failedStatus = (AuthenticationStatus.Fail) status;
 			savedLogins.remove(username);
-			return status.reason == "UNKNOWN_USERNAME" ? SessionSignInStatus.UNKNOWN_EMPLOYEE : SessionSignInStatus.SESSION_EXPIRED;
+			return failedStatus.reason == "UNKNOWN_USERNAME" ? SessionSignInStatus.UNKNOWN_EMPLOYEE
+					: SessionSignInStatus.SESSION_EXPIRED;
 		}
 
 		currentSession = savedLogins.get(username);

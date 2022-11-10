@@ -2,8 +2,8 @@ package com.pitstop.Authentication.Manager.AuthenicationWrapper;
 
 import java.util.Collection;
 
-import com.pitstop.Authentication.Database.AuthLevel;
-import com.pitstop.Authentication.Manager.SessionAuthenticationManager.SessionAuthTokenManager;
+import com.pitstop.Authentication.Manager.AuthenticationManager.AuthLevelManager;
+import com.pitstop.Authentication.Model.AuthLevel;
 import com.pitstop.Core.Models.Issues.Issue;
 import com.pitstop.Core.Models.Issues.IssueCategory;
 import com.pitstop.Core.Models.Users.Developer;
@@ -13,14 +13,14 @@ import com.pitstop.Database.Models.Issues.IssueDatabaseFunctions;
 
 public class AuthIssueManager extends DBIssueManager {
 
-	private final SessionAuthTokenManager manager;
+	private final AuthLevelManager manager;
 
 	private static final AuthLevel ADMIN_AUTH_LEVEL = AuthLevel.ADMIN;
 	private static final AuthLevel ENGINEER_AUTH_LEVEL = AuthLevel.ENGINEER;
 	private static final AuthLevel DEV_AUTH_LEVEL = AuthLevel.DEVELOPER;
 	private static final String EXCEPTION_MESSAGE = "You are not authorized to make this action";
            
-	public AuthIssueManager(IssueDatabaseFunctions database, SessionAuthTokenManager manager) {
+	public AuthIssueManager(IssueDatabaseFunctions database, AuthLevelManager manager) {
 		super(database);
 		this.manager = manager;
 	}

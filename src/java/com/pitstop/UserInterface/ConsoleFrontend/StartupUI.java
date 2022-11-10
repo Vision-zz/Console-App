@@ -4,9 +4,9 @@ import com.pitstop.ManagerProvider;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.EmployeeRole;
+import com.pitstop.Session.SessionSignInStatus;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
-import com.pitstop.UserInterface.SessionManager.SessionSignInStatus;
 
 public final class StartupUI {
 

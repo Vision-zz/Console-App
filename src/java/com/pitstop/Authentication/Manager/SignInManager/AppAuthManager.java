@@ -1,35 +1,36 @@
 package com.pitstop.Authentication.Manager.SignInManager;
 
-import com.pitstop.Authentication.Database.AuthLevel;
-import com.pitstop.Authentication.Manager.SessionAuthenticationManager.DBAuthTokenManager;
+import com.pitstop.Authentication.Manager.AuthenticationManager.AuthTokenManager;
+import com.pitstop.Authentication.Model.AuthLevel;
+import com.pitstop.Authentication.Model.AuthenticationStatus;
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Models.Users.Employee;
 
-public class SignInAuthenticationManager implements SignInManager {
+public class AppAuthManager implements AuthenticationManager {
 
-	private final DBAuthTokenManager tokenManager;
+	private final AuthTokenManager tokenManager;
 	private final EmployeeDetailsManager manager;
 
-	public SignInAuthenticationManager(DBAuthTokenManager tokenManager, EmployeeDetailsManager manager) {
+	public AppAuthManager(AuthTokenManager tokenManager, EmployeeDetailsManager manager) {
 		this.tokenManager = tokenManager;
 		this.manager = manager;
 	}
 
 	@Override
-	public SignInStatus signIn(String username, String password) {
+	public AuthenticationStatus authenticate(String username, String password) {
 
 		Employee employee = manager.getEmployee(username);
 
 		if (employee == null) {
-			return new SignInStatus(true, null, "UNKNOWN_USERNAME", null);
+			return new AuthenticationStatus.Fail("UNKNOWN_USERNAME");
 		}
 
 		if (!employee.getPassword().equals(password)) {
-			return new SignInStatus(true, null, "INVALID_PASSWORD", null);
+			return new AuthenticationStatus.Fail("INVALID_PASSWORD");
 		}
 
 		String newToken = getToken(employee);
-		return new SignInStatus(false, newToken, "SUCCESS", employee);
+		return new AuthenticationStatus.Success(newToken, employee);
 
 	}
 

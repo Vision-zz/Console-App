@@ -1,13 +1,13 @@
 package com.pitstop;
 
-import com.pitstop.Authentication.Database.SessionAuthDatabase;
+import com.pitstop.Authentication.Database.AuthenticationDatabase;
 import com.pitstop.Authentication.Manager.AuthenicationWrapper.AuthEmployeeManager;
 import com.pitstop.Authentication.Manager.AuthenicationWrapper.AuthIssueManager;
-import com.pitstop.Authentication.Manager.SessionAuthenticationManager.AuthLevelManager;
-import com.pitstop.Authentication.Manager.SessionAuthenticationManager.DBAuthTokenManager;
-import com.pitstop.Authentication.Manager.SessionAuthenticationManager.SessionAuthManager;
-import com.pitstop.Authentication.Manager.SessionAuthenticationManager.SessionAuthTokenManager;
-import com.pitstop.Authentication.Manager.SignInManager.SignInAuthenticationManager;
+import com.pitstop.Authentication.Manager.AuthenticationManager.TokenLevelManager;
+import com.pitstop.Authentication.Manager.AuthenticationManager.AuthTokenManager;
+import com.pitstop.Authentication.Manager.AuthenticationManager.AuthenticationManager;
+import com.pitstop.Authentication.Manager.AuthenticationManager.AuthLevelManager;
+import com.pitstop.Authentication.Manager.SignInManager.AppAuthManager;
 import com.pitstop.Core.Middleware.Issues.AdminIssueManager;
 import com.pitstop.Core.Middleware.Issues.DevIssueManager;
 import com.pitstop.Core.Middleware.Issues.EngineerIssueManager;
@@ -16,8 +16,8 @@ import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
 import com.pitstop.Database.Models.Issues.IssuesDatabase;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
-import com.pitstop.UserInterface.SessionManager.Session;
-import com.pitstop.UserInterface.SessionManager.SessionFunctions;
+import com.pitstop.Session.SessionManager;
+import com.pitstop.Session.SessionFunctions;
 
 public class ManagerProvider {
 
@@ -41,20 +41,20 @@ public class ManagerProvider {
 		return new AuthEmployeeManager(EmployeeDatabase.getInstance(), getSessoinAuthTokenManager());
 	}
 
-	public static AuthLevelManager getAuthLevelManager() {
-		return SessionAuthManager.getInstance(SessionAuthDatabase.getInstance());
+	public static TokenLevelManager getAuthLevelManager() {
+		return AuthenticationManager.getInstance(AuthenticationDatabase.getInstance());
 	}
 
-	public static DBAuthTokenManager getAuthTokenManager() {
-		return SessionAuthManager.getInstance(SessionAuthDatabase.getInstance());
+	public static AuthTokenManager getAuthTokenManager() {
+		return AuthenticationManager.getInstance(AuthenticationDatabase.getInstance());
 	}
 
-	public static SessionAuthTokenManager getSessoinAuthTokenManager() {
-		return SessionAuthManager.getInstance(SessionAuthDatabase.getInstance());
+	public static AuthLevelManager getSessoinAuthTokenManager() {
+		return AuthenticationManager.getInstance(AuthenticationDatabase.getInstance());
 	}
 
 	public static SessionFunctions getSession() {
-		return Session.getInstance(new SignInAuthenticationManager(getAuthTokenManager(),
+		return SessionManager.getInstance(new AppAuthManager(getAuthTokenManager(),
 				new DBEmployeeManager(EmployeeDatabase.getInstance())));
 	}
 

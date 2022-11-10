@@ -1,25 +1,25 @@
-package com.pitstop.Authentication.Manager.SessionAuthenticationManager;
+package com.pitstop.Authentication.Manager.AuthenticationManager;
 
 import java.util.UUID;
 
-import com.pitstop.Authentication.Database.AuthLevel;
-import com.pitstop.Authentication.Database.SessionDatabaseFunctions;
+import com.pitstop.Authentication.Database.AuthDatabaseFunctions;
+import com.pitstop.Authentication.Model.AuthLevel;
 import com.pitstop.Core.Models.Users.Employee;
 
-public class SessionAuthManager implements AuthLevelManager, DBAuthTokenManager, SessionAuthTokenManager {
+public class AuthenticationManager implements TokenLevelManager, AuthTokenManager, AuthLevelManager {
 
-	private SessionDatabaseFunctions database;
+	private AuthDatabaseFunctions database;
 	private String currentToken = null;
 
-	private static SessionAuthManager instance = null;
+	private static AuthenticationManager instance = null;
 
-	private SessionAuthManager(SessionDatabaseFunctions database) {
+	private AuthenticationManager(AuthDatabaseFunctions database) {
 		this.database = database;
 	}
 
-	public static SessionAuthManager getInstance(SessionDatabaseFunctions database) {
+	public static AuthenticationManager getInstance(AuthDatabaseFunctions database) {
 		if (instance == null)
-			instance = new SessionAuthManager(database);
+			instance = new AuthenticationManager(database);
 		return instance;
 	}
 

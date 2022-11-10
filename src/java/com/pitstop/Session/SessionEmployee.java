@@ -1,4 +1,4 @@
-package com.pitstop.UserInterface.SessionManager;
+package com.pitstop.Session;
 
 import com.pitstop.Core.Models.Users.EmployeeRole;
 

@@ -2,19 +2,21 @@ package com.pitstop.Authentication.Database;
 
 import java.util.HashMap;
 
-public class SessionAuthDatabase implements SessionDatabaseFunctions {
+import com.pitstop.Authentication.Model.AuthLevel;
+
+public class AuthenticationDatabase implements AuthDatabaseFunctions {
 
 	private final HashMap<String, AuthLevel> authTokenLevelMap;
 
-	private static SessionAuthDatabase instance = null;
+	private static AuthenticationDatabase instance = null;
 
-	private SessionAuthDatabase() {
+	private AuthenticationDatabase() {
 		this.authTokenLevelMap = new HashMap<>();
 	}
 
-	public static final SessionAuthDatabase getInstance() {
+	public static final AuthenticationDatabase getInstance() {
 		if (instance == null)
-			instance = new SessionAuthDatabase();
+			instance = new AuthenticationDatabase();
 		return instance;
 	}
 

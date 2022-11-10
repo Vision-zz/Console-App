@@ -1,4 +1,4 @@
-package com.pitstop.Authentication.Database;
+package com.pitstop.Authentication.Model;
 
 public enum AuthLevel {
 	UNKNOWN,
