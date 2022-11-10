@@ -1,4 +1,4 @@
-package com.pitstop.Authentication.Manager;
+package com.pitstop.Authentication.Manager.SessionAuthenticationManager;
 
 import com.pitstop.Authentication.Database.AuthLevel;
 

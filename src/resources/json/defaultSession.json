@@ -1,5 +1,5 @@
 {
-	"employeeDatabase": {
+	"employeeData": {
 		"currentID": 3,
 		"employees": [
 			{
@@ -25,7 +25,7 @@
 			}
 		]
 	},
-	"issueDatabase": {
+	"issueData": {
 		"currentID": 4,
 		"issues": [
 			{

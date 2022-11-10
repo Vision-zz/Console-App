@@ -6,8 +6,7 @@ import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
 import com.pitstop.Core.Models.Users.EmployeeRole;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
-import com.pitstop.UserInterface.Session.SessionManager.Session;
-import com.pitstop.UserInterface.Session.SessionManager.SignInStatus;
+import com.pitstop.UserInterface.SessionManager.SessionSignInStatus;
 
 public final class StartupUI {
 
@@ -50,17 +49,17 @@ public final class StartupUI {
 
 			String username = Scanner.getString("Enter your username");
 
-			SignInStatus savedLogInStatus = Session.getInstance().signInFromSavedLogin(username);
+			SessionSignInStatus savedLogInStatus = ManagerProvider.getSession().signInFromSavedLogin(username);
 
-			if (savedLogInStatus.equals(SignInStatus.SUCCESS)) {
+			if (savedLogInStatus.equals(SessionSignInStatus.SUCCESS)) {
 				Logger.logInfo("Logged in from saved session");
 				break;
 			}
 
 			String password = Scanner.getString("Enter your password");
 
-			SignInStatus status = Session.getInstance().signIn(username, password, manager);
-			if (status.equals(SignInStatus.UNKNOWN_USERNAME)) {
+			SessionSignInStatus status = ManagerProvider.getSession().signIn(username, password, manager);
+			if (status.equals(SessionSignInStatus.UNKNOWN_USERNAME)) {
 				Logger.logWarning("User does not exist. Press 1 to try again or any key to Exit");
 
 				String output = Scanner.getString();
@@ -70,7 +69,7 @@ public final class StartupUI {
 				continue;
 			}
 
-			if (status.equals(SignInStatus.INVALID_PASSWORD)) {
+			if (status.equals(SessionSignInStatus.INVALID_PASSWORD)) {
 				Logger.logWarning("Incorrect password. Press 1 to try again or any key to Exit.");
 
 				String output = Scanner.getString();
@@ -80,7 +79,7 @@ public final class StartupUI {
 				continue;
 			}
 
-			if (status.equals(SignInStatus.SUCCESS))
+			if (status.equals(SessionSignInStatus.SUCCESS))
 				break;
 
 		} while (true);
