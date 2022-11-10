@@ -8,7 +8,7 @@ import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.Helpers.Table;
 
 public class IssuePrinterUtil {
-	
+
 	public void printIssuesAsTable(Collection<Issue> issues) {
 		if (issues.size() < 1) {
 			Logger.logError("No Issues available");

@@ -19,7 +19,7 @@ public class AuthIssueManager extends DBIssueManager {
 	private static final AuthLevel ENGINEER_AUTH_LEVEL = AuthLevel.ENGINEER;
 	private static final AuthLevel DEV_AUTH_LEVEL = AuthLevel.DEVELOPER;
 	private static final String EXCEPTION_MESSAGE = "You are not authorized to make this action";
-           
+
 	public AuthIssueManager(IssueDatabaseFunctions database, AuthLevelManager manager) {
 		super(database);
 		this.manager = manager;

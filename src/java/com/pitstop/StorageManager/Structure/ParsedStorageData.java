@@ -31,7 +31,6 @@ public class ParsedStorageData {
 
 	public class EmployeeData {
 
-		
 		private Integer currentID;
 		private List<DBEmployee> employees = new ArrayList<DBEmployee>();
 

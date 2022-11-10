@@ -15,7 +15,6 @@ public class Issue {
     private final Date createdAt;
     private Date resolvedAt;
 
-
     public Issue(String issueID, IssueCategory category, String description, Developer createdBy) {
         this.issueID = issueID;
         this.category = category;
@@ -87,10 +86,12 @@ public class Issue {
         String string = "|- Issue ID: " + this.issueID + newLine;
 
         string += "|_ Category: " + this.getCategory().toString() + newLine;
-        string += "|_ Created By: " + this.getCreatedBy().getEmployeeName() + " EID: " + this.getCreatedBy().getEmployeeID() + newLine;
+        string += "|_ Created By: " + this.getCreatedBy().getEmployeeName() + " EID: "
+                + this.getCreatedBy().getEmployeeID() + newLine;
         string += "|_ Current Status: " + this.getStatus().toString() + newLine;
         if (!this.getStatus().toString().equals("OPEN")) {
-            string += "|_ Engineer: " + this.getAssignedEngineer().getEmployeeName() + " EID: " + this.getAssignedEngineer().getEmployeeID() +  newLine;
+            string += "|_ Engineer: " + this.getAssignedEngineer().getEmployeeName() + " EID: "
+                    + this.getAssignedEngineer().getEmployeeID() + newLine;
         }
 
         string += String.format("%1$s %2$tB %2$td, %2$tY | %2$tr ", "|_ Created At: ", this.getCreatedAt()) + newLine;

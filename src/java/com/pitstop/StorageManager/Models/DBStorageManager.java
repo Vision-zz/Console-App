@@ -66,7 +66,6 @@ public class DBStorageManager implements StorageDataManager {
         while ((str = reader.readLine()) != null)
             stringBuffer.append(str);
 
-
         String jsonString = stringBuffer.toString();
         ParsedStorageData parsedData = converter.convertToAppData(jsonString);
 

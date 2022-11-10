@@ -13,7 +13,8 @@ public final class SystemAdmin extends Employee {
     private final EmployeeDetailsManager employeeManager;
     private static final EmployeeRole ROLE = EmployeeRole.SYSTEM_ADMIN;
 
-    public SystemAdmin(String username, String password, String employeeName, String employeeID, AdminIssueManager issueManager,
+    public SystemAdmin(String username, String password, String employeeName, String employeeID,
+            AdminIssueManager issueManager,
             EmployeeDetailsManager employeeManager) {
         super(username, password, employeeName, ROLE, employeeID);
         this.issueManager = issueManager;

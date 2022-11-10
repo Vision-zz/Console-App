@@ -18,7 +18,6 @@ public final class IssuesDatabase implements IssueDatabaseFunctions {
           this.issues = new HashMap<String, DBIssue>();
      }
 
-     
      @Override
      public int getCurrentID() {
           return this.currentIssueID;
@@ -26,14 +25,13 @@ public final class IssuesDatabase implements IssueDatabaseFunctions {
 
      @Override
      public void updateCurrentID(int ID) {
-        this.currentIssueID = ID;
+          this.currentIssueID = ID;
      }
 
      @Override
      public DBIssue get(String ID) {
           return this.issues.get(ID);
      }
-
 
      @Override
      public HashMap<String, DBIssue> getAll() {
@@ -66,7 +64,5 @@ public final class IssuesDatabase implements IssueDatabaseFunctions {
           }
           this.issues.put(issue.issueID, issue);
      }
-
-     
 
 }
