@@ -2,15 +2,13 @@ package com.pitstop.Database.Models.Users;
 
 import java.util.HashMap;
 
-import com.pitstop.Database.Models.DatabaseFunctions;
-
-public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
+public final class EmployeeDatabase implements EmployeeDatabaseFunctions {
 
     private final HashMap<String, DBEmployee> employees;
     private int currentEmployeeID = 0;
 
     private static EmployeeDatabase instance = null;
-    
+
     public static EmployeeDatabase getInstance() {
         if (instance == null)
             instance = new EmployeeDatabase();
@@ -53,7 +51,8 @@ public final class EmployeeDatabase implements DatabaseFunctions<DBEmployee> {
     @Override
     public void remove(DBEmployee employee) {
         if (!this.employees.containsKey(employee.getUsername())) {
-            throw new RuntimeException("Employee with ID: " + employee.getUsername() + " do not exist. Operation cancelled");
+            throw new RuntimeException(
+                    "Employee with ID: " + employee.getUsername() + " do not exist. Operation cancelled");
         }
         this.employees.remove(employee.getUsername());
     }

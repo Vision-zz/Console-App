@@ -10,8 +10,8 @@ public final class SystemEngineer extends Employee {
     private final EngineerIssueManager manager;
     private static final EmployeeRole ROLE = EmployeeRole.SYSTEM_ENGINEER;
 
-
-    public SystemEngineer(String username, String password, String employeeName, String employeeID, EngineerIssueManager manager) {
+    public SystemEngineer(String username, String password, String employeeName, String employeeID,
+            EngineerIssueManager manager) {
         super(username, password, employeeName, ROLE, employeeID);
         this.manager = manager;
     }

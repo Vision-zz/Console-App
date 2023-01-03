@@ -2,9 +2,7 @@ package com.pitstop.Database.Models.Issues;
 
 import java.util.HashMap;
 
-import com.pitstop.Database.Models.DatabaseFunctions;
-
-public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
+public final class IssuesDatabase implements IssueDatabaseFunctions {
      private final HashMap<String, DBIssue> issues;
      private int currentIssueID = 0;
 
@@ -20,7 +18,6 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
           this.issues = new HashMap<String, DBIssue>();
      }
 
-     
      @Override
      public int getCurrentID() {
           return this.currentIssueID;
@@ -28,14 +25,13 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
 
      @Override
      public void updateCurrentID(int ID) {
-        this.currentIssueID = ID;
+          this.currentIssueID = ID;
      }
 
      @Override
      public DBIssue get(String ID) {
           return this.issues.get(ID);
      }
-
 
      @Override
      public HashMap<String, DBIssue> getAll() {
@@ -68,7 +64,5 @@ public final class IssuesDatabase implements DatabaseFunctions<DBIssue> {
           }
           this.issues.put(issue.issueID, issue);
      }
-
-     
 
 }

@@ -5,12 +5,8 @@ import java.util.HashSet;
 
 import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Middleware.Users.EmployeeSignupManager;
-import com.pitstop.Core.Models.Users.Developer;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Core.Models.Users.EmployeeRole;
-import com.pitstop.Core.Models.Users.SystemAdmin;
-import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Issues.DBIssueManager;
 import com.pitstop.Database.Middleware.Utils.EmployeeUtil;
 import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Models.Users.DBEmployee;
@@ -18,16 +14,9 @@ import com.pitstop.Database.Models.Users.EmployeeDatabase;
 
 public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 
-	private static DBEmployeeManager instance = null;
 	private final EmployeeDatabase database;
 
-	public static DBEmployeeManager getInstance() {
-		if (instance == null)
-			instance = new DBEmployeeManager(EmployeeDatabase.getInstance());
-		return instance;
-	}
-
-	private DBEmployeeManager(EmployeeDatabase database) {
+	public DBEmployeeManager(EmployeeDatabase database) {
 		this.database = database;
 	}
 
@@ -69,27 +58,10 @@ public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignup
 			return SignUpStatus.USERNAME_UNAVAILABLE;
 		}
 
-		Employee newEmployee;
 		String employeeID = IDGenerator.generateEmployeeID(employeeRole);
-		switch (employeeRole) {
-			case SYSTEM_ADMIN:
-				newEmployee = new SystemAdmin(username, password, employeeName, employeeID,
-						DBIssueManager.getInstance(), DBEmployeeManager.getInstance());
-				break;
-
-			case SYSTEM_ENGINEER:
-				newEmployee = new SystemEngineer(username, password, employeeName, employeeID,
-						DBIssueManager.getInstance());
-				break;
-
-			default:
-				newEmployee = new Developer(username, password, employeeName, employeeID,
-						DBIssueManager.getInstance());
-				break;
-		}
-
-		DBEmployee dbEmployee = EmployeeUtil.cloneToDBEmployee(newEmployee);
+		DBEmployee dbEmployee = new DBEmployee(username, password, employeeName, employeeID, employeeRole);
 		database.add(dbEmployee);
+
 		return SignUpStatus.SUCCESS;
 	}
 

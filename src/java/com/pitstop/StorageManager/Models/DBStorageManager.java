@@ -1,5 +1,6 @@
 package com.pitstop.StorageManager.Models;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.google.gson.JsonParser;
 import com.pitstop.Database.Models.Issues.IssuesDatabase;
 import com.pitstop.Database.Models.Users.EmployeeDatabase;
 import com.pitstop.StorageManager.Structure.ParsedStorageData;
@@ -36,10 +36,12 @@ public class DBStorageManager implements StorageDataManager {
     }
 
     @Override
-    public void loadData(StorageLoadTypes type) {
+    public void loadData(StorageLoadTypes type) throws IOException {
+
         InputStream inputStream;
         if (type.equals(StorageLoadTypes.DEFAULT))
             inputStream = DBStorageManager.class.getClassLoader().getResourceAsStream(DEFAULT_JSON);
+
         else {
 
             File previousSessionFile = new File(PREVIOUS_SESSION_JSON);
@@ -52,14 +54,23 @@ public class DBStorageManager implements StorageDataManager {
 
             try {
                 inputStream = new FileInputStream(previousSessionFile);
-
             } catch (Exception e) {
                 throw new RuntimeException("Error cannot find previousSession.json");
             }
         }
 
-        String jsonString = JsonParser.parseReader(new InputStreamReader(inputStream)).getAsString();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuffer stringBuffer = new StringBuffer();
+        String str;
+
+        while ((str = reader.readLine()) != null)
+            stringBuffer.append(str);
+
+        String jsonString = stringBuffer.toString();
         ParsedStorageData parsedData = converter.convertToAppData(jsonString);
+
+        System.out.println(jsonString);
+        System.out.println(parsedData.getIssueData().getCurrentID());
 
         if (!validateData(parsedData))
             return;

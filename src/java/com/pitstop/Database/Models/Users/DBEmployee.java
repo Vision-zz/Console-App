@@ -3,21 +3,22 @@ package com.pitstop.Database.Models.Users;
 import com.pitstop.Core.Models.Users.EmployeeRole;
 
 public final class DBEmployee {
-	private final String username;
+    private final String username;
     private final String password;
     private final String employeeName;
     private final String employeeID;
-	private final EmployeeRole employeeRole;
+    private final EmployeeRole employeeRole;
 
-    public DBEmployee(String username, String password, String employeeName, String employeeID, EmployeeRole employeeRole) {
+    public DBEmployee(String username, String password, String employeeName, String employeeID,
+            EmployeeRole employeeRole) {
         this.username = username;
         this.password = password;
         this.employeeName = employeeName;
         this.employeeID = employeeID;
-		this.employeeRole = employeeRole;
+        this.employeeRole = employeeRole;
     }
 
-	public final String getUsername() {
+    public final String getUsername() {
         return this.username;
     }
 
@@ -33,9 +34,8 @@ public final class DBEmployee {
         return this.employeeID;
     }
 
-	public final EmployeeRole getEmployeeRole() {
-		return this.employeeRole;
-	}
-
+    public final EmployeeRole getEmployeeRole() {
+        return this.employeeRole;
+    }
 
 }

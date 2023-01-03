@@ -16,7 +16,6 @@ import com.pitstop.UserInterface.ConsoleFrontend.SessionInitializeStatus;
 import com.pitstop.UserInterface.ConsoleFrontend.StartupUI;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
-import com.pitstop.UserInterface.SessionManager.Session;
 
 public class App {
 
@@ -51,7 +50,11 @@ public class App {
 
                 DBStorageManager manager = DBStorageManager.getInstance(new Converter());
 
-                manager.loadData(loadType);
+                try {
+                    manager.loadData(loadType);
+                } catch (Exception e) {
+                    System.out.println("Cannot load data");
+                }
 
             }
 
@@ -65,7 +68,7 @@ public class App {
                 break MainLoop;
             }
 
-            Employee loggedInEmployee = Session.getInstance().getLoggedInAs();
+            Employee loggedInEmployee = ManagerProvider.getSession().getLoggedInAs();
 
             System.out.println("\033[1;92m" + "___________________________________" + "\033[0m\n");
             Logger.logSuccess("Welcome " + loggedInEmployee.getEmployeeName());
@@ -100,7 +103,7 @@ public class App {
                     continue;
                 }
 
-                Session.getInstance().logout(input.toUpperCase().equals("Y"));
+                ManagerProvider.getSession().logout(input.toUpperCase().equals("Y"));
                 break;
 
             } while (true);

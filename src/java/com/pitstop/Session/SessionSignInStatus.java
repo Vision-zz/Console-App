@@ -1,6 +1,6 @@
-package com.pitstop.UserInterface.SessionManager;
+package com.pitstop.Session;
 
-public enum SignInStatus {
+public enum SessionSignInStatus {
 	SUCCESS,
 	SESSION_EXPIRED,
 	UNKNOWN_USERNAME,

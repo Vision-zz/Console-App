@@ -2,15 +2,9 @@ package com.pitstop.UserInterface.ConsoleFrontend;
 
 import java.util.Collection;
 
-import com.pitstop.Core.Middleware.Issues.AdminIssueManager;
-import com.pitstop.Core.Middleware.Users.EmployeeDetailsManager;
 import com.pitstop.Core.Models.Issues.Issue;
-import com.pitstop.Core.Models.Users.Employee;
-import com.pitstop.Core.Models.Users.EmployeeRole;
 import com.pitstop.Core.Models.Users.SystemAdmin;
 import com.pitstop.Core.Models.Users.SystemEngineer;
-import com.pitstop.Database.Middleware.Issues.DBIssueManager;
-import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
 import com.pitstop.UserInterface.Helpers.Logger;
 import com.pitstop.UserInterface.Helpers.Scanner;
 import com.pitstop.UserInterface.Helpers.Table;
@@ -91,10 +85,11 @@ public class AdminUI {
 
 	private void assignIssue() {
 
-		Issue issue;
+		Issue issue = null;
 		SystemEngineer engineer = null;
-		Collection<Issue> unassignedIssues = DBIssueManager.getInstance().getAllIssues();
-		unassignedIssues.removeIf(i -> i.getAssignedEngineer() != null);
+
+		Collection<Issue> unassignedIssues = this.admin.getUnassignedIssues();
+		Collection<SystemEngineer> engineers = this.admin.getAllEngineers();
 
 		if (unassignedIssues.size() < 1) {
 			Logger.logWarning("No unassigned issues available");
@@ -102,7 +97,7 @@ public class AdminUI {
 			return;
 		}
 
-		if(this.admin.getAllEngineers().size() < 1) {
+		if (engineers.size() < 1) {
 			Logger.logWarning("No Engineers available");
 			Scanner.getString("Press any key to continue");
 			return;
@@ -119,8 +114,12 @@ public class AdminUI {
 				return;
 			}
 
-			AdminIssueManager issueManager = DBIssueManager.getInstance();
-			issue = issueManager.getIssue(issueID);
+			for (Issue i : unassignedIssues) {
+				if (i.issueID.equals(issueID)) {
+					issue = i;
+					break;
+				}
+			}
 
 			if (issue == null) {
 				Logger.logError("Issue with ID: " + issueID + " does not exist");
@@ -156,26 +155,20 @@ public class AdminUI {
 				return;
 			}
 
-			EmployeeDetailsManager detailsManager = DBEmployeeManager.getInstance();
-			Employee employee = detailsManager.getEmployeeByID(employeeID);
+			for (SystemEngineer e : engineers) {
+				if (e.getEmployeeID().equals(employeeID)) {
+					engineer = e;
+					break;
+				}
+			}
 
-			if (employee == null) {
-				Logger.logError("Employee with ID: " + employeeID + " do not exist");
+			if (engineer == null) {
+				Logger.logError("Employee with ID: " + employeeID + " do not exist or is not an Engineer.");
 				String input = Scanner.getString("Press 1 to retry or any key to return to main menu");
 				if (input.equals("1"))
 					continue;
 				return;
 			}
-
-			if (!employee.getEmployeeRole().equals(EmployeeRole.SYSTEM_ENGINEER)) {
-				Logger.logError("Employee is not a Engineer. Issues can only be assigned to a Engineer");
-				String input = Scanner.getString("Press 1 to retry or any key to return to main menu");
-				if (input.equals("1"))
-					continue;
-				return;
-			}
-
-			engineer = (SystemEngineer) employee;
 
 			break;
 

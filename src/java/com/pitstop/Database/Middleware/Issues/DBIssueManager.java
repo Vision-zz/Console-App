@@ -17,20 +17,13 @@ import com.pitstop.Core.Models.Users.SystemEngineer;
 import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Middleware.Utils.IssueUtil;
 import com.pitstop.Database.Models.Issues.DBIssue;
-import com.pitstop.Database.Models.Issues.IssuesDatabase;
+import com.pitstop.Database.Models.Issues.IssueDatabaseFunctions;
 
 public class DBIssueManager implements DevIssueManager, EngineerIssueManager, AdminIssueManager {
 
-	private static DBIssueManager instance = null;
-	private final IssuesDatabase database;
+	private final IssueDatabaseFunctions database;
 
-	public static DBIssueManager getInstance() {
-		if (instance == null)
-			instance = new DBIssueManager(IssuesDatabase.getInstance());
-		return instance;
-	}
-
-	private DBIssueManager(IssuesDatabase database) {
+	public DBIssueManager(IssueDatabaseFunctions database) {
 		this.database = database;
 	}
 
