@@ -48,7 +48,7 @@ public class AuthIssueManager extends DBIssueManager {
 
 	@Override
 	public Collection<Issue> getAssignedIssues(SystemEngineer engineer) {
-		if (!checkAuth(ENGINEER_AUTH_LEVEL))
+		if (!checkAuth(ENGINEER_AUTH_LEVEL) || !checkAuth(ADMIN_AUTH_LEVEL))
 			throw new RuntimeException(EXCEPTION_MESSAGE);
 		return super.getAssignedIssues(engineer);
 	}

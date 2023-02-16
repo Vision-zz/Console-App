@@ -6,7 +6,7 @@ import com.pitstop.Authentication.Manager.AuthenticationManager.AuthLevelManager
 import com.pitstop.Authentication.Model.AuthLevel;
 import com.pitstop.Core.Models.Users.Employee;
 import com.pitstop.Database.Middleware.Users.DBEmployeeManager;
-import com.pitstop.Database.Models.Users.EmployeeDatabase;
+import com.pitstop.Database.Models.Users.EmployeeDatabaseFunctions;
 
 public class AuthEmployeeManager extends DBEmployeeManager {
 
@@ -17,7 +17,7 @@ public class AuthEmployeeManager extends DBEmployeeManager {
 	// private static final AuthLevel DEV_AUTH_LEVEL = AuthLevel.DEVELOPER;
 	private static final String EXCEPTION_MESSAGE = "You are not authorized to make this action";
 
-	public AuthEmployeeManager(EmployeeDatabase database, AuthLevelManager manager) {
+	public AuthEmployeeManager(EmployeeDatabaseFunctions database, AuthLevelManager manager) {
 		super(database);
 		this.manager = manager;
 	}

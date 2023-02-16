@@ -10,13 +10,13 @@ import com.pitstop.Core.Models.Users.EmployeeRole;
 import com.pitstop.Database.Middleware.Utils.EmployeeUtil;
 import com.pitstop.Database.Middleware.Utils.IDGenerator;
 import com.pitstop.Database.Models.Users.DBEmployee;
-import com.pitstop.Database.Models.Users.EmployeeDatabase;
+import com.pitstop.Database.Models.Users.EmployeeDatabaseFunctions;
 
 public class DBEmployeeManager implements EmployeeDetailsManager, EmployeeSignupManager {
 
-	private final EmployeeDatabase database;
+	private final EmployeeDatabaseFunctions database;
 
-	public DBEmployeeManager(EmployeeDatabase database) {
+	public DBEmployeeManager(EmployeeDatabaseFunctions database) {
 		this.database = database;
 	}
 

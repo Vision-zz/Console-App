@@ -69,9 +69,6 @@ public class DBStorageManager implements StorageDataManager {
         String jsonString = stringBuffer.toString();
         ParsedStorageData parsedData = converter.convertToAppData(jsonString);
 
-        System.out.println(jsonString);
-        System.out.println(parsedData.getIssueData().getCurrentID());
-
         if (!validateData(parsedData))
             return;
 
